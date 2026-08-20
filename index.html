@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="gu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b315d"><title>શ્રી કેરા કન્યા પ્રાથમિક શાળા</title>
+<style>
+:root{--navy:#0b315d;--blue:#1769aa;--royal:#1f5ea8;--gold:#f2ba20;--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#dde6f0;--green:#18794e;--shadow:0 18px 45px rgba(11,49,93,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Noto Sans Gujarati","Shruti","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}a{text-decoration:none;color:inherit}.container{width:min(1180px,92%);margin:auto}
+.topbar{background:#061f3b;color:#dce9f7;font-size:.9rem;padding:7px 0}.topbar .container{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.site-header{background:linear-gradient(135deg,#0a2d57,#135f9d 62%,#1b79bf);color:#fff}.brandrow{display:flex;align-items:center;gap:18px;padding:24px 0}.school-mark{width:78px;height:78px;border-radius:22px;background:#fff;color:var(--navy);display:grid;place-items:center;font-size:38px;box-shadow:0 12px 26px #0003;flex:0 0 auto}.brand h1{font-size:clamp(1.8rem,4vw,2.85rem);margin:0;line-height:1.18;letter-spacing:.1px}.brand p{margin:5px 0 0;color:#ffe39a;font-weight:800}
+nav{position:sticky;top:0;z-index:50;background:rgba(6,31,59,.96);backdrop-filter:blur(12px);box-shadow:0 4px 16px #0002}.navrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.navlinks{display:flex;gap:4px;flex-wrap:wrap}.navlinks a{color:#fff;padding:13px 12px;border-radius:10px;font-size:.93rem;font-weight:800}.navlinks a:hover{background:var(--gold);color:#182230}.menu{display:none;border:0;background:#ffffff1c;color:#fff;padding:9px 12px;border-radius:10px;font-size:1.1rem}
+.hero{min-height:565px;display:flex;align-items:center;background:linear-gradient(90deg,rgba(4,27,54,.90),rgba(10,75,126,.40)),url('activity_06.jpg') center/cover;color:white;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;inset:auto 0 0;height:130px;background:linear-gradient(transparent,var(--bg))}.hero-inner{position:relative;z-index:2;max-width:790px;padding:72px 0 100px}.hero-kicker{display:inline-block;border:1px solid #ffffff55;background:#ffffff1b;padding:7px 13px;border-radius:999px;font-weight:900}.hero h2{font-size:clamp(2.35rem,6vw,4.3rem);line-height:1.08;margin:15px 0;letter-spacing:-.8px}.hero p{font-size:1.12rem;color:#e8f3ff;max-width:700px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:23px}.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:900;box-shadow:0 10px 22px #0002}.btn-gold{background:var(--gold);color:#192334}.btn-white{background:#fff;color:var(--navy)}
+.statwrap{margin-top:-48px;position:relative;z-index:5}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:21px;text-align:center;box-shadow:var(--shadow)}.stat strong{display:block;font-size:1.75rem;color:var(--blue)}.stat span{color:var(--muted);font-weight:800}
+section{padding:72px 0}.section-head{text-align:center;margin-bottom:32px}.section-head .kicker{font-size:.8rem;color:var(--blue);font-weight:950;letter-spacing:1.6px}.section-head h2{font-size:clamp(1.9rem,4vw,2.65rem);margin:6px 0 7px;letter-spacing:-.3px}.section-head p{max-width:760px;margin:auto;color:var(--muted)}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.feature{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow);transition:.2s}.feature:hover{transform:translateY(-5px)}.feature .icon{font-size:35px}.feature h3{color:var(--navy);margin:11px 0 7px}.feature p{color:var(--muted);margin:0}
+.principal{display:grid;grid-template-columns:180px 1fr;gap:26px;align-items:center;background:linear-gradient(135deg,#fff,#eef6ff);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:var(--shadow)}.principal-avatar{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#dcecff,#fff2c5);font-size:68px;border:6px solid #fff;box-shadow:0 10px 24px #0002;margin:auto}.principal h3{font-size:1.7rem;color:var(--navy);margin:0 0 5px}.principal p{color:var(--muted);margin:6px 0}.phone-pill{display:inline-flex;align-items:center;gap:7px;margin-top:9px;background:#e8f6ef;color:var(--green);padding:8px 12px;border-radius:999px;font-weight:900}
+.teachers{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.teacher{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;text-align:center;box-shadow:var(--shadow);transition:.2s}.teacher:hover{transform:translateY(-5px)}.teacher .avatar{width:86px;height:86px;border-radius:50%;margin:0 auto 12px;background:#e9f2ff;display:grid;place-items:center;font-size:40px}.teacher h3{margin:5px 0;color:var(--navy)}.teacher p{margin:0;color:var(--muted)}
+.activity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.activity-card{margin:0;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}.activity-card img{width:100%;height:240px;object-fit:cover;display:block;transition:transform .3s}.activity-card:hover img{transform:scale(1.035)}.activity-card figcaption{padding:14px 16px;font-weight:900;color:var(--navy)}
+.learning-panel{background:#fff;border:1px solid var(--line);border-radius:24px;padding:25px;box-shadow:var(--shadow)}.filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:15px}.filters input,.filters select{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:white;font-size:1rem}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:19px}.tabs button{border:1px solid var(--line);background:#f8fbff;color:var(--text);padding:9px 13px;border-radius:999px;font-weight:900;cursor:pointer}.tabs button.active{background:var(--navy);color:#fff;border-color:var(--navy)}.resources{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.resource-card{border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;min-height:185px;background:#fff;transition:.2s}.resource-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(11,49,93,.10)}.resource-meta{display:flex;gap:7px;flex-wrap:wrap}.resource-meta span{font-size:.78rem;background:#e8f1ff;color:var(--navy);padding:5px 8px;border-radius:999px;font-weight:900}.resource-card h3{font-size:1.04rem;margin:12px 0 6px;color:var(--navy);overflow-wrap:anywhere}.resource-card p{margin:0 0 12px;color:var(--muted)}.resource-open{margin-top:auto;align-self:flex-start;background:var(--navy);color:#fff;padding:9px 13px;border-radius:10px;font-weight:900}.empty{display:none;text-align:center;color:var(--muted);padding:24px}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.contact-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:23px;box-shadow:var(--shadow)}.contact-row{padding:11px 0;border-bottom:1px solid #eef2f7}.contact-row:last-child{border-bottom:0}.contact-row strong{color:var(--navy)}
+footer{background:linear-gradient(135deg,#061f3b,#0a345f);color:#d9e7f5;padding:36px 0 18px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}footer h3,footer h4{color:#fff;margin-top:0}footer a{display:block;margin:6px 0;color:#d9e7f5}.copy{text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid #ffffff22}
+@media(max-width:900px){.stats,.about-grid,.teachers,.activity-grid,.resources{grid-template-columns:repeat(2,1fr)}.principal,.contact-grid{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}.menu{display:block}.navlinks{display:none;position:absolute;left:0;right:0;top:100%;background:#061f3b;padding:10px}.navlinks.show{display:grid}}
+@media(max-width:560px){.stats,.about-grid,.teachers,.activity-grid,.resources,.filters,.footer-grid{grid-template-columns:1fr}.filters input{grid-column:auto}.brandrow{align-items:flex-start}.school-mark{width:60px;height:60px;font-size:29px}.hero{min-height:520px}section{padding:55px 0}}
+</style></head><body>
+<div class="topbar"><div class="container"><span>📍 કેરા, ભુજ, કચ્છ, ગુજરાત</span><span>🎓 ધોરણ ૧ થી ૮ | ગુજરાતી માધ્યમ</span></div></div>
+<header class="site-header"><div class="container brandrow"><div class="school-mark">🏫</div><div class="brand"><h1>શ્રી કેરા કન્યા પ્રાથમિક શાળા</h1><p>જ્ઞાન • સંસ્કાર • સર્જનાત્મકતા • ટેકનોલોજી</p></div></div></header>
+<nav><div class="container navrow"><button class="menu" id="menu">☰</button><div class="navlinks" id="navlinks"><a href="#home">હોમ</a><a href="#about">અમારા વિશે</a><a href="#principal">આચાર્યશ્રી</a><a href="#teachers">શિક્ષકગણ</a><a href="#activity">Activity Zone</a><a href="#learning">Digital Learning</a><a href="#contact">સંપર્ક</a></div></div></nav>
+<section class="hero" id="home"><div class="container hero-inner"><span class="hero-kicker">✨ કન્યા શિક્ષણને સમર્પિત</span><h2>જ્ઞાનથી આત્મવિશ્વાસ તરફની પ્રેરક સફર</h2><p>ગુણવત્તાયુક્ત શિક્ષણ, ડિજિટલ લર્નિંગ, સર્જનાત્મક પ્રવૃત્તિઓ અને મજબૂત જીવનમૂલ્યો દ્વારા દીકરીઓના સર્વાંગી વિકાસ માટે સમર્પિત શાળા.</p><div class="hero-actions"><a href="#learning" class="btn btn-gold">📚 Digital Learning</a><a href="#activity" class="btn btn-white">📸 Activity Zone</a></div></div></section>
+<div class="container statwrap"><div class="stats"><div class="stat"><strong>1–8</strong><span>ધોરણ</span></div><div class="stat"><strong>42</strong><span>HTML Resources</span></div><div class="stat"><strong>19</strong><span>Activity Photos</span></div><div class="stat"><strong>100%</strong><span>બાળકેન્દ્રિત અભિગમ</span></div></div></div>
+<section id="about"><div class="container"><div class="section-head"><div class="kicker">OUR SCHOOL</div><h2>અમારા વિશે</h2><p>શૈક્ષણિક ગુણવત્તા સાથે સંસ્કાર, નવીનતા, ટેકનોલોજી અને સર્જનાત્મકતાનું સંકલન.</p></div><div class="about-grid"><div class="feature"><div class="icon">🎯</div><h3>અમારું ધ્યેય</h3><p>દરેક દીકરીમાં જ્ઞાન, આત્મવિશ્વાસ, સંવેદનશીલતા અને જવાબદારીનું નિર્માણ કરવું.</p></div><div class="feature"><div class="icon">💻</div><h3>ડિજિટલ શિક્ષણ</h3><p>HTML games, quizzes, e-content અને interactive tools દ્વારા આનંદમય શિક્ષણ.</p></div><div class="feature"><div class="icon">🌱</div><h3>સર્વાંગી વિકાસ</h3><p>શૈક્ષણિક, સાંસ્કૃતિક, રમતગમત, પર્યાવરણ અને સર્જનાત્મક પ્રવૃત્તિઓમાં સક્રિય ભાગીદારી.</p></div></div></div></section>
+<section id="principal"><div class="container"><div class="section-head"><div class="kicker">LEADERSHIP</div><h2>આચાર્યશ્રી</h2></div><div class="principal"><div class="principal-avatar">👩‍🏫</div><div><h3>હીનાબેન સી. રાવલ</h3><p><strong>આચાર્ય — શ્રી કેરા કન્યા પ્રાથમિક શાળા</strong></p><p>શૈક્ષણિક ગુણવત્તા, વિદ્યાર્થીઓના સર્વાંગી વિકાસ અને શાળાના સતત વિકાસ માટે પ્રતિબદ્ધ નેતૃત્વ.</p><a href="tel:7698668554" class="phone-pill">📞 7698668554</a></div></div></div></section>
+<section id="teachers"><div class="container"><div class="section-head"><div class="kicker">OUR TEAM</div><h2>શિક્ષકગણ</h2><p>વિદ્યાર્થીઓના શૈક્ષણિક અને વ્યક્તિત્વ વિકાસ માટે સમર્પિત શિક્ષકમિત્રો.</p></div><div class="teachers"><div class="teacher"><div class="avatar">👩‍🏫</div><h3>રિદ્ધિબા એન. ચુડાસમા</h3><p>શિક્ષિકા</p></div><div class="teacher"><div class="avatar">👩‍🏫</div><h3>જલ્પાબા એસ. પરમાર</h3><p>શિક્ષિકા</p></div><div class="teacher"><div class="avatar">👨‍🏫</div><h3>મયુરસિંહ જાડેજા</h3><p>શિક્ષક</p></div><div class="teacher"><div class="avatar">👩‍🏫</div><h3>જયશ્રીબેન પરમાર</h3><p>શિક્ષિકા</p></div><div class="teacher"><div class="avatar">👩‍🏫</div><h3>રાધાબેન હિરાણી</h3><p>શિક્ષિકા</p></div><div class="teacher-card"><div class="teacher-avatar">👩‍🏫</div><h3>ક્રિષ્ના રમેશભાઈ બુદ્ધભટ્ટી</h3><p>શિક્ષિકા</p></div></div></div></section>
+<section id="activity"><div class="container"><div class="section-head"><div class="kicker">ACTIVITY ZONE</div><h2>પ્રવૃત્તિ ઝોન</h2><p>શાળાની શૈક્ષણિક, સર્જનાત્મક, જાગૃતિ અને સાંસ્કૃતિક પ્રવૃત્તિઓની યાદગાર ઝલક.</p></div><div class="activity-grid"><figure class="activity-card"><img src="activity_01.jpg" alt="શાળા સભા અને માર્ગદર્શન કાર્યક્રમ" loading="lazy"><figcaption>શાળા સભા અને માર્ગદર્શન કાર્યક્રમ</figcaption></figure>
+<figure class="activity-card"><img src="activity_02.jpg" alt="વિદ્યાર્થીઓ સાથે પ્રેરણાત્મક પ્રવૃત્તિ" loading="lazy"><figcaption>વિદ્યાર્થીઓ સાથે પ્રેરણાત્મક પ્રવૃત્તિ</figcaption></figure>
+<figure class="activity-card"><img src="activity_03.jpg" alt="પ્રવૃત્તિ અને જાગૃતિ સત્ર" loading="lazy"><figcaption>પ્રવૃત્તિ અને જાગૃતિ સત્ર</figcaption></figure>
+<figure class="activity-card"><img src="activity_04.jpg" alt="વિદ્યાર્થી સંવાદ અને માર્ગદર્શન" loading="lazy"><figcaption>વિદ્યાર્થી સંવાદ અને માર્ગદર્શન</figcaption></figure>
+<figure class="activity-card"><img src="activity_05.jpg" alt="શાળા પ્રવૃત્તિમાં સહભાગિતા" loading="lazy"><figcaption>શાળા પ્રવૃત્તિમાં સહભાગિતા</figcaption></figure>
+<figure class="activity-card"><img src="activity_06.jpg" alt="વિશ્વ સિંહ દિવસ મેગા રેલી" loading="lazy"><figcaption>વિશ્વ સિંહ દિવસ મેગા રેલી</figcaption></figure>
+<figure class="activity-card"><img src="activity_07.jpg" alt="લાયન માસ્ક પ્રવૃત્તિ" loading="lazy"><figcaption>લાયન માસ્ક પ્રવૃત્તિ</figcaption></figure>
+<figure class="activity-card"><img src="activity_08.jpg" alt="લાયન માસ્ક પ્રવૃત્તિ" loading="lazy"><figcaption>લાયન માસ્ક પ્રવૃત્તિ</figcaption></figure>
+<figure class="activity-card"><img src="activity_09.jpg" alt="હસ્તકલા અને સર્જનાત્મક મોડલ્સ" loading="lazy"><figcaption>હસ્તકલા અને સર્જનાત્મક મોડલ્સ</figcaption></figure>
+<figure class="activity-card"><img src="activity_10.jpg" alt="હેન્ડવોશ પ્રવૃત્તિ" loading="lazy"><figcaption>હેન્ડવોશ પ્રવૃત્તિ</figcaption></figure>
+<figure class="activity-card"><img src="activity_11.jpg" alt="શિક્ષિકા દ્વારા હેન્ડવોશ પ્રદર્શન" loading="lazy"><figcaption>શિક્ષિકા દ્વારા હેન્ડવોશ પ્રદર્શન</figcaption></figure>
+<figure class="activity-card"><img src="activity_12.jpg" alt="હાથ ધોવાની સ્વચ્છતા પ્રવૃત્તિ" loading="lazy"><figcaption>હાથ ધોવાની સ્વચ્છતા પ્રવૃત્તિ</figcaption></figure>
+<figure class="activity-card"><img src="activity_13.jpg" alt="વિદ્યાર્થીઓમાં સ્વચ્છતા જાગૃતિ" loading="lazy"><figcaption>વિદ્યાર્થીઓમાં સ્વચ્છતા જાગૃતિ</figcaption></figure>
+<figure class="activity-card"><img src="activity_14.jpg" alt="વાલી મીટિંગ અને શાળા ચર્ચા" loading="lazy"><figcaption>વાલી મીટિંગ અને શાળા ચર્ચા</figcaption></figure>
+<figure class="activity-card"><img src="activity_15.jpg" alt="વાલી બેઠક અને સંવાદ" loading="lazy"><figcaption>વાલી બેઠક અને સંવાદ</figcaption></figure>
+<figure class="activity-card"><img src="activity_16.jpg" alt="સમૂહ ચર્ચા અને સહભાગિતા" loading="lazy"><figcaption>સમૂહ ચર્ચા અને સહભાગિતા</figcaption></figure>
+<figure class="activity-card"><img src="activity_17.jpg" alt="ફાયર સેફ્ટી પ્રદર્શન" loading="lazy"><figcaption>ફાયર સેફ્ટી પ્રદર્શન</figcaption></figure>
+<figure class="activity-card"><img src="activity_18.jpg" alt="ફાયર સેફ્ટી માર્ગદર્શન" loading="lazy"><figcaption>ફાયર સેફ્ટી માર્ગદર્શન</figcaption></figure>
+<figure class="activity-card"><img src="activity_19.jpg" alt="આપત્તિ વ્યવસ્થાપન અને સુરક્ષા પ્રવૃત્તિ" loading="lazy"><figcaption>આપત્તિ વ્યવસ્થાપન અને સુરક્ષા પ્રવૃત્તિ</figcaption></figure></div></div></section>
+<section id="learning"><div class="container"><div class="section-head"><div class="kicker">DIGITAL LEARNING HUB</div><h2>Games, Tools & Learning Resources</h2><p>ધોરણ, વિષય અથવા keyword પ્રમાણે resource શોધો અને સીધું ખોલો.</p></div><div class="learning-panel"><div class="filters"><input id="search" type="search" placeholder="શોધો... English, Sanskrit, રોજનીશી"><select id="subject"><option value="all">બધા વિષય / પ્રકાર</option><option value="E-Book">E-Book</option><option value="English">English</option><option value="Environment">Environment</option><option value="General Knowledge">General Knowledge</option><option value="Gujarati">Gujarati</option><option value="Mathematics">Mathematics</option><option value="Sanskrit">Sanskrit</option><option value="School Utility">School Utility</option><option value="Social Science">Social Science</option><option value="Teacher Tool">Teacher Tool</option><option value="Textbook">Textbook</option><option value="Tool">Tool</option></select><select id="std"><option value="all">બધા ધોરણ</option><option>Std 1</option><option>Std 2</option><option>Std 3</option><option>Std 4</option><option>Std 5</option><option>Std 6</option><option>Std 7</option><option>Std 8</option><option>General</option></select></div><div class="tabs" id="tabs"><button class="active" data-v="all">બધા</button><button data-v="Std 1">ધો.1</button><button data-v="Std 2">ધો.2</button><button data-v="Std 3">ધો.3</button><button data-v="Std 4">ધો.4</button><button data-v="Std 5">ધો.5</button><button data-v="Std 6">ધો.6</button><button data-v="Std 7">ધો.7</button><button data-v="Std 8">ધો.8</button><button data-v="General">General / Tools</button></div><div class="resources" id="resources"><article class="resource-card" data-std="General" data-subject="Tool" data-search="advanced html game maker v2 smart questions general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>Advanced HTML Game Maker v2 Smart Questions</h3><p>Interactive learning resource</p><a href="resource_01.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="ai prompt html generator general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>AI Prompt HTML Generator</h3><p>Interactive learning resource</p><a href="resource_02.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="School Utility" data-search="all in one certi general school utility">
+<div class="resource-meta"><span>General</span><span>School Utility</span></div>
+<h3>ALL IN ONE CERTI</h3><p>Interactive learning resource</p><a href="resource_03.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="balak vanchan zadap general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>balak vanchan zadap</h3><p>Interactive learning resource</p><a href="resource_04.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Teacher Tool" data-search="dainik nondhpothi generator general teacher tool">
+<div class="resource-meta"><span>General</span><span>Teacher Tool</span></div>
+<h3>dainik nondhpothi generator</h3><p>Interactive learning resource</p><a href="resource_05.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="English" data-search="easy english world module1 general english">
+<div class="resource-meta"><span>General</span><span>English</span></div>
+<h3>Easy English World Module1</h3><p>Interactive learning resource</p><a href="resource_06.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="English" data-search="easy english world module2 general english">
+<div class="resource-meta"><span>General</span><span>English</span></div>
+<h3>Easy English World Module2</h3><p>Interactive learning resource</p><a href="resource_07.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="English" data-search="easy english world module3 general english">
+<div class="resource-meta"><span>General</span><span>English</span></div>
+<h3>Easy English World Module3</h3><p>Interactive learning resource</p><a href="resource_08.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="English" data-search="easy english world module4 general english">
+<div class="resource-meta"><span>General</span><span>English</span></div>
+<h3>Easy English World Module4</h3><p>Interactive learning resource</p><a href="resource_09.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Textbook" data-search="gseb digital textbook library demo general textbook">
+<div class="resource-meta"><span>General</span><span>Textbook</span></div>
+<h3>GSEB Digital Textbook Library Demo</h3><p>Interactive learning resource</p><a href="resource_10.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="html educational game maker general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>HTML Educational Game Maker</h3><p>Interactive learning resource</p><a href="resource_11.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Gujarati" data-search="index gujarati font fixed general gujarati">
+<div class="resource-meta"><span>General</span><span>Gujarati</span></div>
+<h3>index gujarati font fixed</h3><p>Interactive learning resource</p><a href="resource_12.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="module 1a office utility general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>Module 1A Office Utility</h3><p>Interactive learning resource</p><a href="resource_13.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="officeutility general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>OfficeUtility</h3><p>Interactive learning resource</p><a href="resource_14.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="English" data-search="part1 easy english simulator general english">
+<div class="resource-meta"><span>General</span><span>English</span></div>
+<h3>part1 easy english simulator</h3><p>Interactive learning resource</p><a href="resource_15.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="part2 vocabulary world general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>part2 vocabulary world</h3><p>Interactive learning resource</p><a href="resource_16.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="English" data-search="part3 daily english general english">
+<div class="resource-meta"><span>General</span><span>English</span></div>
+<h3>part3 daily english</h3><p>Interactive learning resource</p><a href="resource_17.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="professional html generator general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>Professional HTML Generator</h3><p>Interactive learning resource</p><a href="resource_18.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="real happiness video general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>real happiness video</h3><p>Interactive learning resource</p><a href="resource_19.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Teacher Tool" data-search="rojnishi sem 1 general teacher tool">
+<div class="resource-meta"><span>General</span><span>Teacher Tool</span></div>
+<h3>rojnishi sem 1</h3><p>Interactive learning resource</p><a href="resource_20.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Teacher Tool" data-search="rojnishi sem 1 fully editable general teacher tool">
+<div class="resource-meta"><span>General</span><span>Teacher Tool</span></div>
+<h3>rojnishi sem 1 fully editable</h3><p>Interactive learning resource</p><a href="resource_21.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Teacher Tool" data-search="rojnishi sem 1 school editable general teacher tool">
+<div class="resource-meta"><span>General</span><span>Teacher Tool</span></div>
+<h3>rojnishi sem 1 school editable</h3><p>Interactive learning resource</p><a href="resource_22.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Sanskrit" data-search="sanskrit shabdo multi game general sanskrit">
+<div class="resource-meta"><span>General</span><span>Sanskrit</span></div>
+<h3>sanskrit shabdo multi game</h3><p>Interactive learning resource</p><a href="resource_23.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="E-Book" data-search="shree kera kanya primary school ebook general e-book">
+<div class="resource-meta"><span>General</span><span>E-Book</span></div>
+<h3>Shree Kera Kanya Primary School EBook</h3><p>Interactive learning resource</p><a href="resource_24.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Tool" data-search="single file html generator general tool">
+<div class="resource-meta"><span>General</span><span>Tool</span></div>
+<h3>Single File HTML Generator</h3><p>Interactive learning resource</p><a href="resource_25.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 6" data-subject="Social Science" data-search="std6 social science game collection std 6 social science">
+<div class="resource-meta"><span>Std 6</span><span>Social Science</span></div>
+<h3>Std6 Social Science Game Collection</h3><p>Interactive learning resource</p><a href="resource_27.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 7" data-subject="English" data-search="std7 english first term game std 7 english">
+<div class="resource-meta"><span>Std 7</span><span>English</span></div>
+<h3>Std7 English First Term Game</h3><p>Interactive learning resource</p><a href="resource_28.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 7" data-subject="English" data-search="std7 english first term kids friendly game std 7 english">
+<div class="resource-meta"><span>Std 7</span><span>English</span></div>
+<h3>Std7 English First Term Kids Friendly Game</h3><p>Interactive learning resource</p><a href="resource_29.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 7" data-subject="English" data-search="std7 english tri matric games std 7 english">
+<div class="resource-meta"><span>Std 7</span><span>English</span></div>
+<h3>std7 english tri matric games</h3><p>Interactive learning resource</p><a href="resource_30.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 7" data-subject="Gujarati" data-search="std7 gujarati 40marks paper generator std 7 gujarati">
+<div class="resource-meta"><span>Std 7</span><span>Gujarati</span></div>
+<h3>std7 gujarati 40marks paper generator</h3><p>Interactive learning resource</p><a href="resource_31.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 7" data-subject="Gujarati" data-search="std7 gujarati checklist corrected std 7 gujarati">
+<div class="resource-meta"><span>Std 7</span><span>Gujarati</span></div>
+<h3>std7 gujarati checklist corrected</h3><p>Interactive learning resource</p><a href="resource_32.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 8" data-subject="Social Science" data-search="std 8 social science games std 8 social science">
+<div class="resource-meta"><span>Std 8</span><span>Social Science</span></div>
+<h3>Std 8 Social Science Games</h3><p>Interactive learning resource</p><a href="resource_33.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 4" data-subject="English" data-search="અ.નિ. અંગ્રેજી ધોરણ 4 std 4 english">
+<div class="resource-meta"><span>Std 4</span><span>English</span></div>
+<h3>અ.નિ. અંગ્રેજી ધોરણ 4</h3><p>Interactive learning resource</p><a href="resource_34.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 3" data-subject="Mathematics" data-search="અ.નિ. ગણિત ધોરણ 3 std 3 mathematics">
+<div class="resource-meta"><span>Std 3</span><span>Mathematics</span></div>
+<h3>અ.નિ. ગણિત ધોરણ 3</h3><p>Interactive learning resource</p><a href="resource_35.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 4" data-subject="Mathematics" data-search="અ.નિ. ગણિત ધોરણ 4 std 4 mathematics">
+<div class="resource-meta"><span>Std 4</span><span>Mathematics</span></div>
+<h3>અ.નિ. ગણિત ધોરણ 4</h3><p>Interactive learning resource</p><a href="resource_36.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 3" data-subject="Gujarati" data-search="અ.નિ. ગુજરાતી ધોરણ 3 std 3 gujarati">
+<div class="resource-meta"><span>Std 3</span><span>Gujarati</span></div>
+<h3>અ.નિ. ગુજરાતી ધોરણ 3</h3><p>Interactive learning resource</p><a href="resource_37.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 4" data-subject="Gujarati" data-search="અ.નિ. ગુજરાતી ધોરણ 4 std 4 gujarati">
+<div class="resource-meta"><span>Std 4</span><span>Gujarati</span></div>
+<h3>અ.નિ. ગુજરાતી ધોરણ 4</h3><p>Interactive learning resource</p><a href="resource_38.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="Environment" data-search="અ.નિ. પર્યાવરણ 4 general environment">
+<div class="resource-meta"><span>General</span><span>Environment</span></div>
+<h3>અ.નિ. પર્યાવરણ 4</h3><p>Interactive learning resource</p><a href="resource_39.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="Std 3" data-subject="Environment" data-search="અ.નિ. પર્યાવરણ ધોરણ 3 std 3 environment">
+<div class="resource-meta"><span>Std 3</span><span>Environment</span></div>
+<h3>અ.નિ. પર્યાવરણ ધોરણ 3</h3><p>Interactive learning resource</p><a href="resource_40.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="School Utility" data-search="આઈકાર્ડ મેકર general school utility">
+<div class="resource-meta"><span>General</span><span>School Utility</span></div>
+<h3>આઈકાર્ડ મેકર</h3><p>Interactive learning resource</p><a href="resource_41.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="School Utility" data-search="બોનોફાઇડ સર્ટિફિકેટ general school utility">
+<div class="resource-meta"><span>General</span><span>School Utility</span></div>
+<h3>બોનોફાઇડ સર્ટિફિકેટ</h3><p>Interactive learning resource</p><a href="resource_42.html" class="resource-open">ખોલો <b>↗</b></a></article>
+<article class="resource-card" data-std="General" data-subject="General Knowledge" data-search="સામાન્ય જ્ઞાન 2 (hemant gurjar) general general knowledge">
+<div class="resource-meta"><span>General</span><span>General Knowledge</span></div>
+<h3>સામાન્ય જ્ઞાન 2 (HEMANT GURJAR)</h3><p>Interactive learning resource</p><a href="resource_43.html" class="resource-open">ખોલો <b>↗</b></a></article></div><div id="empty" class="empty">આ filter મુજબ કોઈ resource મળ્યો નથી.</div></div></div></section>
+<section id="contact"><div class="container"><div class="section-head"><div class="kicker">CONTACT</div><h2>સંપર્ક</h2></div><div class="contact-grid"><div class="contact-card"><div class="contact-row"><strong>🏫 શાળા:</strong> શ્રી કેરા કન્યા પ્રાથમિક શાળા</div><div class="contact-row"><strong>📍 સ્થળ:</strong> કેરા, ભુજ, કચ્છ, ગુજરાત</div><div class="contact-row"><strong>👩‍🏫 આચાર્ય:</strong> હીનાબેન સી. રાવલ</div><div class="contact-row"><strong>📞 સંપર્ક:</strong> <a href="tel:7698668554">7698668554</a></div><div class="contact-row"><strong>🎓 ધોરણ:</strong> ૧ થી ૮</div></div><div class="contact-card"><h3 style="color:var(--navy);margin-top:0">વિદ્યાર્થીઓ માટે Digital Learning</h3><p style="color:var(--muted)">Interactive games, learning activities અને શાળા ઉપયોગી resources માટે Digital Learning Hub ખોલો.</p><a class="btn btn-gold" href="#learning">Digital Learning ખોલો</a></div></div></div></section>
+<footer><div class="container"><div class="footer-grid"><div><h3>શ્રી કેરા કન્યા પ્રાથમિક શાળા</h3><p>જ્ઞાન, સંસ્કાર અને ટેકનોલોજી સાથે દીકરીઓના ઉજ્જવળ ભવિષ્ય માટે.</p></div><div><h4>ઝડપી લિંક્સ</h4><a href="#about">અમારા વિશે</a><a href="#activity">Activity Zone</a><a href="#learning">Digital Learning</a></div><div><h4>સંપર્ક</h4><a href="tel:7698668554">📞 7698668554</a><span>📍 કેરા, ભુજ, કચ્છ</span></div></div><div class="copy">© ૨૦૨૬ શ્રી કેરા કન્યા પ્રાથમિક શાળા | સર્વાધિકાર સુરક્ષિત</div></div></footer>
+<script>
+const menu=document.getElementById('menu'),nav=document.getElementById('navlinks');menu.onclick=()=>nav.classList.toggle('show');document.querySelectorAll('.navlinks a').forEach(a=>a.onclick=()=>nav.classList.remove('show'));
+const cards=[...document.querySelectorAll('.resource-card')],q=document.getElementById('search'),sub=document.getElementById('subject'),std=document.getElementById('std'),tabs=[...document.querySelectorAll('#tabs button')];let tab='all';function filter(){let qq=q.value.trim().toLowerCase(),sv=sub.value,st=std.value!=='all'?std.value:tab,n=0;cards.forEach(c=>{let ok=(!qq||c.dataset.search.includes(qq))&&(sv==='all'||c.dataset.subject===sv)&&(st==='all'||c.dataset.std===st);c.style.display=ok?'flex':'none';if(ok)n++});document.getElementById('empty').style.display=n?'none':'block'}q.oninput=filter;sub.onchange=filter;std.onchange=()=>{tab='all';tabs.forEach(x=>x.classList.remove('active'));tabs[0].classList.add('active');filter()};tabs.forEach(b=>b.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));b.classList.add('active');tab=b.dataset.v;std.value='all';filter()});
+</script></body></html>

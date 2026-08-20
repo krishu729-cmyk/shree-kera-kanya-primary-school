@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Professional HTML Generator</title>
+<style>
+:root{--bg:#111827;--card:#1f2937;--text:#f3f4f6;--accent:#3b82f6}
+body.light{--bg:#f4f4f4;--card:#fff;--text:#111}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--card)}
+main{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+textarea{width:100%;height:180px;background:#0b1220;color:#8ef;border:1px solid #555;padding:8px;font-family:monospace}
+body.light textarea{background:#fafafa;color:#000}
+iframe{width:100%;height:650px;border:1px solid #777;background:#fff}
+button,select{padding:8px 12px;margin:4px;border:none;border-radius:8px}
+button{background:var(--accent);color:#fff}
+#prompt{width:100%;padding:8px}
+</style>
+</head>
+<body>
+<header>
+<h2>🚀 Professional HTML Generator</h2>
+<div>
+<button onclick="toggleTheme()">🌙/☀</button>
+<select id="device" onchange="resizeFrame()">
+<option value="100%">Desktop</option>
+<option value="768px">Tablet</option>
+<option value="390px">Mobile</option>
+</select>
+<button onclick="downloadFile()">Download</button>
+</div>
+</header>
+
+<main>
+<div>
+<input id="prompt" placeholder="AI prompt (offline templates): e.g. portfolio, landing page, login form">
+<button onclick="generateTemplate()">Generate Template</button>
+<h3>HTML</h3>
+<textarea id="html"></textarea>
+<h3>CSS</h3>
+<textarea id="css"></textarea>
+<h3>JavaScript</h3>
+<textarea id="js"></textarea>
+<button onclick="render()">▶ Run</button>
+</div>
+
+<div style="text-align:center">
+<iframe id="preview"></iframe>
+</div>
+</main>
+
+<script>
+const H=document.getElementById("html");
+const C=document.getElementById("css");
+const J=document.getElementById("js");
+
+function render(){
+const code=`<!doctype html><html><head><style>${C.value}</style></head><body>${H.value}<script>${J.value}<\/script></body></html>`;
+preview.srcdoc=code;
+localStorage.setItem("h",H.value);
+localStorage.setItem("c",C.value);
+localStorage.setItem("j",J.value);
+}
+function toggleTheme(){document.body.classList.toggle("light")}
+function resizeFrame(){preview.style.width=device.value;}
+function downloadFile(){
+const out=`<!doctype html><html><head><style>${C.value}</style></head><body>${H.value}<script>${J.value}<\/script></body></html>`;
+const a=document.createElement("a");
+a.href=URL.createObjectURL(new Blob([out],{type:"text/html"}));
+a.download="index.html";a.click();
+}
+function generateTemplate(){
+const p=prompt.value.toLowerCase();
+if(p.includes("portfolio")){
+H.value='<section><h1>Your Name</h1><p>Web Developer</p><button>Contact</button></section>';
+C.value='body{font-family:Arial;text-align:center;padding:60px;background:#eef}button{padding:10px 20px}';
+}
+else if(p.includes("login")){
+H.value='<form><h2>Login</h2><input placeholder="Email"><br><br><input type="password" placeholder="Password"><br><br><button>Login</button></form>';
+C.value='body{display:grid;place-items:center;height:100vh;font-family:Arial}form{padding:20px;border:1px solid #ccc;border-radius:10px}';
+}
+else{
+H.value='<h1>Welcome</h1><p>Start building your website.</p>';
+C.value='body{font-family:Arial;text-align:center;padding:40px}';
+}
+J.value='console.log("Ready");';
+render();
+}
+H.value=localStorage.getItem("h")||"<h1>Hello!</h1>";
+C.value=localStorage.getItem("c")||"body{font-family:Arial;text-align:center;padding:30px}";
+J.value=localStorage.getItem("j")||"";
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Office PDF Utility</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<style>
+body{background:#eef2f7;font-family:Segoe UI,sans-serif}
+.drop{border:2px dashed #0d6efd;padding:40px;border-radius:12px;background:#fff;text-align:center}
+.file{display:flex;justify-content:space-between;padding:8px;margin:6px 0;background:#fff;border:1px solid #ddd;border-radius:8px}
+</style>
+</head>
+<body class="container py-4">
+<h2>Office PDF Utility</h2>
+<ul class="nav nav-tabs">
+<li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#m">Merge PDFs</button></li>
+<li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#w">PDF to Word</button></li>
+</ul>
+<div class="tab-content border border-top-0 p-3 bg-light">
+<div class="tab-pane fade show active" id="m">
+<div class="drop" id="mergeDrop">Drop PDFs here<br><button class="btn btn-primary mt-2" onclick="mergeInput.click()">Browse</button><input id="mergeInput" type="file" hidden multiple accept=".pdf"></div>
+<div id="mergeList"></div>
+<button class="btn btn-success mt-3" onclick="mergePDFs()">Merge & Download</button>
+</div>
+<div class="tab-pane fade" id="w">
+<div class="drop">Drop one PDF here<br><button class="btn btn-success mt-2" onclick="wordInput.click()">Browse</button><input id="wordInput" type="file" hidden accept=".pdf"></div>
+<div id="wordFile"></div>
+<button class="btn btn-primary mt-3" onclick="convert()">Convert to Word</button>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let mergeFiles=[];
+const mergeInput=document.getElementById("mergeInput");
+mergeInput.onchange=()=>{mergeFiles=[...mergeFiles,...mergeInput.files];render();}
+function render(){
+ let d=document.getElementById("mergeList"); d.innerHTML="";
+ mergeFiles.forEach((f,i)=>d.innerHTML+=`<div class=file>${f.name}<button class='btn btn-sm btn-danger' onclick='mergeFiles.splice(${i},1);render()'>Remove</button></div>`);
+}
+async function mergePDFs(){
+ if(!mergeFiles.length){alert("Select PDF files");return;}
+ const out=await PDFLib.PDFDocument.create();
+ for(const f of mergeFiles){
+   const bytes=await f.arrayBuffer();
+   const pdf=await PDFLib.PDFDocument.load(bytes);
+   const pages=await out.copyPages(pdf,pdf.getPageIndices());
+   pages.forEach(p=>out.addPage(p));
+ }
+ const data=await out.save();
+ saveAs(new Blob([data],{type:"application/pdf"}),"merged.pdf");
+}
+const wordInput=document.getElementById("wordInput");
+wordInput.onchange=()=>document.getElementById("wordFile").textContent=wordInput.files[0]?.name||"";
+async function convert(){
+ const f=wordInput.files[0];
+ if(!f){alert("Select a PDF");return;}
+ pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.worker.min.js";
+ const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+ let text="";
+ for(let i=1;i<=pdf.numPages;i++){
+   const p=await pdf.getPage(i); const c=await p.getTextContent();
+   text+=c.items.map(x=>x.str).join(" ")+"\\n\\n";
+ }
+ const doc=new docx.Document({sections:[{children:[new docx.Paragraph(text)]}]});
+ const blob=await docx.Packer.toBlob(doc);
+ saveAs(blob,"converted.docx");
+}
+</script>
+</body></html>

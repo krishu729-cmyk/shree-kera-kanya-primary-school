@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Std 7 English - First Term Game Zone</title>
+<style>
+:root{--ink:#19324d;--blue:#2474ff;--pink:#ff4f91;--green:#27ae60;--gold:#f4b942;--bg:#eef8ff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:
+linear-gradient(135deg,#e8f7ff,#fff7e3 55%,#ffeef7);min-height:100vh}
+.app{max-width:1180px;margin:auto;padding:14px}
+.hero{background:linear-gradient(135deg,#0e4a84,#2c77d8);color:white;border-radius:26px;padding:18px;box-shadow:0 15px 34px rgba(20,70,130,.24);position:sticky;top:8px;z-index:10}
+.hero h1{margin:0;font-size:clamp(24px,4vw,40px)}.hero p{margin:6px 0 0;font-weight:700}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pill{background:rgba(255,255,255,.16);padding:8px 12px;border-radius:999px;font-weight:800}
+.progress{height:10px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden;margin-top:10px}.bar{height:100%;width:0;background:#ffd54f;transition:.3s}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.tab{border:0;border-radius:18px;background:white;padding:13px 9px;font-weight:900;color:#234;box-shadow:0 7px 18px rgba(0,0,0,.09);cursor:pointer}
+.tab.active{background:#ff4f91;color:white;transform:translateY(-2px)}
+.panel{background:rgba(255,255,255,.92);border-radius:24px;box-shadow:0 14px 32px rgba(30,60,100,.15);padding:18px;min-height:540px}
+.card{background:#fff;border:2px solid #e3ecff;border-radius:20px;padding:18px;box-shadow:0 8px 18px rgba(0,0,0,.07)}
+.q{font-size:clamp(21px,3vw,30px);font-weight:900;text-align:center;margin:12px 0 18px}.sub{font-size:15px;opacity:.72}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.opt{border:0;background:white;border-radius:16px;padding:14px;box-shadow:0 7px 15px rgba(0,0,0,.08);font-size:18px;font-weight:800;cursor:pointer;min-height:68px}.opt:hover{outline:3px solid #abc4ff}.opt.good{background:#cff3dc}.opt.bad{background:#ffd5dc}
+.passage{background:#fff8db;border:2px solid #ffd469;border-radius:18px;padding:16px;line-height:1.55;font-weight:700;margin-bottom:16px}
+.controls{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.btn,input{border:2px solid #d8e4ff;border-radius:14px;background:white;padding:10px 12px;font-weight:800}.btn{cursor:pointer}.primary{background:#2474ff;color:white;border-color:#2474ff}.danger{background:#ff5a72;color:white;border-color:#ff5a72}
+.fill{display:grid;gap:12px;max-width:850px;margin:auto}.fillrow{background:white;border-radius:16px;padding:14px;border:2px solid #e7eeff}.fillrow input{width:100%;margin-top:8px}
+.whbox{max-width:900px;margin:auto}.whrow{background:white;border-radius:16px;padding:13px;margin:10px 0;border:2px solid #e7eeff}.whrow input{width:100%;margin-top:8px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mcol{display:grid;gap:9px}.mitem{border:0;border-radius:14px;padding:13px;background:white;box-shadow:0 7px 14px rgba(0,0,0,.07);font-weight:850;cursor:pointer}.mitem.sel{outline:4px solid #8a75ff}.mitem.done{background:#d7f5e2;opacity:.55;pointer-events:none}
+.balloonArea{height:430px;border-radius:22px;background:linear-gradient(#ccefff,#f8feff 70%,#d7f5bd);position:relative;overflow:hidden}
+.balloon{position:absolute;width:130px;height:150px;border:0;border-radius:50%;font-weight:900;cursor:pointer;box-shadow:0 9px 18px rgba(0,0,0,.13);animation:float 3s ease-in-out infinite;padding:9px}.balloon:after{content:"";position:absolute;left:64px;top:145px;width:2px;height:65px;background:#777}.b1{left:5%;top:180px;background:#ffd7e5}.b2{left:28%;top:70px;background:#fff2aa}.b3{left:53%;top:180px;background:#d9f6d6}.b4{left:76%;top:75px;background:#d8e7ff}@keyframes float{50%{transform:translateY(-22px)}}
+.typebox{max-width:760px;margin:auto;text-align:center}.typebox input{width:100%;font-size:25px;text-align:center;padding:15px}
+.result{font-size:30px;font-weight:900;text-align:center;padding:30px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(100px);transition:.3s;background:#1e3554;color:white;padding:12px 18px;border-radius:999px;font-weight:900;z-index:30}.toast.show{transform:translateX(-50%) translateY(0)}
+footer{text-align:center;padding:15px;font-weight:800;opacity:.65}
+@media(max-width:760px){.tabs{grid-template-columns:repeat(2,1fr)}.options{grid-template-columns:1fr}.match{grid-template-columns:1fr 1fr}.balloon{width:96px;height:115px;font-size:13px}.balloon:after{left:47px;top:111px}.b1{left:2%}.b2{left:26%}.b3{left:50%}.b4{left:73%}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hero">
+  <h1>📘 Std 7 English – First Term Game Zone</h1>
+  <p>Based on the Tri-Matric Test – August 2026 • Total Marks: 40</p>
+  <div class="stats"><span class="pill">⭐ Score: <b id="score">0</b></span><span class="pill">🔥 Streak: <b id="streak">0</b></span><span class="pill">✅ Correct: <b id="correct">0</b></span></div>
+  <div class="progress"><div id="bar" class="bar"></div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-mode="passage">📖 Passage Quiz</button>
+  <button class="tab" data-mode="environment">🌍 Slogan MCQ</button>
+  <button class="tab" data-mode="modal">🧩 Modal Verb</button>
+  <button class="tab" data-mode="balloon">🎈 Balloon Pop</button>
+  <button class="tab" data-mode="classroom">🏫 Classroom Fill</button>
+  <button class="tab" data-mode="wh">❓ WH Questions</button>
+  <button class="tab" data-mode="join">🔗 Join Sentences</button>
+  <button class="tab" data-mode="match">🧠 Match Game</button>
+</div>
+
+<section class="panel">
+<div class="controls">
+<button id="shuffle" class="btn">🔀 Shuffle</button>
+<button id="restart" class="btn danger">↻ Restart</button>
+</div>
+<main id="game"></main>
+</section>
+<footer>Single-file Offline HTML • Mobile / Tablet / Computer Friendly</footer>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const DATA={"passage": {"title": "A Visit to the School Garden", "passage": "Last Friday, our teacher took us to the school garden. The garden was full of colourful flowers. We saw roses, marigolds and sunflowers. There were also many small plants and green trees. Some students watered the plants while others removed dry leaves. Our teacher told us that plants give us fresh air and make our surroundings beautiful. We promised to take care of the garden every day.", "qs": [["When did the students visit the garden?", ["Monday", "Friday", "Sunday", "Saturday"], "Friday"], ["Which flower is NOT mentioned in the passage?", ["Rose", "Marigold", "Lotus", "Sunflower"], "Lotus"], ["What did some students do?", ["Planted trees", "Watered the plants", "Painted the garden", "Cut the flowers"], "Watered the plants"], ["What do plants give us?", ["Fresh air", "Books", "Food only", "Toys"], "Fresh air"], ["What did the students promise?", ["To leave the garden", "To cut the plants", "To take care of the garden", "To sell the flowers"], "To take care of the garden"]]}, "environment": [["\"SAVE WATER – EVERY DROP COUNTS.\" What is the message of this slogan?", ["Waste water", "Save water", "Buy water", "Drink less water"], "Save water"], ["\"NO PARKING\" is generally seen on a:", ["Story book", "Public notice", "Birthday card", "Newspaper poem"], "Public notice"], ["\"KEEP YOUR CITY CLEAN.\" This slogan is related to:", ["Cleanliness", "Sports", "Education", "Travel"], "Cleanliness"], ["\"BUY ONE, GET ONE FREE!\" is an example of a:", ["Notice", "Advertisement", "Poem", "Letter"], "Advertisement"], ["\"Plant trees, Save Earth.\" This message encourages us to:", ["Cut trees", "Protect the environment", "Waste paper", "Pollute water"], "Protect the environment"], ["\"SCHOOL WILL REMAIN CLOSED ON 15 AUGUST.\" This is a:", ["Public notice", "Story", "Riddle", "Greeting"], "Public notice"], ["Which headline is most likely to appear in a newspaper?", ["\"The Clever Fox\"", "\"Heavy Rainfall Expected Today\"", "\"Twinkle, Twinkle...\"", "\"My Best Friend\""], "\"Heavy Rainfall Expected Today\""], ["\"Use Dustbins. Do Not Litter.\" What should people do?", ["Throw waste anywhere", "Use dustbins", "Burn all waste", "Throw waste on roads"], "Use dustbins"], ["\"Honesty is the best policy.\" This is a:", ["Slogan/proverbial saying", "Advertisement", "Notice", "Newspaper headline"], "Slogan/proverbial saying"], ["Which message is best for saving electricity?", ["Keep lights on all day.", "Switch off lights when not needed.", "Use more electricity.", "Leave fans running."], "Switch off lights when not needed."]], "modals": [["_____ I come in, please?", ["May", "Must"], "May"], ["We _____ respect our elders.", ["should", "may"], "should"], ["You _____ obey traffic rules.", ["must", "can"], "must"], ["Riya _____ swim very well.", ["can", "must"], "can"], ["It _____ rain today.", ["may", "must"], "may"]], "join": [["Riya bought a notebook. She bought a pencil too.", "and", "Riya bought a notebook and she bought a pencil too."], ["I wanted to play. It was raining heavily.", "but", "I wanted to play, but it was raining heavily."], ["He was tired. He continued working.", "yet", "He was tired, yet he continued working."], ["Would you like tea? Would you like milk?", "or", "Would you like tea or milk?"], ["It was raining. We stayed at home.", "so", "It was raining, so we stayed at home."]], "picnic": "The students of Class 7 went on a picnic to Green Valley Park on Friday, 7 August. Their class teacher, Mrs. Mehta, accompanied them. There were 35 students in the group. They travelled by school bus. The students carried ₹200 each for snacks and other small expenses. They reached the park at 9:00 a.m. and returned to school at 4:00 p.m.", "wh": [["Who accompanied the students?", "Mrs. Mehta"], ["What was the name of the picnic place?", "Green Valley Park"], ["Where did the students go for the picnic?", "Green Valley Park"], ["When did the students go on the picnic?", "Friday, 7 August"], ["How many students went on the picnic?", "35 students"], ["How much money did each student carry?", "₹200"], ["How did the students travel?", "By school bus"], ["What time did they reach the park?", "9:00 a.m."], ["When did they return to school?", "4:00 p.m."], ["Who went on the picnic with the students?", "Mrs. Mehta"]], "classroom": ["Write one thing found in your classroom:", "Write the name of one piece of furniture in your classroom:", "Write one thing used by the teacher:", "Write one thing used by students for writing:", "Write one word related to cleanliness in the classroom:"]};
+let mode="passage",score=0,streak=0,correct=0,idx=0,pool=[],lock=false,matchSel=null,matchDone=0;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)], game=$("#game");
+function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function toast(t){let e=$("#toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1100)}
+function sound(ok){try{let c=new (AudioContext||webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=ok?680:180;g.gain.value=.06;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.28);o.stop(c.currentTime+.29)}catch(e){}}
+function stat(ok){if(ok){score+=10;streak++;correct++;sound(1);toast("✅ Correct! Great job!")}else{streak=0;sound(0);toast("💡 Try again!")}$("#score").textContent=score;$("#streak").textContent=streak;$("#correct").textContent=correct}
+function setBar(n,d){$("#bar").style.width=(d?Math.min(100,n/d*100):0)+"%"}
+function makePool(){idx=0;if(mode==="passage")pool=shuffle(DATA.passage.qs);else if(mode==="environment"||mode==="balloon")pool=shuffle(DATA.environment);else if(mode==="modal")pool=shuffle(DATA.modals);else if(mode==="join")pool=shuffle(DATA.join);else pool=[];setBar(0,pool.length||1)}
+function next(){idx++;setBar(idx,pool.length);if(idx>=pool.length){idx=0;pool=shuffle(pool);toast("🏆 Round complete!")}render()}
+function render(){lock=false;if(mode==="passage")renderPassage();if(mode==="environment")renderEnv();if(mode==="modal")renderModal();if(mode==="balloon")renderBalloon();if(mode==="classroom")renderClassroom();if(mode==="wh")renderWH();if(mode==="join")renderJoin();if(mode==="match")renderMatch()}
+function mcqTemplate(q,opts,ans,extra=""){
+ game.innerHTML=extra+`<div class="q">${esc(q)}</div><div class="options">${shuffle(opts).map(x=>`<button class="opt">${esc(x)}</button>`).join("")}</div>`;
+ $$(".opt").forEach(b=>b.onclick=()=>{if(lock)return;if(b.textContent===ans){b.classList.add("good");stat(true);lock=true;setTimeout(next,650)}else{b.classList.add("bad");stat(false)}});
+}
+function renderPassage(){if(!pool.length)makePool();let [q,opts,ans]=pool[idx];mcqTemplate(q,opts,ans,`<div class="passage"><b>${DATA.passage.title}</b><br><br>${esc(DATA.passage.passage)}</div>`)}
+function renderEnv(){if(!pool.length)makePool();let [q,opts,ans]=pool[idx];mcqTemplate(q,opts,ans)}
+function renderModal(){if(!pool.length)makePool();let [q,opts,ans]=pool[idx];mcqTemplate(q,opts,ans)}
+function renderBalloon(){if(!pool.length)makePool();let [q,opts,ans]=pool[idx],four=shuffle(opts);game.innerHTML=`<div class="q">🎈 ${esc(q)}<div class="sub">Pop the balloon with the correct answer.</div></div><div class="balloonArea">${four.map((x,i)=>`<button class="balloon b${i+1}">${esc(x)}</button>`).join("")}</div>`;$$(".balloon").forEach(b=>b.onclick=()=>{if(lock)return;if(b.textContent===ans){stat(true);b.style.opacity="0";b.style.transform="scale(1.5)";lock=true;setTimeout(next,650)}else{stat(false);b.animate([{transform:"translateX(0)"},{transform:"translateX(-8px)"},{transform:"translateX(8px)"},{transform:"translateX(0)"}],{duration:250})}})}
+function renderClassroom(){
+ game.innerHTML=`<div class="q">🏫 My Classroom – Fill in the blanks</div><div class="fill">${DATA.classroom.map((q,i)=>`<div class="fillrow"><b>${i+1}. ${esc(q)}</b><input placeholder="Type your answer..."></div>`).join("")}</div><div style="text-align:center;margin-top:14px"><button id="finishC" class="btn primary">✅ Finish Activity</button></div>`;
+ $("#finishC").onclick=()=>{let vals=$$(".fillrow input").map(x=>x.value.trim()).filter(Boolean).length;score+=vals*5;correct+=vals;$("#score").textContent=score;$("#correct").textContent=correct;toast("🌟 Activity saved! "+vals+"/5 answered.");setBar(vals,5)}
+}
+function renderWH(){
+ game.innerHTML=`<div class="passage">${esc(DATA.picnic)}</div><div class="q">❓ School Picnic – Answer the WH questions</div><div class="whbox">${DATA.wh.map((x,i)=>`<div class="whrow"><b>${i+1}. ${esc(x[0])}</b><input data-a="${esc(x[1])}" placeholder="Type answer..."></div>`).join("")}</div><div style="text-align:center"><button id="checkWH" class="btn primary">✔ Check Answers</button></div>`;
+ $("#checkWH").onclick=()=>{let ok=0;$$(".whrow input").forEach(inp=>{let a=inp.dataset.a.toLowerCase(),v=inp.value.trim().toLowerCase();if(v && (a.includes(v)||v.includes(a))){inp.style.borderColor="#27ae60";ok++}else inp.style.borderColor="#ff5a72"});score+=ok*10;correct+=ok;$("#score").textContent=score;$("#correct").textContent=correct;setBar(ok,10);toast(`✅ ${ok}/10 answers acceptable`) }
+}
+function renderJoin(){
+ if(!pool.length)makePool();let [sent,word,answer]=pool[idx];
+ game.innerHTML=`<div class="typebox"><div class="q">🔗 Join the sentences using <b>${esc(word)}</b></div><div class="card">${esc(sent)}</div><input id="joinAns" placeholder="Type the joined sentence..."><div style="margin-top:12px"><button id="checkJoin" class="btn primary">✔ Check</button> <button id="showJoin" class="btn">💡 Show Answer</button></div></div>`;
+ $("#checkJoin").onclick=()=>{let v=$("#joinAns").value.toLowerCase().replace(/[,.?]/g,"").trim(),a=answer.toLowerCase().replace(/[,.?]/g,"").trim();if(v===a){stat(true);setTimeout(next,650)}else stat(false)};
+ $("#showJoin").onclick=()=>toast(answer)
+}
+function renderMatch(){
+ let items=shuffle(DATA.modals).slice(0,5);matchSel=null;matchDone=0;
+ let left=shuffle(items),right=shuffle(items);
+ game.innerHTML=`<div class="q">🧠 Match the modal sentence with the correct modal</div><div class="match"><div class="mcol">${left.map(x=>`<button class="mitem" data-side="q" data-key="${esc(x[2])}">${esc(x[0].replace("_____","_____"))}</button>`).join("")}</div><div class="mcol">${right.map(x=>`<button class="mitem" data-side="a" data-key="${esc(x[2])}">${esc(x[2])}</button>`).join("")}</div></div>`;
+ $$(".mitem").forEach(b=>b.onclick=()=>{if(b.classList.contains("done"))return;if(!matchSel){matchSel=b;b.classList.add("sel");return}if(matchSel.dataset.side===b.dataset.side){matchSel.classList.remove("sel");matchSel=b;b.classList.add("sel");return}if(matchSel.dataset.key===b.dataset.key){[matchSel,b].forEach(x=>{x.classList.remove("sel");x.classList.add("done")});matchSel=null;matchDone++;stat(true);setBar(matchDone,5);if(matchDone===5)setTimeout(renderMatch,900)}else{stat(false);matchSel.classList.remove("sel");matchSel=null}})
+}
+$$(".tab").forEach(b=>b.onclick=()=>{$$(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode;makePool();render()});
+$("#shuffle").onclick=()=>{makePool();render();toast("🔀 Questions shuffled")};
+$("#restart").onclick=()=>{score=streak=correct=0;$("#score").textContent=0;$("#streak").textContent=0;$("#correct").textContent=0;makePool();render();toast("↻ Game restarted")};
+makePool();render();
+</script>
+</body>
+</html>

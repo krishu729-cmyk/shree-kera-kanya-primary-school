@@ -1,0 +1,531 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, initial-scale=1.0">
+    <title>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક - ધોરણ ૪ ગણિત</title>
+    
+    <!-- હિન્દ વડોદરા (Hind Vadodara) ફોન્ટ્સ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* સૌથી ઉપર એક બાજુથી બીજી બાજુ જતું નિર્માતાનું નામ (લાઇવ સ્ક્રૉલિંગ) */
+        .creator-scroll-banner {
+            width: 100%;
+            background-color: #1e3a8a;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 6px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .scroll-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* મુખ્ય વિભાગ */
+        .container {
+            max-width: 900px;
+            margin: 50px auto 20px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* મુખ્ય શીર્ષકની આકર્ષક ડિઝાઇન ફ્રેમ */
+        .title-frame {
+            border: 4px double #1e3a8a;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            box-shadow: inset 0 0 10px rgba(30, 58, 138, 0.05), 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .title-frame::before, .title-frame::after {
+            content: "◆";
+            color: #3b82f6;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+        .title-frame::before { left: 15px; }
+        .title-frame::after { right: 15px; }
+        
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* માહિતી પત્રક કોષ્ટક */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+        }
+        .info-table td {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .info-table input {
+            width: 92%;
+            padding: 5px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #ffffff;
+            color: #1e293b;
+        }
+
+        /* પસંદગી ગણક સૂચક */
+        .selection-counter {
+            background: #ef4444;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* મુખ્ય નિષ્પત્તિ કાર્ડ */
+        .main-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .main-header {
+            padding: 12px 20px;
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 16px;
+            border-bottom: 1px solid #cbd5e1;
+            line-height: 1.4;
+        }
+        .sub-container {
+            padding: 10px 20px;
+        }
+        .sub-item {
+            padding: 8px 10px;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+        .sub-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #2563eb;
+            flex-shrink: 0;
+        }
+        
+        /* નિષ્પત્તિ ક્રમાંક સૂચક પટ્ટી */
+        .code-badge {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 8px;
+            font-weight: 400;
+            flex-shrink: 0;
+        }
+
+        /* લાલ અક્ષરે લાઈવ અને ઓટોમેટીક અંગ્રેજી પ્રિન્ટ ક્રમ */
+        .print-order {
+            font-weight: bold;
+            color: #ef4444;
+            margin-right: 8px;
+            min-width: 25px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn-pdf {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+            font-family: inherit;
+        }
+
+        /* 📄 A4 પ્રિન્ટ અને PDF પ્રોફેશનલ સેટિંગ્સ */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 15mm 15mm 15mm;
+            }
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background: none !important;
+                padding: 0;
+            }
+            .creator-scroll-banner {
+                display: none !important;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+                margin: 0;
+                background-color: transparent !important;
+            }
+            .btn-container, .selection-counter, .sub-item input[type="checkbox"] {
+                display: none !important;
+            }
+            .sub-item:not(.selected-item) {
+                display: none !important;
+            }
+            .main-card:not(.has-selected) {
+                display: none !important;
+            }
+            .info-table input {
+                border: none;
+                background: transparent;
+            }
+            .title-frame {
+                background: #ffffff !important;
+                box-shadow: none !important;
+            }
+            .main-card {
+                page-break-inside: auto !important;
+                margin-bottom: 10px;
+            }
+            .sub-item {
+                page-break-inside: avoid !important;
+            }
+            .print-order {
+                color: #ef4444 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- લાઈવ ઓપન કરતા ઉપર ફરતી ક્રેડિટ પટ્ટી (પ્રિન્ટમાં નહિ આવે) -->
+<div class="creator-scroll-banner">
+    <div class="scroll-text">CREATOR : JINESH SHAH(9510566006) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATOR : JINESH SHAH(9510566006)</div>
+</div>
+
+<div class="container">
+
+    <!-- આકર્ષક ડીઝાઇન ફ્રેમ વાળું મેઈન ટાઈટલ -->
+    <div class="title-frame">
+        <h1>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક</h1>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td>શાળાનું નામ:</td>
+            <td><input type="text" value="શ્રી સાળંગપરડા પ્રાથમિક શાળા" placeholder="શાળાનું નામ"></td>
+            <td>તાલુકો:</td>
+            <td><input type="text" value="ગઢડા" placeholder="તાલુકો"></td>
+        </tr>
+        <tr>
+            <td>શિક્ષકનું નામ:</td>
+            <td><input type="text" placeholder="શિક્ષકનું નામ લખો"></td>
+            <td>જિલ્લો:</td>
+            <td><input type="text" value="બોટાદ" placeholder="જિલ્લો"></td>
+        </tr>
+        <tr>
+            <td>ધોરણ:</td>
+            <td colspan="3"><input type="text" value="ધોરણ - ૪ (ગણિત)" placeholder="ધોરણ"></td>
+        </tr>
+    </table>
+
+    <div class="selection-counter" id="counterBox">પસંદ કરેલ નિષ્પત્તિ: 0 / 20</div>
+
+    <form id="outcomeForm">
+        <!-- M401 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M401:</strong> સંખ્યાઓની મૂળભૂત ક્રિયાઓનો ઉપયોગ રોજિંદા જીવનમાં કરે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m1" class="outcome-chk"><label for="m1"><span class="code-badge">M401.1</span> 10000 સુધીની સંખ્યાઓની સમજ ધરાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m2" class="outcome-chk"><label for="m2"><span class="code-badge">M401.2</span> 10000 સુધીની સંખ્યાઓને અંકોમાં લખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m3" class="outcome-chk"><label for="m3"><span class="code-badge">M401.3</span> 10000 સુધીની સંખ્યાઓને શબ્દોમાં લખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m4" class="outcome-chk"><label for="m4"><span class="code-badge">M401.4</span> 10000 સુધીની સંખ્યાની સ્થાનકિંમત દર્શાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m5" class="outcome-chk"><label for="m5"><span class="code-badge">M401.5</span> એક અંકની સંખ્યાનો એક અંકની સંખ્યા સાથે ગુણાકાર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m6" class="outcome-chk"><label for="m6"><span class="code-badge">M401.6</span> બે અંકની સંખ્યાનો બે અંકની સંખ્યા સાથે ગુણાકાર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m7" class="outcome-chk"><label for="m7"><span class="code-badge">M401.7</span> ત્રણ અંકની સંખ્યાનો ત્રણ અંકની સંખ્યા સાથે ગુણાકાર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m8" class="outcome-chk"><label for="m8"><span class="code-badge">M401.8</span> સરવાળા આધારિત વ્યાવહારિક કોયડાઓ ઉકેલે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m9" class="outcome-chk"><label for="m9"><span class="code-badge">M401.9</span> બાદબાકી આધારિત વ્યાવહારિક કોયડાઓ ઉકેલે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m10" class="outcome-chk"><label for="m10"><span class="code-badge">M401.10</span> ગુણાકાર આધારિત વ્યાવહારિક કોયડાઓ ઉકેલે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m11" class="outcome-chk"><label for="m11"><span class="code-badge">M401.11</span> ભાગાકાર આધારિત વ્યાવહારિક કોયડાઓ ઉકેલે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m12" class="outcome-chk"><label for="m12"><span class="code-badge">M401.12</span> પાયાની ક્રિયાઓની રોજિંદી ગણતરી કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m13" class="outcome-chk"><label for="m13"><span class="code-badge">M401.13</span> સમાન નોટ-સિક્કાના આધારે 1000 સુધીના સરવાળા કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m14" class="outcome-chk"><label for="m14"><span class="code-badge">M401.14</span> ગુણાકાર અને ભાગાકાર આધારિત વ્યાવહારિક કોયડા ઉકેલે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m15" class="outcome-chk"><label for="m15"><span class="code-badge">M401.15</span> એક સંખ્યાનો બીજી સંખ્યા વડે ભાગાકાર વિવિધ પદ્ધતિઓ જેવી કે, પુનરાવર્તિત બાદબાકી, જૂથ પ્રક્રિયા, ઘડિયા આધારિત અને ભાગાકારની પ્રમાણભૂત રીત દ્વારા કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m16" class="outcome-chk"><label for="m16"><span class="code-badge">M401.16</span> સંખ્યાત્મક પેટર્નની સમજ ધરાવે છે અને આગળ વધારે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M402 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M402:</strong> અપૂર્ણાંક સાથે કામ કરે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m17" class="outcome-chk"><label for="m17"><span class="code-badge">M402.1</span> કોઈ વસ્તુના ભાગ તરીકે અપૂર્ણાંકની સમજ ધરાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m18" class="outcome-chk"><label for="m18"><span class="code-badge">M402.2</span> અપૂર્ણાંકનો રોજિંદા વ્યવહારમાં ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m19" class="outcome-chk"><label for="m19"><span class="code-badge">M402.3</span> આપેલા પ્રદેશમાં એક દ્વિતીયાંશ, એક ચતુર્થાંશ, ત્રણ ચતુર્થાંશ ભાગ ઓળખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m20" class="outcome-chk"><label for="m20"><span class="code-badge">M402.4</span> અડધો, પોણો, પા જેવા અપૂર્ણાંકોને 1/2, 3/4, 1/4 જેવા સંકેતોથી દર્શાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m21" class="outcome-chk"><label for="m21"><span class="code-badge">M402.5</span> 1/2 અને 2/4 વચ્ચેની તથા અન્ય અપૂર્ણાંકો વચ્ચેની સમાનતા દર્શાવે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M403 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M403:</strong> આસપાસના પર્યાવરણમાં જોવા મળતી આકારોની સમજ ધરાવે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m22" class="outcome-chk"><label for="m22"><span class="code-badge">M403.1</span> ત્રિપરિમાણીય આકારોની વિવિધ પેટર્ન ઓળખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m23" class="outcome-chk"><label for="m23"><span class="code-badge">M403.2</span> કાગળને વાળવાની-કાપવાની કે ખાનાવાળી છાપ પાડીને વ્યાખ્યા આધારિત આકૃતિઓની સમજણ દર્શાવતી આકૃતિઓ બનાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m24" class="outcome-chk"><label for="m24"><span class="code-badge">M403.3</span> આકૃતિને જુદા-જુદા દ્રષ્ટિકોણમાંથી જોઈને તેની દેખાવ અંગેની સમજ ધરાવે છે અને સરખામણી કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m25" class="outcome-chk"><label for="m25"><span class="code-badge">M403.4</span> આકૃતિને જુદા-જુદા પરિપ્રેક્ષ્યમાં જોઈને દોરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m26" class="outcome-chk"><label for="m26"><span class="code-badge">M403.5</span> આપેલા ચિત્ર-નકશાઓના આધારે દિશાઓના સંદર્ભમાં અને સ્થાનની સંબંધિત વિગતો જોઈને જવાબ આપે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m27" class="outcome-chk"><label for="m27"><span class="code-badge">M403.6</span> વર્તુળના કેન્દ્ર, ત્રિજ્યા અને વ્યાસની સંકલ્પનાની સમજ ધરાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m28" class="outcome-chk"><label for="m28"><span class="code-badge">M403.7</span> વર્તુળના કેન્દ્ર, ત્રિજ્યા અને વ્યાસને ઓળખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m29" class="outcome-chk"><label for="m29"><span class="code-badge">M403.8</span> વર્તુળના કેન્દ્ર, ત્રિજ્યા અને વ્યાસને દર્શાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m30" class="outcome-chk"><label for="m30"><span class="code-badge">M403.9</span> પરિકરની મદદથી વર્તુળ દોરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m31" class="outcome-chk"><label for="m31"><span class="code-badge">M403.10</span> વર્તુળ આધારિત વિવિધ ભાત દોરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m32" class="outcome-chk"><label for="m32"><span class="code-badge">M403.11</span> સીમા (પરિમિતિ) ની રેખા ઓળખવા માટે જરૂરી આકૃતિ (આલેખ) નોંધે છે અને માપન કરે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M404 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M404:</strong> આપેલા આકારોને સંમિત અડધો, પા-પા ભાગ, પોણો ભાગની પ્રક્રિયા અને પેટર્ન રજૂ કરે છે. (દા.ત. ટાઇલ્સની ગોઠવણી)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m33" class="outcome-chk"><label for="m33"><span class="code-badge">M404.1</span> વિવિધ આકારોની પ્રક્રિયા નોંધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m34" class="outcome-chk"><label for="m34"><span class="code-badge">M404.2</span> ચોરસખાના વાળા કાગળ પર ચોરસ ખાનાઓની મદદથી અનિયમિત આકારોના ક્ષેત્રફળનું અંદાજન નોંધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m35" class="outcome-chk"><label for="m35"><span class="code-badge">M404.3</span> સમાન ચોરસ ખાનાઓની મદદથી વિવિધ આકારોનું ક્ષેત્રફળ નોંધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m36" class="outcome-chk"><label for="m36"><span class="code-badge">M404.4</span> પરિમિતિ અને ક્ષેત્રફળ આધારિત રોજિંદા જીવનના કોયડા ઉકેલે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M405 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M405:</strong> મીટરનું સેન્ટીમીટરમાં અને સેન્ટીમીટરનું મીટરમાં રૂપાંતર કરે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m37" class="outcome-chk"><label for="m37"><span class="code-badge">M405.1</span> લંબાઈ અને ઊંચાઈના એકમો સેમી, મીટર, કિમીની સમજ ધરાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m38" class="outcome-chk"><label for="m38"><span class="code-badge">M405.2</span> લંબાઈ અને ઊંચાઈના એકમોનું રૂપાંતરણ કરે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M406 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M406:</strong> બે વસ્તુઓની વચ્ચેના અંતર, જુદી-જુદી વસ્તુઓનું વજન, વસ્તુઓની ગુંજાશ વગેરેનો અંદાજ મેળવે છે અને તેનું ચોક્કસ માપન કરે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m39" class="outcome-chk"><label for="m39"><span class="code-badge">M406.1</span> કોઈ પણ બે બિંદુ વચ્ચેના અંતરનું અનુમાન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m40" class="outcome-chk"><label for="m40"><span class="code-badge">M406.2</span> બે બિંદુઓ વચ્ચેના અંતરનું માપપટ્ટી વડે માપન કરે છે અને દોરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m41" class="outcome-chk"><label for="m41"><span class="code-badge">M406.3</span> ઊંચાઈનું અનુમાન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m42" class="outcome-chk"><label for="m42"><span class="code-badge">M406.4</span> ઊંચાઈનું માપન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m43" class="outcome-chk"><label for="m43"><span class="code-badge">M406.5</span> ઊંચાઈના અનુમાન અને માપનની સરખામણી કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m44" class="outcome-chk"><label for="m44"><span class="code-badge">M406.6</span> લંબાઈ અને ઊંચાઈ આધારિત વ્યવહારિક કોયડાઓ ઉકેલે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m45" class="outcome-chk"><label for="m45"><span class="code-badge">M406.7</span> ગુંજાશની સંકલ્પના સમજ ધરાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m46" class="outcome-chk"><label for="m46"><span class="code-badge">M406.8</span> વજન અને ગુંજાશનો અંદાજ મેળવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m47" class="outcome-chk"><label for="m47"><span class="code-badge">M406.9</span> ગુંજાશના એકમો લિટર અને મિલીલીટરની સમજ ધરાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m48" class="outcome-chk"><label for="m48"><span class="code-badge">M406.10</span> લિટરનું મિલીલીટરમાં અને મિલીલીટરનું લિટરમાં રૂપાંતર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m49" class="outcome-chk"><label for="m49"><span class="code-badge">M406.11</span> ગુંજાશના વ્યાવહારિક કોયડા ઉકેલે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M407 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M407:</strong> રોજિંદા જીવનની સમસ્યાઓનો ઉકેલ મૂળભૂત ગાણિતિક ક્રિયાઓ દ્વારા શોધે છે. (નાણું, લંબાઈ, વજન, ગુંજાશ, અંતર, સમય વગેરે આધારિત)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m50" class="outcome-chk"><label for="m50"><span class="code-badge">M407.1</span> આપેલા કોષ્ટકોને આધારે માહિતીની વિગતો મેળવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m51" class="outcome-chk"><label for="m51"><span class="code-badge">M407.2</span> આપેલા કોષ્ટકોને આધારે ગાણિતિક પ્રક્રિયાઓની મદદથી ઉકેલ મેળવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m52" class="outcome-chk"><label for="m52"><span class="code-badge">M407.3</span> બે અંકની સંખ્યાનો એક અંકની સંખ્યા વડે ભાગાકાર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m53" class="outcome-chk"><label for="m53"><span class="code-badge">M407.4</span> ત્રણ અંકની સંખ્યાનો એક અંકની સંખ્યા વડે ભાગાકાર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m54" class="outcome-chk"><label for="m54"><span class="code-badge">M407.5</span> ભાગાકાર આધારિત વ્યાવહારિક કોયડાઓ ઉકેલે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m55" class="outcome-chk"><label for="m55"><span class="code-badge">M407.6</span> કિંમતના આધારે અંદાજપત્ર કરીને પ્રશ્નોના જવાબ આપે છે. (બિલ, ભાવપત્રક)</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m56" class="outcome-chk"><label for="m56"><span class="code-badge">M407.7</span> વજનના એકમ તરીકે ગ્રામ અને કિલોગ્રામની સમજ મેળવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m57" class="outcome-chk"><label for="m57"><span class="code-badge">M407.8</span> કિલોગ્રામનું ગ્રામમાં રૂપાંતર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m58" class="outcome-chk"><label for="m58"><span class="code-badge">M407.9</span> ગ્રામનું કિલોગ્રામનું રૂપાંતર કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m59" class="outcome-chk"><label for="m59"><span class="code-badge">M407.10</span> જુદા-જુદા વજનિયાઓની મદદથી વજનની સરખામણી કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m60" class="outcome-chk"><label for="m60"><span class="code-badge">M407.11</span> જાતે વજનિયા બનાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m61" class="outcome-chk"><label for="m61"><span class="code-badge">M407.12</span> રોજિંદા જીવનમાં જુદી જુદી વસ્તુઓનું વજન નોંધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m62" class="outcome-chk"><label for="m62"><span class="code-badge">M407.13</span> વજન આધારિત વ્યાવહારિક કોયડાઓ ઉકેલે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M408 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M408:</strong> ઘડિયાળનો સમય કલાક અને મિનિટમાં વાંચે છે અને સમયને am અને pm માં દર્શાવે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m63" class="outcome-chk"><label for="m63"><span class="code-badge">M408.1</span> ઘડિયાળનો સમય ઓળખી શકે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m64" class="outcome-chk"><label for="m64"><span class="code-badge">M408.2</span> આપેલા સમયને ઘડિયાળમાં દર્શાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m65" class="outcome-chk"><label for="m65"><span class="code-badge">M408.3</span> રોજિંદા જીવનના વ્યવહારોને સમય સાથે જોડે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m66" class="outcome-chk"><label for="m66"><span class="code-badge">M408.4</span> સમયનું અનુમાન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m67" class="outcome-chk"><label for="m67"><span class="code-badge">M408.5</span> સમયના કરેલા અનુમાનની વાસ્તવિક રીતે ચકાસણી કરે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M409 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M409:</strong> 12 કલાક અને 24 કલાકની ઘડિયાળને સમજે છે, તેમજ તેમની વચ્ચેનો સંબંધ શોધી શકે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m68" class="outcome-chk"><label for="m68"><span class="code-badge">M409.1</span> સમયને 12 કલાક અને 24 કલાકના સંદર્ભે દર્શાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m69" class="outcome-chk"><label for="m69"><span class="code-badge">M409.2</span> રોજિંદા વ્યવહારમાં 12 કલાક અને 24 કલાકના સંદર્ભે સમયનો ઉપયોગ કરે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M410 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M410:</strong> રોજિંદા જીવનમાં બનતી ઘટનાઓની સમયાવધિની નોંધણી કરે છે અને ઘટનાઓને ક્રમમાં ગોઠવે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m70" class="outcome-chk"><label for="m70"><span class="code-badge">M410.1</span> બે ઘટનાઓ વચ્ચેના સમયગાળાની નોંધણી કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m71" class="outcome-chk"><label for="m71"><span class="code-badge">M410.2</span> ઘટનાઓને સમયના ક્રમમાં ગોઠવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m72" class="outcome-chk"><label for="m72"><span class="code-badge">M410.3</span> મિનિટ, કલાક, દિવસ, અઠવાડિયું, માસ અને વર્ષની સમજ સમયના સંદર્ભમાં ધરાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m73" class="outcome-chk"><label for="m73"><span class="code-badge">M410.4</span> કેલેન્ડરની સમજ ધરાવે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M411 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M411:</strong> ગુણાકાર અને ભાગાકારમાં રહેલ પેટર્નને ઓળખે છે. (9 ના ગુણક સુધી)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m74" class="outcome-chk"><label for="m74"><span class="code-badge">M411.1</span> 1 થી 9 સુધીના ઘડિયાની રચના સમજે છે અને તેના આધારે મોટી સંખ્યાના ઘડિયા રચે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M412 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M412:</strong> સંમિતતાને આધારે આપેલ ભૌમિતિક પેટર્નનું અવલોકન કરે છે અને ભૌમિતિક પેટર્નને ઓળખે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m75" class="outcome-chk"><label for="m75"><span class="code-badge">M412.1</span> આકારોમાં જોવા મળતી પેટર્નને સમજે છે અને આગળ વધારે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m76" class="outcome-chk"><label for="m76"><span class="code-badge">M412.2</span> આલ્ફાબેટિકલ અને અંકો આધારિત પેટર્ન સમજે છે અને આગળ વધારે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- M413 -->
+        <div class="main-card">
+            <div class="main-header"><strong>M413:</strong> ભેગી કરેલ માહિતીને કોષ્ટકમાં અને સ્તંભાલેખમાં નિરૂપણ કરે છે અને તેમાંથી અનુમાન તારવે છે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m77" class="outcome-chk"><label for="m77"><span class="code-badge">M413.1</span> કોષ્ટકમાં આપેલી માહિતીનું અર્થઘટન કરે છે અને પ્રશ્નોના જવાબ આપે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m78" class="outcome-chk"><label for="m78"><span class="code-badge">M413.2</span> રોજિંદા વ્યવહારમાં બનતી ઘટનાઓને કોષ્ટક સ્વરૂપે દર્શાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m79" class="outcome-chk"><label for="m79"><span class="code-badge">M413.3</span> માહિતીના આધારે સ્તંભ આલેખની રચના કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m80" class="outcome-chk"><label for="m80"><span class="code-badge">M413.4</span> સ્તંભ આલેખ આધારિત પ્રશ્નોના જવાબ આપે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m81" class="outcome-chk"><label for="m81"><span class="code-badge">M413.5</span> માહિતીના આધારે વર્તુળ આલેખની રચના કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m82" class="outcome-chk"><label for="m82"><span class="code-badge">M413.6</span> વર્તુળ આલેખ આધારિત પ્રશ્નોના જવાબ આપે છે.</label></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="btn-container">
+        <button class="btn-pdf" onclick="window.print()">📄 A4 સાઈઝ PDF ડાઉનલોડ કરો</button>
+    </div>
+
+</div>
+
+<script>
+    const maxAllowed = 20;
+    const checkboxes = document.querySelectorAll('.outcome-chk');
+    const counterBox = document.getElementById('counterBox');
+
+    function recalculateOrder() {
+        let currentNumber = 1;
+        document.querySelectorAll('.sub-item').forEach(item => {
+            const chk = item.querySelector('.outcome-chk');
+            const orderSpan = item.querySelector('.print-order');
+            
+            if (chk.checked) {
+                orderSpan.innerText = `(${currentNumber})`;
+                currentNumber++;
+            } else {
+                orderSpan.innerText = '';
+            }
+        });
+    }
+
+    checkboxes.forEach(chk => {
+        chk.addEventListener('change', function() {
+            let checkedCount = document.querySelectorAll('.outcome-chk:checked').length;
+            
+            if (checkedCount > maxAllowed && this.checked) {
+                this.checked = false;
+                alert('તમે મહત્તમ ' + maxAllowed + ' નિષ્પત્તિ જ પસંદ કરી શકો છો.');
+                checkedCount--;
+                return;
+            }
+
+            counterBox.innerText = `પસંદ કરેલ નિષ્પત્તિ: ${checkedCount} / ${maxAllowed}`;
+            
+            if(this.checked) {
+                this.closest('.sub-item').classList.add('selected-item');
+                this.closest('.main-card').classList.add('has-selected');
+            } else {
+                this.closest('.sub-item').classList.remove('selected-item');
+                const card = this.closest('.main-card');
+                if(card.querySelectorAll('.outcome-chk:checked').length === 0) {
+                    card.classList.remove('has-selected');
+                }
+            }
+
+            recalculateOrder();
+
+            if (checkedCount >= maxAllowed) {
+                checkboxes.forEach(c => { if (!c.checked) c.disabled = true; });
+                counterBox.style.background = '#10b981';
+            } else {
+                checkboxes.forEach(c => c.disabled = false);
+                counterBox.style.background = '#ef4444';
+            }
+        });
+    });
+
+    recalculateOrder();
+</script>
+
+</body>
+</html>

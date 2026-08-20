@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Easy English World - Module 3</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(#fff3cd,#d4fc79);}
+.wrap{max-width:960px;margin:20px auto;background:#fff;padding:20px;border-radius:16px}
+h1{text-align:center;color:#2e7d32}
+.tabs button,.opt{padding:10px 14px;margin:5px;border:none;border-radius:8px;background:#388e3c;color:#fff;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:15px}
+.card{background:#f1f8e9;border-radius:12px;padding:12px;text-align:center}
+.emoji{font-size:48px}
+#score{font-weight:bold}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🍎 Module 3 – Vocabulary Garden</h1>
+
+<div class="tabs">
+<button onclick="load('animals')">🐶 Animals</button>
+<button onclick="load('fruits')">🍎 Fruits</button>
+<button onclick="load('colors')">🌈 Colours</button>
+</div>
+
+<div id="cards" class="grid"></div>
+
+<hr>
+<h2>🎯 Match the Word</h2>
+<p id="question"></p>
+<div id="options"></div>
+<p id="score">⭐ Score: 0</p>
+
+<hr>
+<h2>🐸 Frog Jump</h2>
+<p>Click the correct word to help the frog reach the leaf.</p>
+<div style="font-size:60px;text-align:center">🐸 ➜ 🍃</div>
+<div id="frogOptions"></div>
+</div>
+
+<script>
+const data={
+animals:[["🐶","Dog","કૂતરો"],["🐱","Cat","બિલાડી"],["🦁","Lion","સિંહ"],["🐘","Elephant","હાથી"],["🐰","Rabbit","સસલું"]],
+fruits:[["🍎","Apple","સફરજન"],["🥭","Mango","કેરી"],["🍌","Banana","કેળું"],["🍇","Grapes","દ્રાક્ષ"],["🍊","Orange","નારંગી"]],
+colors:[["🔴","Red","લાલ"],["🟢","Green","લીલો"],["🔵","Blue","વાદળી"],["🟡","Yellow","પીળો"],["⚫","Black","કાળો"]]
+};
+let current="animals",score=0;
+
+function speak(t){
+ if(window.speechSynthesis){
+  speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+ }
+}
+
+function load(cat){
+ current=cat;
+ let c=document.getElementById("cards");
+ c.innerHTML="";
+ data[cat].forEach(x=>{
+  c.innerHTML+=`<div class="card"><div class="emoji">${x[0]}</div><h3>${x[1]}</h3><p>${x[2]}</p><button onclick="speak('${x[1]}')">🔊 Speak</button></div>`;
+ });
+ nextQuiz();
+}
+function shuffle(a){return [...a].sort(()=>Math.random()-0.5);}
+function nextQuiz(){
+ let arr=data[current];
+ let ans=arr[Math.floor(Math.random()*arr.length)];
+ document.getElementById("question").textContent="What is this? "+ans[0];
+ let opts=shuffle(arr.map(i=>i[1]));
+ let box=document.getElementById("options");
+ box.innerHTML="";
+ let frog=document.getElementById("frogOptions");
+ frog.innerHTML="";
+ opts.forEach(o=>{
+   let b=document.createElement("button");
+   b.className="opt";
+   b.textContent=o;
+   b.onclick=()=>check(o,ans[1]);
+   box.appendChild(b);
+
+   let f=b.cloneNode(true);
+   f.onclick=()=>check(o,ans[1]);
+   frog.appendChild(f);
+ });
+}
+function check(sel,ans){
+ if(sel===ans){
+   score++;
+   alert("✅ Correct!");
+ }else{
+   alert("❌ Correct answer: "+ans);
+ }
+ localStorage.setItem("module3_score",score);
+ document.getElementById("score").textContent="⭐ Score: "+score;
+ nextQuiz();
+}
+load("animals");
+</script>
+</body>
+</html>

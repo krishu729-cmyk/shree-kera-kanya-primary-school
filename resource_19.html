@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Std 7 Unit 3 - Real Happiness</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{--ink:#17324d;--cream:#fff8e9;--gold:#f6c85f;--green:#49a66a;--blue:#4d9de0;--red:#e86a62;--shadow:0 18px 50px rgba(0,0,0,.18)}
+*{box-sizing:border-box}
+body{margin:0;background:#0c1824;color:var(--ink);font-family:Nunito,"Noto Sans Gujarati",sans-serif;overflow:hidden}
+#app{height:100vh;display:flex;flex-direction:column}
+.topbar{height:64px;display:flex;align-items:center;gap:10px;padding:8px 14px;background:rgba(8,20,32,.96);color:white;z-index:20}
+.brand{font-weight:900;font-size:16px;white-space:nowrap;margin-right:auto}
+.btn{border:0;border-radius:14px;padding:10px 13px;background:#fff;color:#17324d;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.16);transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.dark{background:#17324d;color:#fff}
+.btn.gold{background:#f6c85f}
+#stage{position:relative;flex:1;min-height:0;overflow:hidden;background:#8ed4f4}
+.scene{position:absolute;inset:0;display:none;overflow:hidden}
+.scene.active{display:block;animation:sceneIn .6s ease}
+@keyframes sceneIn{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:scale(1)}}
+.sky{position:absolute;inset:0;background:linear-gradient(#76c9f0 0%,#c9f0ff 62%,#9ad66b 63%,#63b458 100%)}
+.sun{position:absolute;width:90px;height:90px;border-radius:50%;background:#ffd766;right:9%;top:8%;box-shadow:0 0 45px #ffeaa3}
+.cloud{position:absolute;width:170px;height:50px;background:white;border-radius:50px;opacity:.78;animation:cloud 30s linear infinite}
+.cloud:before,.cloud:after{content:"";position:absolute;background:white;border-radius:50%}
+.cloud:before{width:75px;height:75px;left:25px;top:-38px}.cloud:after{width:90px;height:90px;right:22px;top:-50px}
+.c1{top:12%;left:-200px}.c2{top:25%;left:-260px;animation-delay:-14s;transform:scale(.7)}
+@keyframes cloud{to{left:110%}}
+.hill{position:absolute;bottom:22%;width:75%;height:35%;background:#69b957;border-radius:50% 50% 0 0;filter:saturate(.9)}
+.h1{left:-15%;transform:rotate(-5deg)}.h2{right:-18%;background:#80c96b;transform:rotate(5deg)}
+.tree{position:absolute;bottom:17%;width:20px;height:150px;background:#6d4b35;border-radius:12px}
+.tree:before{content:"";position:absolute;width:125px;height:125px;border-radius:50%;background:#3d9850;left:-53px;top:-80px;box-shadow:45px 20px #54a65a,-35px 35px #4a9c4e}
+.t1{left:5%}.t2{left:23%;transform:scale(.7)}.t3{right:8%}.t4{right:28%;transform:scale(.8)}
+.flower{position:absolute;bottom:14%;font-size:32px;animation:sway 2.2s ease-in-out infinite}
+.f1{left:12%}.f2{left:17%;animation-delay:.5s}.f3{right:15%;animation-delay:1s}
+@keyframes sway{50%{transform:rotate(8deg) translateY(-3px)}}
+.river{position:absolute;left:35%;bottom:0;width:30%;height:48%;background:linear-gradient(160deg,#63c7ef,#a8ebf4);clip-path:polygon(32% 0,70% 0,100% 100%,0 100%);animation:water 3s linear infinite}
+@keyframes water{50%{filter:brightness(1.08)}}
+.house{position:absolute;bottom:18%;left:12%;width:260px;height:150px;background:#d9a267;border:6px solid #8a5a3b;border-radius:8px}
+.house:before{content:"";position:absolute;left:-25px;top:-90px;border-left:155px solid transparent;border-right:155px solid transparent;border-bottom:100px solid #9b5d43}
+.door{position:absolute;bottom:0;left:105px;width:48px;height:82px;background:#70472f;border-radius:5px}
+.window{position:absolute;bottom:48px;width:42px;height:42px;background:#9dd8ef;border:5px solid #70472f}
+.w1{left:35px}.w2{right:35px}
+.school{position:absolute;bottom:20%;right:12%;width:250px;height:145px;background:#f5df9b;border:5px solid #7d5b42;border-radius:10px}
+.school:before{content:"SCHOOL";position:absolute;top:-62px;left:-25px;width:290px;height:55px;background:#d86e59;color:#fff;display:grid;place-items:center;font-weight:900;font-size:22px;border-radius:14px 14px 5px 5px}
+.school .door{left:101px}.school .window{bottom:52px}
+.kids{position:absolute;bottom:17%;right:30%;font-size:42px;animation:walk 4s ease-in-out infinite}
+@keyframes walk{50%{transform:translateX(55px)}}
+.card{position:absolute;left:5%;top:7%;max-width:650px;padding:24px 28px;border-radius:26px;background:rgba(255,250,235,.94);box-shadow:var(--shadow);backdrop-filter:blur(8px);z-index:5}
+.card h1{margin:0 0 8px;font-size:clamp(28px,4vw,54px);line-height:1.05}.card h2{margin:0 0 10px;font-size:clamp(21px,3vw,34px)}
+.card p{margin:8px 0;font-size:clamp(15px,1.8vw,22px);line-height:1.45}
+.gu{font-family:"Noto Sans Gujarati",sans-serif}
+.badge{display:inline-block;padding:7px 12px;border-radius:999px;background:#17324d;color:#fff;font-weight:900;font-size:13px}
+.narration{position:absolute;left:5%;bottom:8%;max-width:820px;background:rgba(7,22,34,.82);color:white;padding:15px 20px;border-radius:18px;z-index:8;font-size:clamp(14px,1.8vw,20px);line-height:1.4}
+.narration .gu{display:block;color:#ffe9a8;margin-top:5px}
+.citybg{position:absolute;inset:0;background:linear-gradient(#a9d9f3 0%,#e8f7ff 58%,#c3d4d8 59%,#9fb4b8 100%)}
+.skyline{position:absolute;bottom:0;left:0;right:0;height:55%;display:flex;align-items:end;gap:8px;padding:0 4%}
+.building{background:#6f8fa4;width:7%;height:70%;border-radius:6px 6px 0 0;position:relative}
+.building:nth-child(2){height:95%;background:#789bad}.building:nth-child(3){height:58%;background:#587f96}.building:nth-child(4){height:82%}.building:nth-child(5){height:65%}.building:nth-child(6){height:100%;background:#55798e}
+.building:after{content:"";position:absolute;inset:15px 12px;background:repeating-linear-gradient(0deg,transparent 0 18px,#d5edf6 19px 23px),repeating-linear-gradient(90deg,transparent 0 16px,#d5edf6 17px 20px);opacity:.7}
+.luxhouse{position:absolute;bottom:14%;left:8%;width:52%;height:42%;background:#e9f0f4;border-radius:16px;box-shadow:0 25px 40px rgba(0,0,0,.18)}
+.pool{position:absolute;bottom:0;left:0;width:55%;height:25%;background:#58c6e8;border-radius:20px 20px 0 0;box-shadow:inset 0 0 0 8px #bceaf5}
+.car{position:absolute;bottom:30%;right:7%;font-size:90px;filter:drop-shadow(0 12px 10px rgba(0,0,0,.25));animation:car 3s ease-in-out infinite}
+@keyframes car{50%{transform:translateX(-18px)}}
+.man{position:absolute;font-size:82px;z-index:4}.father{right:12%;bottom:17%}.boy{right:26%;bottom:15%}.farmer{left:48%;bottom:20%;font-size:75px}
+.dog{position:absolute;font-size:55px;right:19%;bottom:11%;animation:pet 2s infinite}.pet2{right:28%;animation-delay:.6s}
+@keyframes pet{50%{transform:translateY(-10px) rotate(-4deg)}}
+.thought{position:absolute;left:39%;top:15%;width:330px;padding:22px;background:#fff;border-radius:50px;box-shadow:var(--shadow);font-weight:800;text-align:center;z-index:7}
+.thought:after{content:"";position:absolute;left:-20px;bottom:-10px;width:45px;height:45px;border-radius:50%;background:#fff;box-shadow:-45px 25px 0 -12px #fff}
+.split{display:grid;grid-template-columns:1fr 1fr;height:100%}
+.panel{position:relative;overflow:hidden;padding-top:80px}
+.panel.left{background:linear-gradient(#c8e5f7,#eaf6fb 62%,#8da0aa 63%)}.panel.right{background:linear-gradient(#86d1ef,#d8f6ff 55%,#69b95d 56%)}
+.panel h2{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:5;background:#fff8e9;padding:10px 18px;border-radius:18px;white-space:nowrap;font-size:clamp(16px,2vw,28px)}
+.poolbig{position:absolute;bottom:0;left:10%;width:80%;height:45%;background:#53bce2;border:14px solid #d8e6e9;box-shadow:inset 0 0 0 4px #8ad8ed;border-radius:24px}
+.riverbig{position:absolute;bottom:-10%;left:22%;width:58%;height:70%;background:linear-gradient(145deg,#5cc9ee,#d5f6fa);clip-path:polygon(28% 0,72% 0,100% 100%,0 100%)}
+.animalrow{position:absolute;bottom:15%;left:8%;right:8%;font-size:46px;display:flex;justify-content:space-around;animation:animalrow 5s ease-in-out infinite}
+@keyframes animalrow{50%{transform:translateY(-8px)}}
+.singleanimal{position:absolute;left:45%;bottom:20%;font-size:100px;animation:pet 2s infinite}
+.comfortcity{position:absolute;inset:0;background:linear-gradient(#17263c,#394d63 55%,#17202a);}.bed{position:absolute;left:12%;bottom:15%;width:55%;height:30%;background:#eef4f7;border-radius:35px 35px 0 0;box-shadow:0 15px 30px #0006}.ac{position:absolute;right:9%;top:16%;font-size:75px}.fridge{position:absolute;right:8%;bottom:12%;font-size:100px}
+.nature{position:absolute;inset:0;background:linear-gradient(#071b40,#172f55 48%,#5f482c 49%,#332316 100%)}.stars{position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 2px);background-size:55px 55px;opacity:.75}.fire{position:absolute;bottom:14%;left:50%;font-size:110px;transform:translateX(-50%);animation:fire .5s infinite alternate}@keyframes fire{to{transform:translateX(-50%) scale(1.08)}}
+.grammar{background:linear-gradient(135deg,#eef9ff,#fff4dc);height:100%;padding:40px 6%;overflow:auto}.grammar h1{font-size:clamp(30px,5vw,58px);margin:10px 0}.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:30px}.word{background:#fff;border-radius:22px;padding:20px;text-align:center;box-shadow:var(--shadow);font-size:26px;font-weight:900}.arrow{color:#e89d38;display:block;font-size:36px;margin:5px}.meaning{font-size:15px;color:#536273;font-weight:700}
+.adjgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:28px}.adj{padding:20px;border-radius:22px;background:#fff;box-shadow:var(--shadow);font-size:23px;font-weight:800}.adj b{color:#d76b4f}.adj span{display:block;font-family:"Noto Sans Gujarati";font-size:16px;margin-top:6px}
+.practice{height:100%;overflow:auto;background:linear-gradient(#fff5dd,#dff4ff);padding:35px 7%}.qbox{max-width:950px;margin:0 auto;background:#fff;border-radius:28px;padding:28px;box-shadow:var(--shadow)}.qbox h1{margin:0 0 8px;font-size:clamp(28px,4vw,48px)}.timer{height:12px;background:#e7e7e7;border-radius:20px;overflow:hidden;margin:18px 0}.timer i{display:block;height:100%;width:100%;background:#4da0d9;transition:width 1s linear}.options{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.opt{border:3px solid #d9e2e8;background:#f9fcff;border-radius:18px;padding:16px;font-size:19px;font-weight:800;cursor:pointer}.opt.correct{background:#c9f4d6;border-color:#4caf70}.opt.wrong{background:#ffd6d1;border-color:#e56d63}.feedback{min-height:55px;margin-top:18px;font-size:18px;font-weight:800}.score{display:inline-block;background:#17324d;color:#fff;border-radius:999px;padding:8px 14px}
+.vocab{height:100%;overflow:auto;background:#f5ead5;padding:35px 6%}.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1000px;margin:25px auto}.piece{background:#dff3ff;border:3px solid #6fa9c8;border-radius:18px;padding:16px;margin:10px;cursor:pointer;font-weight:900;font-size:20px}.meaningpiece{background:#fff1cf;border-color:#d2a25a}.piece.selected{outline:5px solid #f6c85f}.piece.matched{opacity:.45;pointer-events:none}.matchmsg{text-align:center;font-size:20px;font-weight:900;min-height:35px}
+.final{height:100%;background:linear-gradient(#77c8ee 0%,#ffe4a1 55%,#83c65b 56%,#4b9b4b 100%);position:relative;overflow:hidden}.final .sun{right:42%;top:16%;width:130px;height:130px}.path{position:absolute;bottom:0;left:35%;width:30%;height:62%;background:#d9ad79;clip-path:polygon(40% 0,60% 0,100% 100%,0 100%)}.finalboy{position:absolute;bottom:18%;left:47%;font-size:100px;z-index:4;animation:walk2 3s ease-in-out infinite}@keyframes walk2{50%{transform:translateY(-8px)}}.finaldog{position:absolute;bottom:14%;left:40%;font-size:65px}.rabbit{position:absolute;bottom:13%;right:34%;font-size:60px}.birds{position:absolute;top:25%;right:27%;font-size:60px;animation:bird 5s ease-in-out infinite}@keyframes bird{50%{transform:translate(50px,-20px)}}
+.finalmsg{position:absolute;top:7%;left:50%;transform:translateX(-50%);text-align:center;width:90%;z-index:6;background:rgba(255,250,230,.9);padding:20px 25px;border-radius:25px;box-shadow:var(--shadow)}.finalmsg h1{font-size:clamp(30px,5vw,65px);margin:0}.finalmsg p{font-size:clamp(15px,2vw,23px);font-weight:800}
+.bottombar{height:74px;background:rgba(8,20,32,.97);display:flex;align-items:center;gap:10px;padding:8px 14px;z-index:20}.progress{flex:1;height:12px;background:#314454;border-radius:20px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:#f6c85f;transition:.35s}.sceneName{color:#fff;font-weight:800;min-width:170px}.counter{color:#fff;font-weight:800}
+@media(max-width:700px){.topbar{height:55px}.brand{font-size:12px}.topbar .btn{padding:8px 9px;font-size:12px}.bottombar{height:66px}.sceneName{display:none}.options{grid-template-columns:1fr}.card{left:4%;right:4%;max-width:none}.house{transform:scale(.72);transform-origin:left bottom}.school{transform:scale(.7);transform-origin:right bottom}.man{font-size:60px}.split{grid-template-columns:1fr}.panel.left{display:none}.panel.right{width:100%}.panel h2{font-size:17px}.matchgrid{grid-template-columns:1fr}.luxhouse{width:75%}.skyline{gap:3px}.building{width:11%}}
+</style>
+</head>
+<body>
+<div id="app">
+<header class="topbar">
+  <div class="brand">📚 STD 7 • UNIT 3 • REAL HAPPINESS</div>
+  <button class="btn gold" onclick="togglePlay()" id="playBtn">▶ Play</button>
+  <button class="btn" onclick="speakScene()">🔊 Voice</button>
+  <button class="btn" onclick="toggleMute()" id="muteBtn">🔊 Sound</button>
+  <button class="btn" onclick="document.documentElement.requestFullscreen?.()">⛶</button>
+</header>
+
+<main id="stage">
+
+<section class="scene active" data-name="Introduction" data-duration="9">
+  <div class="sky"></div><div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div>
+  <div class="hill h1"></div><div class="hill h2"></div><div class="tree t1"></div><div class="tree t3"></div>
+  <div class="river"></div><div class="house"></div><div class="school"><div class="door"></div><div class="window w1"></div><div class="window w2"></div></div>
+  <div class="kids">🧒🏻 🧒🏽 🧒🏻 🧒🏽</div><div class="flower f1">🌼</div><div class="flower f2">🌷</div><div class="flower f3">🌸</div>
+  <div class="card"><span class="badge">MANDALI PRIMARY SCHOOL</span><h1>STD 7 – UNIT 3<br>REAL HAPPINESS</h1><h2 class="gu">ધોરણ 7 – યુનિટ 3: સાચી ખુશી</h2><p>A beautiful story about discovering true wealth.</p><p class="gu">સાચી સંપત્તિની શોધ વિશેની એક સુંદર વાર્તા.</p></div>
+  <div class="narration">Welcome to Unit 3: <b>Real Happiness</b>.<span class="gu">આપણે આજે સાચી ખુશીનો અર્થ સમજવાની એક સુંદર સફર શરૂ કરીશું.</span></div>
+</section>
+
+<section class="scene" data-name="City Life" data-duration="10">
+  <div class="citybg"></div><div class="skyline"><i class="building"></i><i class="building"></i><i class="building"></i><i class="building"></i><i class="building"></i><i class="building"></i></div>
+  <div class="luxhouse"><div class="pool"></div></div><div class="car">🚗</div>
+  <div class="man father">👨🏻‍💼</div><div class="man boy">🧑🏻</div><div class="dog">🐩</div>
+  <div class="card"><span class="badge">SCENE 2</span><h2>Dhirendrabhai's Rich Life</h2><p>Dhirendrabhai was very rich. He lived in a big city.</p><p>He had a huge house, a swimming pool, a cook, a gardener and many servants.</p><p class="gu">ધીરેન્દ્રભાઈ ખૂબ અમીર હતા. તેઓ એક મોટા શહેરમાં રહેતા હતા.</p></div>
+  <div class="narration">Money gave Dhirendrabhai many comforts, but the story asks us to think: <b>Is comfort the same as happiness?</b><span class="gu">પૈસા ઘણી સુવિધાઓ આપી શકે, પરંતુ શું સુવિધા એટલે જ ખુશી?</span></div>
+</section>
+
+<section class="scene" data-name="The Idea" data-duration="9">
+  <div class="citybg"></div><div class="skyline"><i class="building"></i><i class="building"></i><i class="building"></i><i class="building"></i></div>
+  <div class="man father" style="right:10%;bottom:15%">👨🏻‍💼</div>
+  <div class="thought">“I want my son to understand rural life.”<br><span class="gu">“મારે મારા પુત્રને ગ્રામ્ય જીવન સમજાવવું છે.”</span></div>
+  <div class="farmer">🧑🏽‍🌾</div><div class="house" style="left:46%;transform:scale(.65);transform-origin:bottom"></div>
+  <div class="card"><span class="badge">SCENE 3</span><h2>Dhirendrabhai's Idea</h2><p>He thought Ravish should experience village life and understand its realities.</p><p class="gu">તેમણે વિચાર્યું કે રવિશે ગામડાના જીવનની વાસ્તવિકતા અનુભવવી જોઈએ.</p></div>
+  <div class="narration">Dhirendrabhai decided to send Ravish to a villager's house for one week.<span class="gu">ધીરેન્દ્રભાઈએ રવિશને એક અઠવાડિયા માટે ગામમાં રહેવા મોકલ્યો.</span></div>
+</section>
+
+<section class="scene" data-name="Sukhpur" data-duration="9">
+  <div class="sky"></div><div class="sun"></div><div class="cloud c1"></div><div class="hill h1"></div><div class="hill h2"></div>
+  <div class="tree t1"></div><div class="tree t3"></div><div class="river"></div><div class="house" style="left:20%;transform:scale(.8);transform-origin:bottom"></div>
+  <div class="dog" style="left:45%;right:auto">🐄</div><div class="dog" style="left:61%;right:auto;animation-delay:.4s">🐄</div>
+  <div class="card"><span class="badge">SCENE 4 • SUKHPUR</span><h2>City → Village</h2><p>Ravish arrives at Uttambhai's house in Sukhpur, a village on the bank of a river near a forest.</p><p class="gu">સુખપુર નદીના કિનારે, જંગલની છેવાડે આવેલું ગામ હતું.</p></div>
+  <div class="narration">The city disappears behind him. Nature becomes his new classroom.<span class="gu">શહેર પાછળ રહી જાય છે અને કુદરત તેની નવી પાઠશાળા બની જાય છે.</span></div>
+</section>
+
+<section class="scene" data-name="Ravish Returns" data-duration="8">
+  <div class="citybg"></div><div class="skyline"><i class="building"></i><i class="building"></i><i class="building"></i><i class="building"></i></div>
+  <div class="man father" style="right:18%">👨🏻‍💼</div><div class="man boy" style="right:40%">🧑🏻</div>
+  <div class="card"><span class="badge">SCENE 5</span><h2>Ravish Returns</h2><p><b>“Tell me, son, did you get well?”</b></p><p class="gu">“બેટા, તને ત્યાં ફાવ્યું ને?”</p><p>Ravish explains that there is a world of difference between the two ways of life.</p></div>
+  <div class="narration">Ravish is excited. His experience has changed the way he sees happiness.<span class="gu">રવિશનો અનુભવ તેની ખુશી વિશેની સમજ બદલી નાખે છે.</span></div>
+</section>
+
+<section class="scene" data-name="Pool vs River" data-duration="10">
+  <div class="split"><div class="panel left"><h2>🌊 CITY – SWIMMING POOL</h2><div class="poolbig"></div><div class="man" style="left:43%;bottom:22%">🧑🏻</div></div>
+  <div class="panel right"><h2>🏞️ VILLAGE – RIVER</h2><div class="riverbig"></div><div class="animalrow">🌳 🐦 🌳 🐦 🌳</div><div class="man" style="left:45%;bottom:25%">🧑🏻</div></div></div>
+  <div class="narration">Bathing: <b>Pool vs. River</b><span class="gu">નાહવું: પૂલ વિરુદ્ધ નદી — કૃત્રિમ સુવિધા કરતાં કુદરતી આનંદ અલગ છે.</span></div>
+</section>
+
+<section class="scene" data-name="One Dog vs Many Animals" data-duration="10">
+  <div class="split"><div class="panel left"><h2>🐩 ONE DOG</h2><div class="singleanimal">🐩</div><div class="luxhouse" style="left:18%;width:64%;height:28%;bottom:0"></div></div>
+  <div class="panel right"><h2>🐾 MANY ANIMALS</h2><div class="animalrow">🐕 🦜 🐦 🐈 🐇 🐕</div><div class="animalrow" style="bottom:28%;font-size:38px">🐕 🦜 🐈 🐇</div></div></div>
+  <div class="narration">Friends: <b>One Dog vs. Many Animals</b><span class="gu">મિત્રો: એક કૂતરો વિરુદ્ધ ઘણા પ્રાણીઓ.</span></div>
+</section>
+
+<section class="scene" data-name="Artificial vs Natural" data-duration="10">
+  <div class="split"><div class="panel left"><h2>🏙️ ARTIFICIAL COMFORT</h2><div class="comfortcity"><div class="bed"></div><div class="ac">❄️</div><div class="fridge">🧊</div></div></div>
+  <div class="panel right"><h2>🌿 NATURAL LIFE</h2><div class="nature"><div class="stars"></div><div class="fire">🔥</div><div style="position:absolute;bottom:9%;left:15%;font-size:40px">🍲🥛</div></div></div></div>
+  <div class="narration">Comforts: <b>Artificial vs. Natural</b><span class="gu">સુખ-સુવિધાઓ: કૃત્રિમ વિરુદ્ધ કુદરતી — ખુલ્લું આકાશ, તારાઓ, તાજું ભોજન અને તાજું દૂધ.</span></div>
+</section>
+
+<section class="scene" data-name="Realization" data-duration="10">
+  <div class="sky"></div><div class="sun" style="right:43%;top:16%;width:120px;height:120px"></div><div class="hill h1"></div><div class="hill h2"></div><div class="tree t1"></div><div class="tree t3"></div><div class="house" style="left:68%;transform:scale(.6);transform-origin:bottom"></div>
+  <div class="man father" style="right:42%;bottom:20%">👨🏻‍💼</div><div class="man boy" style="right:49%;bottom:17%">🧑🏻</div>
+  <div class="card"><span class="badge">❤️ THE REALIZATION</span><h2>“Dad, you did well that you sent me here.”</h2><p>Ravish now understands that real happiness does not depend only on money or possessions.</p><p class="gu">રવિશ સમજે છે કે સાચી ખુશી માત્ર પૈસા કે વસ્તુઓ પર આધારિત નથી.</p><h2 style="color:#d66b52">Real happiness comes from within.</h2><p class="gu">સાચી ખુશી અંદરથી આવે છે.</p></div>
+  <div class="narration">The father and son share a warm hug. Peace, nature, relationships and gratitude reveal the story's message.<span class="gu">પિતા-પુત્રનો પ્રેમાળ આલિંગન. શાંતિ, કુદરત અને સંબંધો સાચી ખુશીનો અર્થ સમજાવે છે.</span></div>
+</section>
+
+<section class="scene" data-name="Past Tense">
+<div class="grammar"><span class="badge">GRAMMAR 1</span><h1>Grammar Time: Action Words in the Past Tense</h1><h2 class="gu">ભૂતકાળના ક્રિયાપદો</h2><p>These words show actions that happened in the past.</p><div class="words">
+<div class="word">Live<span class="arrow">→</span>Lived<div class="meaning">રહેવું → રહેતા હતા</div></div>
+<div class="word">Keep<span class="arrow">→</span>Kept<div class="meaning">રાખવું → રાખ્યો</div></div>
+<div class="word">Drop<span class="arrow">→</span>Dropped<div class="meaning">મૂકવું → મૂકી આવ્યો</div></div>
+<div class="word">Ask<span class="arrow">→</span>Asked<div class="meaning">પૂછવું → પૂછ્યું</div></div>
+<div class="word">Say<span class="arrow">→</span>Said<div class="meaning">કહેવું → કહ્યું</div></div></div>
+<div class="narration">Listen and repeat: Live — Lived. Keep — Kept. Drop — Dropped. Ask — Asked. Say — Said.</div></div></section>
+
+<section class="scene" data-name="Adjectives">
+<div class="grammar"><span class="badge">GRAMMAR 2</span><h1>Describing Words – Adjectives</h1><h2 class="gu">વિશેષણો</h2><p><b>Adjectives</b> are words that describe things or people.</p><p class="gu">વિશેષણો એવા શબ્દો છે જે વસ્તુઓ કે વ્યક્તિઓની વિશેષતા દર્શાવે છે.</p><div class="adjgrid">
+<div class="adj"><b>Huge</b> house<span>વિશાળ ઘર</span></div>
+<div class="adj"><b>Rich</b> man<span>અમીર માણસ</span></div>
+<div class="adj"><b>Fresh</b> milk<span>તાજું દૂધ</span></div>
+<div class="adj"><b>Cold</b> wind<span>ઠંડી પવન</span></div>
+<div class="adj"><b>Real</b> happiness<span>સાચી ખુશી</span></div></div>
+<div class="narration">Adjectives help us describe people and things clearly.<span class="gu">વિશેષણો વ્યક્તિ અને વસ્તુની વિશેષતા સમજવામાં મદદ કરે છે.</span></div></div></section>
+
+<section class="scene" data-name="Practice">
+<div class="practice"><div class="qbox"><span class="score">Score: <span id="score">0</span></span><h1 id="qnum">Q1</h1><h2 id="question">Where did Dhirendrabhai live?</h2><div class="timer"><i id="timerbar"></i></div><div class="options" id="options"></div><div class="feedback" id="feedback">Choose the correct answer.</div><button class="btn gold" onclick="nextQuestion()" id="nextQ">Next Question →</button></div></div></section>
+
+<section class="scene" data-name="Vocabulary">
+<div class="vocab"><span class="badge">VOCABULARY MATCHING</span><h1>🧩 Match the Words</h1><p>Click one word and then its correct meaning.</p><div class="matchgrid"><div id="wordsCol"></div><div id="meaningsCol"></div></div><div class="matchmsg" id="matchmsg"></div></div></section>
+
+<section class="scene" data-name="Conclusion">
+<div class="final"><div class="sun"></div><div class="path"></div><div class="tree t1"></div><div class="tree t3"></div><div class="house" style="left:8%;transform:scale(.65);transform-origin:bottom"></div><div class="house" style="right:8%;left:auto;transform:scale(.55);transform-origin:bottom"></div>
+<div class="finalmsg"><h1>FIND YOUR REAL HAPPINESS!</h1><h2 class="gu">તમારી સાચી ખુશી શોધો!</h2><p>True wealth is not only money, houses or cars. Real happiness comes from nature, relationships, peace and within ourselves.</p></div>
+<div class="finalboy">🧒🏻</div><div class="finaldog">🐕</div><div class="rabbit">🐇</div><div class="birds">🦜 🐦</div></div></section>
+
+</main>
+<footer class="bottombar">
+<button class="btn dark" onclick="prevScene()">⏮</button><button class="btn gold" onclick="togglePlay()" id="playBtn2">▶</button><button class="btn dark" onclick="nextScene()">⏭</button>
+<div class="sceneName" id="sceneName">Introduction</div><div class="progress"><i id="progress"></i></div><div class="counter" id="counter">1 / 14</div>
+</footer>
+</div>
+
+<script>
+const scenes=[...document.querySelectorAll('.scene')];
+let idx=0,playing=false,muted=false,elapsed=0,timer=null,score=0,questionIndex=0;
+const questions=[
+{q:"Where did Dhirendrabhai live?",a:"Dhirendrabhai lived in a big city.",o:["In a forest","In a big city","In Sukhpur","Near a farm"]},
+{q:"What did Ravish see in Sukhpur?",a:"A river, a hut, many animals, starry blankets and simple village life.",o:["Only a swimming pool","A river, a hut, many animals, starry blankets and simple village life.","A large mall","A city park"]},
+{q:"Was Uttambhai poor? Why?",a:"No. He had nature, fresh food and peace, which is real wealth.",o:["Yes, because he had no car","No. He had nature, fresh food and peace, which is real wealth.","Yes, because he had no pool","No, because he was very rich"]},
+{q:"Real happiness comes only from a grand house and a big car. True or False?",a:"False. Real happiness comes from within.",o:["True","False","Only in cities","Only in villages"]}
+];
+const wordPairs=[["hardships","difficulties"],["value","worth"],["happiness","feeling joy"],["huge","very big"],["rich","having a lot of money and prosperity"]];
+let selectedWord=null, matched=0;
+
+function showScene(n){
+ idx=Math.max(0,Math.min(scenes.length-1,n));
+ scenes.forEach((s,i)=>s.classList.toggle('active',i===idx));
+ elapsed=0; document.getElementById('sceneName').textContent=scenes[idx].dataset.name;
+ document.getElementById('counter').textContent=(idx+1)+" / "+scenes.length;
+ document.getElementById('progress').style.width=(idx/(scenes.length-1)*100)+"%";
+ if(scenes[idx].dataset.name==="Practice") renderQuestion();
+ if(scenes[idx].dataset.name==="Vocabulary") initVocab();
+ speakScene();
+}
+function nextScene(){showScene(idx+1)}
+function prevScene(){showScene(idx-1)}
+function togglePlay(){
+ playing=!playing;
+ document.getElementById('playBtn').textContent=playing?'⏸ Pause':'▶ Play';
+ document.getElementById('playBtn2').textContent=playing?'⏸':'▶';
+ if(playing){clearInterval(timer);timer=setInterval(()=>{elapsed++;const dur=Number(scenes[idx].dataset.duration||8);document.getElementById('progress').style.width=Math.min(100,((idx+elapsed/dur)/(scenes.length-1))*100)+"%";if(elapsed>=dur&&idx<scenes.length-1)nextScene()},1000)}
+ else clearInterval(timer);
+}
+function toggleMute(){muted=!muted;document.getElementById('muteBtn').textContent=muted?'🔇 Sound':'🔊 Sound'}
+function speak(text){
+ if(muted||!('speechSynthesis' in window))return;
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=/[\u0A80-\u0AFF]/.test(text)?'gu-IN':'en-IN';u.rate=.9;u.pitch=1; speechSynthesis.speak(u);
+}
+function speakScene(){
+ const s=scenes[idx]; const n=s.querySelector('.narration'); if(n) speak(n.innerText.replace(/\n/g,' '));
+}
+function renderQuestion(){
+ const q=questions[questionIndex%questions.length];
+ document.getElementById('qnum').textContent="Q"+(questionIndex+1);
+ document.getElementById('question').textContent=q.q;
+ document.getElementById('feedback').textContent="Choose the correct answer.";
+ const bar=document.getElementById('timerbar');bar.style.width='100%';
+ const opts=document.getElementById('options');opts.innerHTML='';
+ q.o.forEach(x=>{const b=document.createElement('button');b.className='opt';b.textContent=x;b.onclick=()=>answer(b,x,q.a);opts.appendChild(b)});
+ let t=4;clearInterval(window.qtimer);window.qtimer=setInterval(()=>{t--;bar.style.width=(t/4*100)+'%';if(t<=0){clearInterval(window.qtimer);document.querySelectorAll('.opt').forEach(b=>b.disabled=true);document.getElementById('feedback').textContent="⏰ Time! The answer is: "+q.a}},1000);
+}
+function answer(btn,x,a){
+ clearInterval(window.qtimer);document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+ if(x===a){btn.classList.add('correct');score++;document.getElementById('score').textContent=score;document.getElementById('feedback').textContent="✅ Correct! "+a;speak("Correct! "+a)}
+ else{btn.classList.add('wrong');document.getElementById('feedback').textContent="💡 Try again. Correct answer: "+a;speak("The correct answer is "+a)}
+}
+function nextQuestion(){questionIndex++;renderQuestion()}
+function initVocab(){
+ if(document.getElementById('wordsCol').children.length)return;
+ const wc=document.getElementById('wordsCol'),mc=document.getElementById('meaningsCol');
+ wordPairs.forEach((p,i)=>{let b=document.createElement('div');b.className='piece';b.textContent=(i+1)+". "+p[0];b.dataset.key=p[0];b.onclick=()=>selectWord(b);wc.appendChild(b)});
+ [...wordPairs].sort(()=>Math.random()-.5).forEach((p,i)=>{let b=document.createElement('div');b.className='piece meaningpiece';b.textContent=String.fromCharCode(97+i)+". "+p[1];b.dataset.key=p[0];b.onclick=()=>selectMeaning(b);mc.appendChild(b)});
+}
+function selectWord(b){document.querySelectorAll('#wordsCol .piece').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selectedWord=b.dataset.key}
+function selectMeaning(b){
+ if(!selectedWord){document.getElementById('matchmsg').textContent="First choose a word.";return}
+ if(selectedWord===b.dataset.key){b.classList.add('matched');document.querySelector('#wordsCol .selected')?.classList.add('matched');document.querySelector('#wordsCol .selected')?.classList.remove('selected');matched++;document.getElementById('matchmsg').textContent=matched===wordPairs.length?"🎉 Excellent! All words matched!":"✨ Correct match!";selectedWord=null;speak("Correct match")}
+ else{document.getElementById('matchmsg').textContent="Try again — think about the meaning.";speak("Try again")}
+}
+document.addEventListener('keydown',e=>{if(e.key==="ArrowRight")nextScene();if(e.key==="ArrowLeft")prevScene();if(e.key===" "){e.preventDefault();togglePlay()}});
+showScene(0);
+</script>
+</body>
+</html>

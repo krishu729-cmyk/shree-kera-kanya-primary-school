@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Easy English Simulator - Part 2</title>
+<style>
+body{font-family:Arial;margin:0;background:#eef8ff}
+.wrap{max-width:950px;margin:20px auto;background:white;padding:20px;border-radius:15px}
+h1{text-align:center;color:#0d47a1}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+button{padding:10px 16px;border:none;border-radius:8px;background:#1976d2;color:#fff;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:15px}
+.card{background:#e3f2fd;border-radius:10px;padding:12px;text-align:center}
+.big{font-size:46px}
+.quiz{margin-top:20px;padding:15px;background:#f5f5f5;border-radius:10px}
+.option{display:block;width:100%;margin:8px 0}
+#score{font-weight:bold}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>📚 Vocabulary World - Part 2</h1>
+<div class="tabs">
+<button onclick="loadCat('animals')">Animals</button>
+<button onclick="loadCat('fruits')">Fruits</button>
+<button onclick="loadCat('colors')">Colours</button>
+<button onclick="loadCat('school')">School</button>
+</div>
+
+<div id="cards" class="grid"></div>
+
+<div class="quiz">
+<h2>🎮 Mini Quiz</h2>
+<p id="q"></p>
+<div id="opts"></div>
+<p id="score">Score: 0</p>
+<button onclick="nextQ()">Next Question</button>
+</div>
+</div>
+
+<script>
+const data={
+animals:[["🐶","Dog","કૂતરો"],["🐱","Cat","બિલાડી"],["🦁","Lion","સિંહ"],["🐘","Elephant","હાથી"],["🐰","Rabbit","સસલું"]],
+fruits:[["🍎","Apple","સફરજન"],["🥭","Mango","કેરી"],["🍌","Banana","કેળું"],["🍇","Grapes","દ્રાક્ષ"],["🍊","Orange","નારંગી"]],
+colors:[["🔴","Red","લાલ"],["🟢","Green","લીલો"],["🔵","Blue","વાદળી"],["🟡","Yellow","પીળો"],["⚫","Black","કાળો"]],
+school:[["📘","Book","પુસ્તક"],["✏️","Pencil","પેન્સિલ"],["🖊️","Pen","પેન"],["🎒","Bag","થેલો"],["🪑","Chair","ખુરશી"]]
+};
+let current="animals";
+let score=0;
+function loadCat(cat){
+ current=cat;
+ let c=document.getElementById("cards");
+ c.innerHTML="";
+ data[cat].forEach(i=>{
+  c.innerHTML+=`<div class='card'><div class='big'>${i[0]}</div><h3>${i[1]}</h3><p>${i[2]}</p><button onclick="speak('${i[1]}')">🔊 Speak</button></div>`;
+ });
+ nextQ();
+}
+function speak(t){
+ if("speechSynthesis" in window){
+   speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+ }
+}
+function shuffle(a){return [...a].sort(()=>Math.random()-0.5)}
+function nextQ(){
+ const arr=data[current];
+ const ans=arr[Math.floor(Math.random()*arr.length)];
+ document.getElementById("q").textContent="What is this? "+ans[0];
+ const opts=shuffle(arr.map(x=>x[1]));
+ let d=document.getElementById("opts"); d.innerHTML="";
+ opts.forEach(o=>{
+  let b=document.createElement("button");
+  b.className="option";
+  b.textContent=o;
+  b.onclick=()=>{
+    if(o===ans[1]){score++; alert("✅ Correct!");}
+    else alert("❌ Correct answer: "+ans[1]);
+    document.getElementById("score").textContent="Score: "+score;
+  };
+  d.appendChild(b);
+ });
+}
+loadCat("animals");
+</script>
+</body>
+</html>

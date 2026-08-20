@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="gu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ધોરણ 6 સામાજિક વિજ્ઞાન — Interactive Game Collection</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;500;600;700;800&display=swap');
+:root{--ink:#17324d;--muted:#64748b;--bg:#f4f7fb;--card:#fff;--accent:#2563eb;--good:#16a34a;--bad:#dc2626;--gold:#f59e0b}
+*{box-sizing:border-box} body{margin:0;font-family:'Noto Sans Gujarati',system-ui,sans-serif;background:linear-gradient(135deg,#eef5ff,#fff8e8);color:var(--ink)}
+header{padding:24px 16px;background:linear-gradient(135deg,#12355b,#2563eb);color:#fff;text-align:center;box-shadow:0 5px 20px #0002}
+header h1{margin:0;font-size:clamp(22px,4vw,36px)} header p{margin:7px 0 0;opacity:.9}
+.wrap{max-width:1050px;margin:auto;padding:18px}
+.nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin:15px 0}
+.nav button{border:0;border-radius:15px;padding:13px 8px;background:#fff;color:var(--ink);font-weight:700;cursor:pointer;box-shadow:0 3px 12px #1e3a8a18}
+.nav button.active{background:var(--accent);color:white}
+.panel{background:#fff;border-radius:22px;padding:20px;box-shadow:0 8px 30px #17324d14}
+.topbar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.badge{background:#e8f0ff;color:#1d4ed8;border-radius:999px;padding:7px 12px;font-weight:800}
+.question{font-size:clamp(18px,3vw,25px);font-weight:700;line-height:1.65;margin:18px 0}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.opt{padding:15px;border:2px solid #dbe4ef;border-radius:15px;background:#f8fafc;cursor:pointer;font:inherit;text-align:left;transition:.2s}
+.opt:hover{transform:translateY(-2px);border-color:#93c5fd}.opt.correct{background:#dcfce7;border-color:#22c55e}.opt.wrong{background:#fee2e2;border-color:#ef4444}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+button.action{border:0;border-radius:13px;padding:12px 17px;background:var(--accent);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+button.secondary{background:#e2e8f0;color:#17324d}
+.feedback{min-height:35px;margin-top:12px;font-weight:800}.good{color:var(--good)}.bad{color:var(--bad)}
+input.answer{width:100%;padding:15px;border:2px solid #dbe4ef;border-radius:14px;font:inherit;font-size:18px}
+.score{font-size:20px;font-weight:800}.progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--accent);width:0}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.matchitem{padding:13px;border-radius:12px;background:#f8fafc;border:2px solid #e2e8f0;cursor:pointer}
+.matchitem.sel{border-color:var(--accent);background:#eff6ff}.matchitem.done{background:#dcfce7;border-color:#22c55e;pointer-events:none}
+textarea{width:100%;min-height:130px;padding:14px;border:2px solid #dbe4ef;border-radius:14px;font:inherit;font-size:17px}
+.small{color:var(--muted);font-size:14px}
+.hidden{display:none}.homegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.gamecard{padding:18px;border-radius:18px;background:linear-gradient(145deg,#fff,#f7fbff);border:1px solid #e2e8f0;cursor:pointer}.gamecard b{font-size:18px}.icon{font-size:35px}
+@media(max-width:650px){.options{grid-template-columns:1fr}.matchgrid{grid-template-columns:1fr} .panel{padding:15px}}
+</style>
+</head>
+<body>
+<header><h1>🎮 ધોરણ 6 સામાજિક વિજ્ઞાન — Game Collection</h1><p>પ્રકરણ 1, 2 અને 4 • 40 ગુણના પ્રશ્નપત્ર પરથી તૈયાર</p></header>
+<div class="wrap">
+<div class="nav" id="nav"></div>
+<div id="app"></div>
+</div>
+<script>
+const DATA = {"mcqs": [["પૃથ્વી પર શૂન્ય અંશ (0°) અક્ષાંશવૃત્તને કયા નામે ઓળખવામાં આવે છે?", ["કર્કવૃત્ત", "મકરવૃત્ત", "વિષુવવૃત્ત", "ધ્રુવવૃત્ત"], 2], ["પૃથ્વી પર 0° રેખાંશવૃત્ત (મુખ્ય રેખાંશ) કયા શહેર પાસેથી પસાર થાય છે?", ["ઇંગ્લેન્ડ", "ન્યૂયોર્ક", "ટોક્યો", "પૅરિસ"], 0], ["પૃથ્વી પોતાની ધરી પર 1 કલાકમાં કેટલા અંશ (°) ફરે છે?", ["10°", "15°", "30°", "45°"], 1], ["પૃથ્વી પર કુલ કેટલા મહાસાગરો આવેલા છે?", ["3", "4", "5", "7"], 2], ["વિશ્વનો સૌથી મોટો અને સૌથી ઊંડો મહાસાગર કયો છે?", ["એટલાન્ટિક મહાસાગર", "હિંદ મહાસાગર", "આર્કટિક મહાસાગર", "પેસિફિક મહાસાગર"], 3], ["ક્ષેત્રફળની દૃષ્ટિએ વિશ્વનો સૌથી મોટો ખંડ કયો છે?", ["એશિયા", "આફ્રિકા", "યુરોપ", "ઉત્તર અમેરિકા"], 0], ["ઉત્ખનન કરેલા જૂના વાસણો, સિક્કા અને હાડકાંના આધારે ભૂતકાળનો અભ્યાસ કરનારને શું કહેવાય?", ["ભૂસ્તરશાસ્ત્રી", "પુરાતત્ત્વવિદ્", "નૃવંશશાસ્ત્રી", "ખગોળશાસ્ત્રી"], 1], ["કરોડો વર્ષ પહેલાંનાં પ્રાણીઓ કે વનસ્પતિના પથ્થર બની ગયેલા અવશેષોને શું કહે છે?", ["શિલાલેખ", "જીવાશ્મ", "તામ્રપત્ર", "સિક્કા"], 1], ["ભારતનો પ્રમાણસમય ગ્રીનવિચ મીન ટાઇમ (GMT) કરતાં કેટલો આગળ છે?", ["4 કલાક 30 મિનિટ", "5 કલાક", "5 કલાક 30 મિનિટ", "6 કલાક"], 2], ["ભારત દેશ કયા ખંડમાં આવેલો છે?", ["આફ્રિકા", "યુરોપ", "એશિયા", "ઓસ્ટ્રેલિયા"], 2]], "fills": [["અક્ષાંશ અને રેખાંશ રેખાઓ મળીને પૃથ્વી પર જે જાળી બનાવે છે તેને __________ કહેવાય છે.", "ગ્રિડ"], ["ગ્રહ પર ઉત્તર ધ્રુવ અને દક્ષિણ ધ્રુવને જોડતી અર્ધવર્તુળાકાર રેખાઓને __________ કહે છે.", "રેખાંશ"], ["સફેદ અને બરફાચ્છાદિત હોવાના કારણે __________ ખંડને શ્વેત ખંડ પણ કહેવામાં આવે છે.", "એન્ટાર્કટિકા"], ["પ્રાચીન ભારતમાં ઉજ્જૈનમાંથી પસાર થતી રેખાને __________ રેખા ગણવામાં આવતી હતી.", "મધ્ય રેખા"], ["પૃથ્વીના ભૌતિક સ્વરૂપો જેવા કે માટી, પથ્થર અને પર્વતોનો અભ્યાસ કરતા વિજ્ઞાનીને __________ કહે છે.", "ભૂસ્તરશાસ્ત્રી"]], "tf": [["વિષુવવૃત્તથી ધ્રુવો તરફ જતાં અક્ષાંશવૃત્તોનાં કદ મોટાં થતાં જાય છે.", false], ["180° અંશ રેખાંશવૃત્તને આંતરરાષ્ટ્રીય દિનાંતર રેખા કહે છે.", true], ["ઓસ્ટ્રેલિયા એ વિશ્વનો સૌથી મોટો ખંડ છે.", false], ["1884માં લંડનના ગ્રીનવિચમાંથી પસાર થતી રેખાંશને મુખ્ય રેખાંશ તરીકે માન્યતા આપવામાં આવી.", true], ["જીવાશ્મ વિજ્ઞાનીઓ માનવ સમાજની સંસ્કૃતિનો અભ્યાસ કરે છે.", false]], "matching": [["0° અક્ષાંશવૃત્ત", "વિષુવવૃત્ત"], ["180° રેખાંશવૃત્ત", "આંતરરાષ્ટ્રીય દિનાંતર રેખા"], ["એન્ટાર્કટિકા", "દક્ષિણ ધ્રુવીય ખંડ"], ["નૃવંશશાસ્ત્રી", "માનવ સમાજ અને સંસ્કૃતિનો અભ્યાસ"], ["ઉજ્જૈન", "પ્રાચીન ખગોળશાસ્ત્રનું કેન્દ્ર"]], "identify": [["હું પૃથ્વીના ભૌતિક સ્વરૂપો જેવા કે પર્વતો, જમીન, માટી અને ખડકોનો અભ્યાસ કરું છું.", "ભૂસ્તરશાસ્ત્રી"], ["હું કરોડો વર્ષ પહેલાંનાં વૃક્ષો, પ્રાણીઓ અને માનવના અવશેષો તથા જીવાશ્મનો અભ્યાસ કરું છું.", "જીવાશ્મ વિજ્ઞાની"], ["હું ઉત્ખનન કરેલાં ઓજારો, વાસણો, મૂર્તિઓ અને હાડકાંના આધારે માનવના ભૂતકાળનો અભ્યાસ કરું છું.", "પુરાતત્ત્વવિદ્"], ["હું પ્રાચીન ભારતનો ખગોળશાસ્ત્રી છું જે ઉજ્જૈનમાં રહીને ખગોળશાસ્ત્રીય સંશોધનો કરતો હતો.", "વરાહમિહિર"], ["હું પૃથ્વીને ઉત્તર અને દક્ષિણ એમ બે સરખા ગોળાર્ધમાં વિભાજિત કરતી 0°ની મુખ્ય અક્ષાંશ રેખા છું.", "વિષુવવૃત્ત"]], "shorts": [["નકશો એટલે શું? તેના મુખ્ય ત્રણ ઘટકો કયા છે?", "પૃથ્વીની સપાટી કે તેના કોઈ ભાગનું કાગળ પરનું પ્રતીકાત્મક નિરૂપણ નકશો છે. તેના મુખ્ય ત્રણ ઘટકો: અંતર, દિશા અને રૂઢ સંજ્ઞાઓ."], ["ભારતીય પ્રમાણસમય (IST) ગ્રીનવિચ પ્રમાણસમય (GMT) કરતાં કેટલો આગળ છે?", "5 કલાક અને 30 મિનિટ."], ["પૃથ્વી પર આવેલા પાંચ મહાસાગરોના નામ જણાવો.", "પેસિફિક, એટલાન્ટિક, હિંદ, આર્કટિક અને દક્ષિણ (એન્ટાર્કટિક) મહાસાગર."], ["પ્રમાણમાપ (Scale) એટલે શું?", "નકશા પર દર્શાવેલ કોઈપણ બે બિંદુ વચ્ચેનું અંતર અને પૃથ્વી પરના તે બે બિંદુઓ વચ્ચેના વાસ્તવિક અંતરનો ગુણોત્તર."], ["નૃવંશશાસ્ત્રીઓ શાનો અભ્યાસ કરે છે?", "પ્રાચીન કાળથી અત્યાર સુધીના માનવ સમાજ, માનવ ઉત્ક્રાંતિ અને તેની સંસ્કૃતિનો અભ્યાસ કરે છે."]], "longs": [["અક્ષાંશ અને રેખાંશ એટલે શું? પૃથ્વી પર કોઈ પણ સ્થળનું સ્થાન નક્કી કરવામાં નિર્દેશાંક પદ્ધતિ (Coordinates/Grid) કેવી રીતે ઉપયોગી છે તે વિગતવાર સમજાવો.", "અક્ષાંશ: વિષુવવૃત્ત (0°) થી ઉત્તર અથવા દક્ષિણ ધ્રુવ તરફ આપેલા કોઈપણ સ્થળનું કોણીય અંતર. રેખાંશ: ઉત્તર ધ્રુવ અને દક્ષિણ ધ્રુવને જોડતી કાલ્પનિક અર્ધવર્તુળાકાર રેખાઓ. અક્ષાંશ અને રેખાંશ એકબીજાને છેદે ત્યારે ગ્રિડ બને છે અને બંનેનાં આંકડાથી કોઈ સ્થળનું ચોક્કસ સ્થાન શોધી શકાય છે."], ["ઇતિહાસ અને અતીતને જાણવાના વિવિધ સ્ત્રોતો કયા કયા છે? વિવિધ ક્ષેત્રના નિષ્ણાતો (જેમ કે પુરાતત્ત્વવિદ્, જીવાશ્મ વિજ્ઞાની, નૃવંશશાસ્ત્રી) ભૂતકાળની માહિતી મેળવવામાં કેવી રીતે મદદ કરે છે તે સમજાવો.", "ઇતિહાસ જાણવા માટે પ્રાચીન સિક્કા, શિલાલેખો, તાડપત્રો, તામ્રપત્રો, જૂનાં મકાનો, વાસણો, ઓજારો, મૂર્તિઓ અને મુસાફરોના પ્રવાસવર્ણનો જેવા સ્ત્રોતો ઉપયોગી છે. પુરાતત્ત્વવિદ્ ઉત્ખનનથી મળેલા અવશેષોનો, જીવાશ્મ વિજ્ઞાની જીવાશ્મનો, નૃવંશશાસ્ત્રી માનવ સમાજ અને સંસ્કૃતિનો અભ્યાસ કરે છે."]]};
+let mode='home', idx=0, score=0, answered=false, selected=null, matched=0;
+
+const games=[
+ ['home','🏠','Game Hub','બધી રમતોની પસંદગી'],
+ ['mcq','🎯','MCQ Challenge','10 વિકલ્પ આધારિત પ્રશ્નો'],
+ ['fill','✍️','Fill the Gap','5 ખાલી જગ્યાઓ'],
+ ['tf','⚡','True / False','5 ખરાં-ખોટાં'],
+ ['match','🔗','Match Master','યોગ્ય જોડકાં જોડો'],
+ ['identify','🕵️','Who Am I?','મને ઓળખી બતાવો'],
+ ['short','💡','Quick Answer','એક-બે વાક્યમાં જવાબ'],
+ ['long','📝','Explain It','વિસ્તૃત જવાબ લખો']
+];
+
+function nav(){
+ document.getElementById('nav').innerHTML=games.map(g=>`<button class="${mode===g[0]?'active':''}" onclick="start('${g[0]}')">${g[1]} ${g[2]}</button>`).join('');
+}
+function start(m){mode=m;idx=0;score=0;answered=false;selected=null;matched=0;nav();render();}
+function shell(title,subtitle,body){
+ return `<div class="panel"><div class="topbar"><div><h2>${title}</h2><div class="small">${subtitle}</div></div><div class="score">⭐ ${score}</div></div>${body}</div>`;
+}
+function progress(n){return `<div class="progress"><i style="width:${n?((idx)/n*100):0}%"></i></div>`}
+function render(){
+ const app=document.getElementById('app');
+ if(mode==='home'){app.innerHTML=shell('🎮 Game Hub','આ પ્રશ્નપત્રના વિષયવસ્તુ પરથી 7 અલગ game templates',`<div class="homegrid">${games.slice(1).map(g=>`<div class="gamecard" onclick="start('${g[0]}')"><div class="icon">${g[1]}</div><b>${g[2]}</b><p class="small">${g[3]}</p></div>`).join('')}</div><div class="actions"><button class="action" onclick="start('mcq')">🚀 Game શરૂ કરો</button></div>`);return}
+ if(mode==='mcq') renderMCQ();
+ if(mode==='fill') renderFill();
+ if(mode==='tf') renderTF();
+ if(mode==='match') renderMatch();
+ if(mode==='identify') renderIdentify();
+ if(mode==='short') renderText(DATA.shorts,'💡 Quick Answer','એક-બે વાક્યમાં જવાબ લખો');
+ if(mode==='long') renderText(DATA.longs,'📝 Explain It','વિસ્તૃત જવાબ લખો');
+}
+function renderMCQ(){
+ let q=DATA.mcqs[idx]; let body=`${progress(DATA.mcqs.length)}<div class="badge">પ્રશ્ન ${idx+1} / ${DATA.mcqs.length}</div><div class="question">${q[0]}</div><div class="options">${q[1].map((o,i)=>`<button class="opt" onclick="mcq(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div><div id="fb" class="feedback"></div><div class="actions">${idx>0?'<button class="action secondary" onclick="prev()">⬅️ પાછળ</button>':''}<button id="next" class="action hidden" onclick="nextQ()">આગળ ➡️</button></div>`;
+ document.getElementById('app').innerHTML=shell('🎯 MCQ Challenge','સાચો વિકલ્પ પસંદ કરો',body);
+}
+function mcq(i){if(answered)return;answered=true;let q=DATA.mcqs[idx],btns=document.querySelectorAll('.opt');btns[q[2]].classList.add('correct');if(i===q[2]){score++;document.getElementById('fb').innerHTML='<span class="good">🎉 સાચો જવાબ!</span>'}else{btns[i].classList.add('wrong');document.getElementById('fb').innerHTML='<span class="bad">❌ ખોટો જવાબ — સાચો જવાબ: '+q[1][q[2]]+'</span>'}document.getElementById('next').classList.remove('hidden');document.querySelector('.score').textContent='⭐ '+score}
+function renderFill(){let q=DATA.fills[idx];document.getElementById('app').innerHTML=shell('✍️ Fill the Gap','ખાલી જગ્યા પૂરો',`${progress(DATA.fills.length)}<div class="badge">પ્રશ્ન ${idx+1} / ${DATA.fills.length}</div><div class="question">${q[0]}</div><input id="ans" class="answer" placeholder="તમારો જવાબ અહીં લખો..." autocomplete="off"><div id="fb" class="feedback"></div><div class="actions"><button class="action" onclick="checkFill()">ચેક કરો ✓</button><button id="next" class="action hidden" onclick="nextQ()">આગળ ➡️</button></div>`)}
+function checkFill(){if(answered)return;let a=document.getElementById('ans').value.trim().toLowerCase(),correct=DATA.fills[idx][1].toLowerCase();answered=true;if(a===correct||a.includes(correct)||correct.includes(a)&&a.length>2){score++;document.getElementById('fb').innerHTML='<span class="good">🎉 શાબાશ! સાચો જવાબ.</span>'}else document.getElementById('fb').innerHTML='<span class="bad">❌ સાચો જવાબ: '+DATA.fills[idx][1]+'</span>';document.getElementById('next').classList.remove('hidden');document.querySelector('.score').textContent='⭐ '+score}
+function renderTF(){let q=DATA.tf[idx];document.getElementById('app').innerHTML=shell('⚡ True / False','વિધાન સાચું છે કે ખોટું?',`${progress(DATA.tf.length)}<div class="badge">વિધાન ${idx+1} / ${DATA.tf.length}</div><div class="question">${q[0]}</div><div class="options"><button class="opt" onclick="tf(true)">✅ ખરું</button><button class="opt" onclick="tf(false)">❌ ખોટું</button></div><div id="fb" class="feedback"></div><div class="actions"><button id="next" class="action hidden" onclick="nextQ()">આગળ ➡️</button></div>`)}
+function tf(v){if(answered)return;answered=true;let c=DATA.tf[idx][1];if(v===c){score++;document.getElementById('fb').innerHTML='<span class="good">🎉 સાચું!</span>'}else document.getElementById('fb').innerHTML='<span class="bad">❌ ખોટું. સાચો જવાબ: '+(c?'ખરું':'ખોટું')+'</span>';document.getElementById('next').classList.remove('hidden');document.querySelector('.score').textContent='⭐ '+score}
+function renderMatch(){let left=DATA.matching.map((x,i)=>[i,x[0]]),right=DATA.matching.map((x,i)=>[i,x[1]]).sort(()=>Math.random()-.5);document.getElementById('app').innerHTML=shell('🔗 Match Master','પહેલા ડાબી બાજુનું, પછી યોગ્ય જમણી બાજુનું પસંદ કરો',`<div class="question">યોગ્ય જોડકું બનાવો</div><div class="matchgrid"><div>${left.map(x=>`<div class="matchitem" id="l${x[0]}" onclick="pickL(${x[0]})">${x[0]+1}. ${x[1]}</div>`).join('')}</div><div>${right.map(x=>`<div class="matchitem" id="r${x[0]}" onclick="pickR(${x[0]})">${String.fromCharCode(65+x[0])}. ${x[1]}</div>`).join('')}</div></div><div id="fb" class="feedback"></div><div class="actions"><button class="action" onclick="start('match')">🔄 ફરી શરૂ</button></div>`)}
+function pickL(i){selected={side:'l',i};document.querySelectorAll('.matchitem').forEach(e=>e.classList.remove('sel'));document.getElementById('l'+i).classList.add('sel')}
+function pickR(i){if(!selected||selected.side!=='l')return;let l=selected.i;document.getElementById('l'+l).classList.remove('sel');if(l===i){score++;matched++;document.getElementById('l'+l).classList.add('done');document.getElementById('r'+i).classList.add('done');document.getElementById('fb').innerHTML='<span class="good">🎉 યોગ્ય જોડકું!</span>'}else document.getElementById('fb').innerHTML='<span class="bad">❌ ફરી પ્રયત્ન કરો.</span>';selected=null;document.querySelector('.score').textContent='⭐ '+score;if(matched===DATA.matching.length)setTimeout(()=>alert('🏆 Match Master પૂર્ણ! Score: '+score+'/'+DATA.matching.length),250)}
+function renderIdentify(){let q=DATA.identify[idx];document.getElementById('app').innerHTML=shell('🕵️ Who Am I?','વિધાન પરથી વ્યક્તિ/વિજ્ઞાનીને ઓળખો',`${progress(DATA.identify.length)}<div class="badge">પ્રશ્ન ${idx+1} / ${DATA.identify.length}</div><div class="question">“${q[0]}”</div><input id="ans" class="answer" placeholder="કોણ છું હું?"><div id="fb" class="feedback"></div><div class="actions"><button class="action" onclick="checkIdentify()">ચેક કરો ✓</button><button id="next" class="action hidden" onclick="nextQ()">આગળ ➡️</button></div>`)}
+function checkIdentify(){if(answered)return;answered=true;let a=document.getElementById('ans').value.trim().toLowerCase(),c=DATA.identify[idx][1].toLowerCase();if(a&& (c.includes(a)||a.includes(c))){score++;document.getElementById('fb').innerHTML='<span class="good">🎉 એકદમ સાચું!</span>'}else document.getElementById('fb').innerHTML='<span class="bad">❌ સાચો જવાબ: '+DATA.identify[idx][1]+'</span>';document.getElementById('next').classList.remove('hidden');document.querySelector('.score').textContent='⭐ '+score}
+function renderText(arr,title,sub){let q=arr[idx];document.getElementById('app').innerHTML=shell(title,sub,`${progress(arr.length)}<div class="badge">પ્રશ્ન ${idx+1} / ${arr.length}</div><div class="question">${q[0]}</div><textarea id="longans" placeholder="તમારો જવાબ અહીં લખો..."></textarea><div id="fb" class="feedback"></div><div class="actions"><button class="action" onclick="showModel('${title}')">મારો જવાબ જુઓ 👀</button><button id="next" class="action" onclick="nextQ()">આગળ ➡️</button></div>`)}
+function showModel(title){let arr=title.includes('Explain')?DATA.longs:DATA.shorts;document.getElementById('fb').innerHTML='<div class="panel" style="margin-top:10px;background:#f8fafc"><b>📘 સૂચિત જવાબ:</b><br>'+arr[idx][1]+'</div>'}
+function nextQ(){answered=false;selected=null;if(idx < (mode==='mcq'?DATA.mcqs:mode==='fill'?DATA.fills:mode==='tf'?DATA.tf:mode==='identify'?DATA.identify:mode==='short'?DATA.shorts:DATA.longs).length-1){idx++;render()}else{let total=mode==='mcq'?10:mode==='fill'?5:mode==='tf'?5:mode==='identify'?5:0;document.getElementById('app').innerHTML=shell('🏆 Round Complete','રમત પૂર્ણ!',`<div class="question">તમારો સ્કોર: ${score}${total?'/'+total:''}</div><p>ફરી રમો અને તમારો સ્કોર સુધારો! 🚀</p><div class="actions"><button class="action" onclick="start('${mode}')">🔄 ફરી રમો</button><button class="action secondary" onclick="start('home')">🏠 Game Hub</button></div>`)}}
+function prev(){if(idx>0){idx--;answered=false;render()}}
+nav();render();
+</script>
+</body></html>

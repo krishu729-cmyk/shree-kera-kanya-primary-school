@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Prompt Website Generator (Offline Demo)</title>
+<style>
+body{font-family:Arial,sans-serif;background:#111827;color:#fff;margin:0}
+header{padding:14px;background:#1f2937;text-align:center;font-size:24px;font-weight:bold}
+.wrap{display:grid;grid-template-columns:340px 1fr;gap:10px;padding:10px}
+.left,.right{background:#1f2937;padding:12px;border-radius:10px}
+textarea,input{width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid #444;background:#0f172a;color:#fff}
+textarea{height:180px}
+button{margin-top:8px;padding:10px 14px;border:none;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer}
+iframe{width:100%;height:78vh;border:none;background:#fff}
+small{color:#cbd5e1}
+</style>
+</head>
+<body>
+<header>🤖 AI Prompt → HTML Generator (Offline)</header>
+<div class="wrap">
+<div class="left">
+<label>Prompt</label>
+<input id="prompt" placeholder="Create a restaurant website">
+<button onclick="generate()">Generate Code</button>
+<button onclick="run()">Run</button>
+<button onclick="download()">Download HTML</button>
+<br><br>
+<label>Generated HTML (HTML+CSS+JS in one file)</label>
+<textarea id="code"></textarea>
+<small>This offline demo contains built‑in templates. For truly unlimited AI generation, connect this page to an AI API.</small>
+</div>
+<div class="right">
+<iframe id="preview"></iframe>
+</div>
+</div>
+
+<script>
+const templates={
+restaurant:`<!DOCTYPE html><html><head><style>
+body{font-family:Arial;margin:0;background:#fff8f0}
+header{background:#8b0000;color:#fff;padding:30px;text-align:center}
+.card{margin:20px;padding:20px;background:#fff;border-radius:10px;box-shadow:0 2px 8px #ccc}
+button{padding:10px 16px}
+</style></head><body>
+<header><h1>Royal Restaurant</h1><p>Fresh • Tasty • Fast</p></header>
+<div class="card"><h2>Today's Special</h2><p>Paneer Butter Masala</p>
+<button onclick="alert('Table booked!')">Book Table</button></div>
+</body></html>`,
+
+school:`<!DOCTYPE html><html><head><style>
+body{font-family:Arial;background:#eef}
+header{background:#1565c0;color:white;padding:20px;text-align:center}
+.box{background:white;margin:20px;padding:20px;border-radius:8px}
+</style></head><body>
+<header><h1>School Management Dashboard</h1></header>
+<div class="box"><h2>Students: 520</h2><h2>Teachers: 24</h2>
+<button onclick="document.body.style.background='#dff0d8'">Refresh Dashboard</button>
+</div></body></html>`,
+
+portfolio:`<!DOCTYPE html><html><head><style>
+body{font-family:Arial;text-align:center;padding:50px;background:#f4f4f4}
+img{width:120px;height:120px;border-radius:50%;background:#ccc}
+</style></head><body>
+<img><h1>Your Name</h1><p>Web Developer</p>
+<button onclick="alert('Thanks for visiting!')">Contact</button>
+</body></html>`
+};
+
+function generate(){
+ let p=prompt.value.toLowerCase();
+ let out="";
+ if(p.includes("restaurant")) out=templates.restaurant;
+ else if(p.includes("school")) out=templates.school;
+ else if(p.includes("portfolio")) out=templates.portfolio;
+ else out=`<!DOCTYPE html><html><body style="font-family:Arial;padding:30px">
+ <h1>${prompt.value}</h1><p>Template not found. Add your own AI/API to generate unlimited websites.</p>
+ </body></html>`;
+ code.value=out;
+ run();
+}
+function run(){ preview.srcdoc=code.value; }
+function download(){
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([code.value],{type:"text/html"}));
+ a.download="generated.html";
+ a.click();
+}
+generate();
+</script>
+</body>
+</html>

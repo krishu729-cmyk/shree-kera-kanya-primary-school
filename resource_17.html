@@ -1,0 +1,66 @@
+
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Easy English Simulator Part 3</title>
+<style>
+body{font-family:Arial;background:#f0fbff;margin:0}
+.box{max-width:900px;margin:20px auto;background:#fff;padding:20px;border-radius:12px}
+.card{border:1px solid #ddd;border-radius:10px;padding:12px;margin:10px 0}
+button{padding:10px 14px;border:none;border-radius:8px;background:#1976d2;color:#fff;margin:4px}
+#status{font-weight:bold;color:#2e7d32}
+</style></head><body>
+<div class="box">
+<h1>💬 Part 3 - Daily English</h1>
+<div class="card">
+<h2>Greetings</h2>
+<p>Hello = નમસ્તે</p>
+<p>Good Morning = શુભ સવાર</p>
+<p>Thank You = આભાર</p>
+<p>Please = કૃપા કરીને</p>
+<button onclick="say('Hello')">🔊 Hello</button>
+<button onclick="say('Good Morning')">🔊 Good Morning</button>
+</div>
+
+<div class="card">
+<h2>Self Introduction</h2>
+<input id="nm" placeholder="Your Name">
+<button onclick="intro()">Create</button>
+<p id="out"></p>
+</div>
+
+<div class="card">
+<h2>Teacher & Student</h2>
+<p><b>Teacher:</b> What is your name?</p>
+<button onclick="ans('My name is Rahul.')">My name is Rahul.</button>
+<button onclick="ans('My name is Riya.')">My name is Riya.</button>
+<p><b>Teacher:</b> How are you?</p>
+<button onclick="ans('I am fine. Thank you.')">I am fine. Thank you.</button>
+<p id="status"></p>
+</div>
+
+<div class="card">
+<h2>WH Questions</h2>
+<p>What = શું</p>
+<p>Who = કોણ</p>
+<p>Where = ક્યાં</p>
+<p>When = ક્યારે</p>
+<p>Why = શા માટે</p>
+</div>
+</div>
+<script>
+function say(t){
+ if('speechSynthesis' in window){
+ speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+ }
+}
+function intro(){
+ let n=document.getElementById('nm').value||'Student';
+ let s='Hello! My name is '+n+'. I am a student.';
+ document.getElementById('out').innerText=s;
+ say(s);
+}
+function ans(t){
+ document.getElementById('status').innerText='✅ Great! '+t;
+ say(t);
+}
+</script>
+</body></html>

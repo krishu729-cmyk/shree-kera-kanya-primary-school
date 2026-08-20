@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="gu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>દૈનિક નોંધપોથી Generator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;600;700;800&display=swap');
+:root{--ink:#17233c;--muted:#64748b;--brand:#635bff;--teal:#0f766e;--bg:#eef3ff;--card:#fff;--line:#d9e1ef;--soft:#f5f7ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#eef3ff,#fff7ed);color:var(--ink);font-family:'Noto Sans Gujarati','Nirmala UI',sans-serif}
+.wrap{max-width:1500px;margin:auto;padding:22px}.hero{background:linear-gradient(120deg,#29245c,#635bff);color:#fff;border-radius:22px;padding:24px 28px;box-shadow:0 16px 40px #352d8c2c}.hero h1{margin:0 0 5px;font-size:28px}.hero p{margin:0;opacity:.9}.grid{display:grid;grid-template-columns:360px 1fr;gap:18px;margin-top:18px}.card{background:var(--card);border:1px solid #ffffffaa;border-radius:18px;padding:18px;box-shadow:0 8px 25px #28314d12}.card h2{font-size:18px;margin:0 0 14px}.field{margin:10px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}input,select,textarea{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff;color:var(--ink)}textarea{resize:vertical;min-height:115px}button{font:inherit;border:0;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer}.primary{background:var(--brand);color:#fff}.success{background:#0f766e;color:#fff}.ghost{background:#eef1ff;color:#30316c}.danger{background:#fff0f0;color:#b42318}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.hint{font-size:12px;color:var(--muted);line-height:1.55}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}.sheet{overflow:auto}.sheet table{border-collapse:collapse;width:100%;min-width:1250px;background:#fff}.sheet th{background:#29245c;color:#fff;padding:10px 8px;font-size:13px;white-space:nowrap}.sheet td{border:1px solid var(--line);vertical-align:top;padding:6px;min-width:130px}.sheet td:first-child{min-width:70px;text-align:center;font-weight:700}.sheet td input,.sheet td textarea{border:0;background:transparent;padding:5px;min-width:115px;border-radius:6px}.sheet td textarea{min-height:105px}.empty{text-align:center;color:var(--muted);padding:45px}.status{margin-top:10px;font-size:13px;font-weight:700;color:var(--teal)}.badge{display:inline-block;background:#ffffff25;border:1px solid #ffffff55;border-radius:999px;padding:4px 9px;font-size:12px;margin-top:12px}
+@media(max-width:950px){.grid{grid-template-columns:1fr}.wrap{padding:12px}.hero{padding:20px}.hero h1{font-size:23px}}
+@media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero,.setup,.toolbar,.no-print{display:none!important}.card{box-shadow:none;border:0;padding:0}.grid{display:block}.sheet{overflow:visible}.sheet table{min-width:0;font-size:9px}.sheet th,.sheet td{padding:4px}.sheet td textarea,.sheet td input{font-size:9px;min-width:0}.sheet td textarea{min-height:55px}.print-title{display:block!important;text-align:center;margin:0 0 8px;font-size:18px;font-weight:800}}
+.print-title{display:none}
+.schedule{width:100%;border-collapse:collapse;font-size:12px;margin:5px 0 12px}.schedule th,.schedule td{border:1px solid var(--line);padding:4px}.schedule th{background:var(--soft);white-space:nowrap}.schedule input,.schedule select{padding:5px;border-radius:7px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+ <h1>📘 દૈનિક નોંધપોથી Generator</h1>
+ <p>લખાણ અથવા PDFમાંથી ધોરણ 6 થી 8 માટે તૈયાર, સંપાદન કરી શકાય તેવી દૈનિક નોંધપોથી બનાવો.</p>
+ <span class="badge">Single HTML • Mobile Friendly • Print / Save as PDF</span>
+</section>
+<div class="grid">
+<aside class="card setup">
+ <h2>1. શાળાની માહિતી</h2>
+ <div class="field"><label>શાળાનું નામ</label><input id="school" value="શ્રી કેરા કન્યા પ્રાથમિક શાળા"></div>
+ <div class="two"><div class="field"><label>શિક્ષકનું નામ</label><input id="teacher" placeholder="નામ લખો"></div><div class="field"><label>તારીખ</label><input id="date" type="date"></div></div>
+ <div class="two"><div class="field"><label>વાર</label><input id="day" placeholder="સોમવાર"></div><div class="field"><label>ધોરણ</label><select id="std"><option>ધોરણ 6</option><option selected>ધોરણ 7</option><option>ધોરણ 8</option></select></div></div>
+ <div class="two"><div class="field"><label>વિષય</label><select id="subject"><option>ગુજરાતી</option><option>અંગ્રેજી</option><option>સંસ્કૃત</option><option>સામાજિક વિજ્ઞાન</option><option>વિજ્ઞાન</option><option>ગણિત</option></select></div><div class="field"><label>એકમ / પાઠ</label><input id="unit" placeholder="પાઠનું નામ"></div></div>
+ <h2 style="margin-top:18px">3. આજના 8 પિરિયડનું સમયપત્રક</h2>
+ <div id="schedule"></div>
+ <h2 style="margin-top:18px">4. લખાણ અથવા PDF</h2>
+ <div class="field"><label>PDF / TXT પસંદ કરો</label><input id="file" type="file" accept=".pdf,.txt"></div>
+ <div class="field"><label>પાઠનું લખાણ paste કરો</label><textarea id="source" placeholder="અહીં પાઠ, પ્રશ્નો અથવા PDFમાંથી copy કરેલું લખાણ paste કરો..."></textarea></div>
+ <p class="hint">PDFમાંથી લખાણ આપમેળે વાંચવા માટે PDF.js ઉપલબ્ધ હોય ત્યારે કામ કરશે. ન થાય તો PDF ખોલી તેમાંનું લખાણ copy કરીને ઉપર paste કરો.</p>
+ <div class="actions"><button class="primary" id="generate">✨ નોંધપોથી બનાવો</button><button class="ghost" id="sample">નમૂનો भरो</button></div>
+ <div id="status" class="status"></div>
+</aside>
+<main class="card">
+ <div class="print-title" id="printTitle">દૈનિક નોંધપોથી</div>
+ <div class="toolbar no-print"><button class="success" id="add">＋ પિરિયડ ઉમેરો</button><button class="primary" id="print">🖨️ Print / PDF</button><button class="ghost" id="save">💾 Save</button><button class="ghost" id="load">↻ Load</button><button class="danger" id="clear">Clear</button></div>
+ <div class="sheet" id="sheet"><div class="empty">ડાબી બાજુ લખાણ નાખીને <b>“નોંધપોથી બનાવો”</b> દબાવો.</div></div>
+</main>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id); const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+let rows=[];
+const fields=['સમય','ધોરણ','વિષય','એકમ / પાઠ','અધ્યયન નિષ્પત્તિ','શૈક્ષણિક મુદ્દો','શિક્ષક પ્રવૃત્તિ','વિદ્યાર્થી પ્રવૃત્તિ','TLM','હોમવર્ક'];
+const defaultTimes=['11:00','11:40','12:20','1:00','1:40','2:20','3:00','3:40'];
+function initSchedule(){let standards=['ધોરણ 7','ધોરણ 6','ધોરણ 8','ધોરણ 7','ધોરણ 6','ધોરણ 8','ધોરણ 7','ધોરણ 6'];let subjects=['ગુજરાતી','સંસ્કૃત','અંગ્રેજી','ગુજરાતી','સંસ્કૃત','અંગ્રેજી','ગુજરાતી','સંસ્કૃત'];let h='<table class="schedule"><tr><th>પીરિયડ</th><th>સમય</th><th>ધોરણ</th><th>વિષય</th><th>એકમ / પાઠ</th></tr>';for(let i=0;i<8;i++){h+=`<tr><td>${i+1}</td><td><input id="tm${i}" value="${defaultTimes[i]}"></td><td><select id="st${i}">${['ધોરણ 6','ધોરણ 7','ધોરણ 8'].map(s=>`<option ${s===standards[i]?'selected':''}>${s}</option>`).join('')}</select></td><td><select id="su${i}">${['ગુજરાતી','અંગ્રેજી','સંસ્કૃત','સામાજિક વિજ્ઞાન','વિજ્ઞાન','ગણિત'].map(s=>`<option ${s===subjects[i]?'selected':''}>${s}</option>`).join('')}</select></td><td><input id="un${i}" placeholder="પાઠ / એકમ"></td></tr>`}h+='</table>';$('schedule').innerHTML=h;}
+function scheduleRows(){return Array.from({length:8},(_,i)=>({time:$(`tm${i}`).value,std:$(`st${i}`).value,subject:$(`su${i}`).value,unit:$(`un${i}`).value}))}
+function today(){let d=new Date(); $('date').value=d.toISOString().slice(0,10);}
+function splitText(t){return t.split(/\n+|(?<=[.!?।])\s+/).map(x=>x.trim()).filter(x=>x.length>2).slice(0,8)}
+function makeRow(i,part,sch){let lesson=sch?.unit||$('unit').value||part||'પાઠનું પુનરાવર્તન'; let subj=sch?.subject||$('subject').value; let std=sch?.std||$('std').value;
+ return {time:sch?.time||`${11+i}:00 થી ${12+i}:00`,std,subject:subj,unit:lesson,lo:`વિદ્યાર્થી પાઠને સમજીને મુખ્ય મુદ્દા ઓળખે, નવા શબ્દોના અર્થ શોધે અને પ્રશ્નોના જવાબ આપે.`,point:part||`${lesson}ના મુખ્ય મુદ્દા અને શબ્દભંડોળ`,teacher:`શિક્ષક પાઠનું વાચન/સમજૂતી કરાવશે, ઉદાહરણો આપશે અને પ્રશ્નોત્તરી કરશે.`,student:`વિદ્યાર્થીઓ ધ્યાનથી સાંભળશે, વાચન કરશે, ચર્ચા કરશે અને ઉત્તર આપશે.`,tlm:'પાઠ્યપુસ્તક, ફલક, ચિત્ર / વર્કશીટ',hw:`આજના પાઠનું પુનરાવર્તન કરી 5 પ્રશ્નોના જવાબ લખવા.`}}
+function generate(){let t=$('source').value.trim(); let parts=splitText(t); if(!parts.length) parts=['પાઠનું વાચન અને સમજૂતી','મુખ્ય શબ્દો અને અર્થ','પ્રશ્નોત્તરી અને પુનરાવર્તન']; let sch=scheduleRows(); rows=sch.map((x,i)=>makeRow(i,parts[i%parts.length],x)); render(); $('status').textContent=`✅ 8 પિરિયડ તૈયાર થયા. દરેક પિરિયડનો વિષય અને સમય અલગ રાખવામાં આવ્યો છે.`; $('printTitle').textContent=`${$('school').value} — દૈનિક નોંધપોથી (${$('date').value||'તારીખ'})`;}
+function render(){if(!rows.length){$('sheet').innerHTML='<div class="empty">હજુ કોઈ પિરિયડ નથી.</div>';return} let h='<table><thead><tr><th>ક્રમ</th>'+fields.map(x=>`<th>${x}</th>`).join('')+'<th class="no-print">Action</th></tr></thead><tbody>';
+ rows.forEach((r,i)=>{h+=`<tr><td>${i+1}</td>`+fields.map(f=>{let k=({'સમય':'time','ધોરણ':'std','વિષય':'subject','એકમ / પાઠ':'unit','અધ્યયન નિષ્પત્તિ':'lo','શૈક્ષણિક મુદ્દો':'point','શિક્ષક પ્રવૃત્તિ':'teacher','વિદ્યાર્થી પ્રવૃત્તિ':'student','TLM':'tlm','હોમવર્ક':'hw'})[f]; return `<td><textarea data-i="${i}" data-k="${k}">${esc(r[k])}</textarea></td>`}).join('')+`<td class="no-print"><button class="danger" onclick="delRow(${i})">🗑️</button></td></tr>`}); h+='</tbody></table>'; $('sheet').innerHTML=h; document.querySelectorAll('[data-i]').forEach(e=>e.oninput=()=>rows[e.dataset.i][e.dataset.k]=e.value)}
+window.delRow=i=>{rows.splice(i,1);render()};
+$('generate').onclick=generate; $('add').onclick=()=>{rows.push(makeRow(rows.length,'નવો પિરિયડ'));render()}; $('print').onclick=()=>window.print();
+$('sample').onclick=()=>{$('unit').value='ધોરણ 7 ગુજરાતી — પ્રાણી માત્રને';$('source').value='પ્રાણી માત્રને દયા અને પ્રેમ આપવો જોઈએ. દરેક જીવનું જીવન મહત્વનું છે. આપણે પ્રાણીઓની સંભાળ રાખવી અને પર્યાવરણનું રક્ષણ કરવું જોઈએ.';generate()};
+$('clear').onclick=()=>{if(confirm('બધી નોંધપોથી સાફ કરવી છે?')){rows=[];$('source').value='';render();$('status').textContent=''}};
+$('save').onclick=()=>{localStorage.setItem('dailyNoteGenerator',JSON.stringify({rows,info:['school','teacher','date','day','std','subject','unit','source'].reduce((o,k)=>(o[k]=$(k).value,o),{})}));$('status').textContent='✅ માહિતી ફોનમાં Save થઈ.'};
+$('load').onclick=()=>{let x=JSON.parse(localStorage.getItem('dailyNoteGenerator')||'null');if(!x){$('status').textContent='⚠️ Save કરેલી માહિતી મળી નથી.';return}Object.entries(x.info||{}).forEach(([k,v])=>$(k).value=v);rows=x.rows||[];render();$('status').textContent='✅ માહિતી Load થઈ.'};
+$('file').onchange=async e=>{let f=e.target.files[0];if(!f)return;if(f.type==='text/plain'){ $('source').value=await f.text();$('status').textContent='✅ TXT વાંચાઈ ગયું.';return } if(f.type==='application/pdf'){ $('status').textContent='⏳ PDF વાંચવાનો પ્રયાસ...'; try{await loadPdf();let buf=await f.arrayBuffer();let pdf=await pdfjsLib.getDocument({data:buf}).promise;let all=[];for(let p=1;p<=pdf.numPages;p++){let page=await pdf.getPage(p);let c=await page.getTextContent();all.push(c.items.map(x=>x.str).join(' '))}$('source').value=all.join('\n');$('status').textContent=`✅ PDFમાંથી ${pdf.numPages} પેજનું લખાણ આવ્યું.`}catch(err){$('status').textContent='⚠️ PDF વાંચાઈ નથી. PDF ખોલીને લખાણ copy-paste કરો.'}}};
+function loadPdf(){return new Promise((resolve,reject)=>{if(window.pdfjsLib)return resolve();let s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=()=>resolve();s.onerror=reject;document.head.appendChild(s)})}
+today(); initSchedule();
+</script>
+</body></html>

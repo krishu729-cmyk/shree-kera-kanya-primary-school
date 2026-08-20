@@ -1,0 +1,473 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12-in-1 સ્ટાન્ડર્ડ આઈકાર્ડ જનરેટર</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary-font: 'Hind Vadodara', 'Poppins', sans-serif; }
+
+        body {
+            font-family: var(--primary-font); background-color: #f0f4f8;
+            margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
+            padding-top: 60px;
+        }
+
+        /* કંટ્રોલ પેનલ */
+        .no-print {
+            background: white; padding: 20px; border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); max-width: 950px; width: 100%;
+            margin-bottom: 20px; box-sizing: border-box;
+        }
+
+        h2 { text-align: center; color: #2c3e50; margin-top: 0; font-size: 22px; }
+
+        .form-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 15px;
+        }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
+
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 700; color: #2d3748; font-size: 14px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px;
+            box-sizing: border-box; font-family: var(--primary-font); font-size: 14px;
+            font-weight: 600; background-color: #f8fafc;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: #1a73e8; background-color: #fff; outline: none; }
+
+        .panel-section {
+            background: #eaf2f8; padding: 15px; border-radius: 8px;
+            border: 2px dashed #2980b9; margin-bottom: 15px;
+        }
+
+        .process-btn {
+            background: #1a73e8; color: white; border: none; padding: 10px 20px;
+            border-radius: 6px; font-weight: 700; font-size: 15px; cursor: pointer;
+            width: 100%; margin-top: 10px; transition: background 0.2s;
+        }
+        .process-btn:hover { background: #155cb4; }
+
+        /* ૩૦ બેકગ્રાઉન્ડ ગ્રીડ */
+        .bg-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 10px; }
+        @media (max-width: 768px) { .bg-grid { grid-template-columns: repeat(6, 1fr); } }
+        @media (max-width: 480px) { .bg-grid { grid-template-columns: repeat(4, 1fr); } }
+        .bg-thumb { height: 32px; border-radius: 6px; cursor: pointer; border: 2.5px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .bg-thumb.active { border-color: #1a73e8; transform: scale(1.05); }
+
+        /* --- A4 પેજ લેઆઉટ (12 આઈકાર્ડ) --- */
+        .print-container { width: 210mm; display: flex; flex-direction: column; gap: 0; }
+
+        .print-page {
+            width: 210mm; height: 297mm; background: white; padding: 5mm; box-sizing: border-box;
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);
+            gap: 2mm; justify-items: center; align-items: center; page-break-after: always;
+        }
+
+        /* આઈકાર્ડ બોડી - કાયમી બ્લેક કલર લખાણ સેટ */
+        .id-card {
+            width: 63mm; height: 68mm; border-radius: 6px; border: 1px solid rgba(0,0,0,0.14);
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+            align-items: center; box-sizing: border-box; transition: all 0.3s ease;
+        }
+        
+        /* તમામ ટેક્સ્ટનો રંગ કાયમી કાળો રાખવા માટેનો સીએસએસ નિયમ */
+        .id-card, .id-card *, .id-card div, .id-card span, .school-name, .school-sub, .detail-label, .detail-value, .prin-text-item {
+            color: #000000 !important;
+        }
+
+        /* ૨૦% ઝાંખો વોટરમાર્ક ફોટો */
+        .watermark-full-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.20; pointer-events: none; z-index: 1; display: none;
+        }
+
+        /* કસ્ટમ બેકગ્રાઉન્ડ લેયર */
+        .custom-bg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; pointer-events: none; z-index: 0; display: none;
+        }
+
+        .school-header { width: 100%; padding: 5px 2px; text-align: center; box-sizing: border-box; border-bottom: 1px solid rgba(0,0,0,0.06); z-index: 2; }
+        .school-name { font-size: 10px; font-weight: 700; margin: 0; line-height: 1.2; }
+        .school-sub { font-size: 8px; font-weight: 600; margin-top: 1px; filter: opacity(0.85); }
+
+        /* ફોટો ઝોન */
+        .photo-click-zone {
+            width: 19mm; height: 23mm; border: 1.5px solid #ffffff; border-radius: 4px;
+            margin-top: 2mm; background: rgba(255, 255, 255, 0.85); display: flex; 
+            justify-content: center; align-items: center; overflow: hidden;
+            box-shadow: 0 1.5px 4px rgba(0,0,0,0.1); cursor: pointer; z-index: 2;
+        }
+        .photo-click-zone img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        .photo-placeholder { color: #1a73e8; font-size: 8px; font-weight: 700; text-align: center; pointer-events: none; }
+
+        /* વિગત બોક્સ */
+        .details-badge {
+            margin-top: 2mm; width: 95%; background: #ffffff; border: 1.5px solid #cbd5e0; 
+            padding: 4px 6px; border-radius: 5px; box-sizing: border-box; z-index: 2;
+        }
+        .detail-row { margin-bottom: 2.5px; font-size: 10px; display: flex; }
+        .detail-row:last-child { margin-bottom: 0; }
+        .detail-label { font-weight: 700; width: 58px; flex-shrink: 0; filter: opacity(0.8); }
+        .detail-value { font-weight: 700; word-break: break-word; }
+
+        .principal-live-section {
+            width: 95%; margin-top: auto; margin-bottom: 4px;
+            display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; padding: 0 4px; z-index: 2;
+        }
+        .prin-text-item { font-size: 8.5px; font-weight: 700; }
+
+        /* ફ્લોટિંગ પટ્ટી */
+        .floating-creator-bar {
+            position: fixed; top: 0; left: 0; width: 100%; background: #222222; padding: 8px 0;
+            font-size: 15px; font-weight: bold; z-index: 9999; box-shadow: 0 4px 10px rgba(0,0,0,0.3); overflow: hidden; border-bottom: 2px solid #138808;
+        }
+        .floating-marquee { display: flex; width: 100%; }
+        .marquee-content {
+            display: inline-block; white-space: nowrap; padding-left: 100%; animation: marqueeToLeft 15s linear infinite;
+            background: linear-gradient(to right, #FF9933 0%, #FFFFFF 50%, #138808 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; letter-spacing: 1px;
+        }
+        @keyframes marqueeToLeft { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+
+        .print-btn {
+            margin-bottom: 20px; padding: 12px 35px; background: linear-gradient(135deg, #28a745, #218838);
+            color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: 700;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3); font-family: var(--primary-font);
+        }
+
+        /* ૩૦ આછા બેકગ્રાઉન્ડ કલર્સ */
+        .bg-1 { background-color: #e6f0fa; background-image: linear-gradient(0deg, rgba(0,0,0,0.01) 1px, transparent 1px); background-size: 100% 4px; }
+        .bg-2 { background-color: #fdf2e9; background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0); background-size: 8px 8px; }
+        .bg-3 { background-color: #e8f8f5; background-image: linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.02) 75%, transparent 75%, transparent); background-size: 10px 10px; }
+        .bg-4 { background-color: #fce4ec; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 8px 8px; }
+        .bg-5 { background-color: #f3e5f5; background-image: repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 8px); }
+        .bg-6 { background-color: #e8f5e9; background-image: radial-gradient(rgba(0,0,0,0.03) 0.8px, transparent 0); background-size: 6px 6px; }
+        .bg-7 { background-color: #fef9e7; background-image: linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 7px 100%; }
+        .bg-8 { background-color: #fbf1f1; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 12px 12px; }
+        .bg-9 { background-color: #ede7f6; background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(0,0,0,0.02) 3px, rgba(0,0,0,0.02) 6px); }
+        .bg-10 { background-color: #e0f2f1; background-image: linear-gradient(30deg, rgba(0,0,0,0.02) 12%, transparent 12.5%, transparent 87%, rgba(0,0,0,0.02) 87.5%, rgba(0,0,0,0.02)); background-size: 10px 20px; }
+        .bg-11 { background-color: #eedeec; background-image: radial-gradient(rgba(0,0,0,0.02) 1.2px, transparent 0); background-size: 10px 10px; }
+        .bg-12 { background-color: #efebe9; background-image: linear-gradient(90deg, transparent 50%, rgba(0,0,0,0.02) 50%); background-size: 8px 100%; }
+        .bg-13 { background-color: #eceff1; background-image: linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%); background-size: 12px 12px; }
+        .bg-14 { background-color: #f9fbe7; background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.02) 4px, rgba(0,0,0,0.02) 8px); }
+        .bg-15 { background-color: #e0f7fa; background-image: radial-gradient(circle at 100% 150%, rgba(0,0,0,0.02) 24%, transparent 24%, transparent 28%, rgba(0,0,0,0.02) 28%, rgba(0,0,0,0.02) 36%, transparent 36%, transparent); background-size: 14px 14px; }
+        .bg-16 { background-color: #fff9db; background-image: linear-gradient(0deg, rgba(0,0,0,0.01) 1px, transparent 1px); background-size: 100% 6px; }
+        .bg-17 { background-color: #e3fafc; background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 0); background-size: 10px 10px; }
+        .bg-18 { background-color: #edf2ff; background-image: linear-gradient(rgba(0,0,0,0.01) 2px, transparent 2px); background-size: 100% 8px; }
+        .bg-19 { background-color: #f8f0fc; background-image: linear-gradient(90deg, rgba(0,0,0,0.01) 2px, transparent 2px); background-size: 8px 100%; }
+        .bg-20 { background-color: #fff0f6; background-image: linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%); background-size: 6px 6px; }
+        .bg-21 { background-color: #fff5f5; background-image: radial-gradient(rgba(0,0,0,0.03) 0.5px, transparent 0); background-size: 4px 4px; }
+        .bg-22 { background-color: #fff9db; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 15px 15px; }
+        .bg-23 { background-color: #f1f3f5; background-image: repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px); }
+        .bg-24 { background-color: #ebfbee; background-image: radial-gradient(rgba(0,0,0,0.02) 1.5px, transparent 0); background-size: 12px 12px; }
+        .bg-25 { background-color: #fff4e6; background-image: linear-gradient(135deg, rgba(0,0,0,0.01) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.01) 75%, transparent 75%, transparent); background-size: 16px 16px; }
+        .bg-26 { background-color: #f4f2ee; background-image: linear-gradient(0deg, rgba(0,0,0,0.02) 50%, transparent 50%); background-size: 100% 12px; }
+        .bg-27 { background-color: #e8eaed; background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0); background-size: 5px 5px; }
+        .bg-28 { background-color: #e5f9e0; background-image: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,0,0,0.01) 4px, rgba(0,0,0,0.01) 8px); }
+        .bg-29 { background-color: #fef1eb; background-image: linear-gradient(45deg, rgba(0,0,0,0.01) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.01) 75%); background-size: 14px 14px; }
+        .bg-30 { background-color: #f3f0ff; background-image: radial-gradient(circle at 0% 100%, rgba(0,0,0,0.02) 24%, transparent 24%); background-size: 10px 10px; }
+
+        @media print {
+            body { padding: 0; background: none; }
+            .no-print, .print-btn, .floating-creator-bar { display: none !important; }
+            .print-page { box-shadow: none; padding: 5mm; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .details-badge { border: 1.5px solid #cbd5e0 !important; background-color: #ffffff !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <h2>સ્ટુડન્ટ આઈકાર્ડ પેનલ</h2>
+        
+        <div class="form-grid">
+            <div class="form-group" style="grid-column: span 3;">
+                <label>શાળાનું નામ:</label>
+                <input type="text" id="input-school" value="શ્રી સાળંગપરડા પ્રાથમિક શાળા" oninput="saveAndApplyGlobalInfo()">
+            </div>
+            <div class="form-group">
+                <label>તાલુકો:</label>
+                <input type="text" id="input-taluko" value="ગઢડા" oninput="saveAndApplyGlobalInfo()">
+            </div>
+            <div class="form-group">
+                <label>જિલ્લો:</label>
+                <input type="text" id="input-jillo" value="બોટાદ" oninput="saveAndApplyGlobalInfo()">
+            </div>
+            <div class="form-group">
+                <label>આચાર્યનું નામ:</label>
+                <input type="text" id="input-principal" placeholder="આચાર્યશ્રીનું નામ" oninput="saveAndApplyGlobalInfo()">
+            </div>
+            <div class="form-group" style="grid-column: span 3;">
+                <label>આચાર્ય મો. નં.:</label>
+                <input type="text" id="input-pr-mob" placeholder="આચાર્યનો મોબાઇલ" oninput="saveAndApplyGlobalInfo()">
+            </div>
+            <div class="form-group" style="grid-column: span 3;">
+                <div class="panel-section" style="background: #fcf3cf; border-color: #f39c12; margin-bottom: 0; padding: 10px;">
+                    <label style="font-weight: 700; display: block; margin-bottom: 5px; color: #b7950b; font-size: 13px;">
+                        શાળાનો વોટરમાર્ક લોગો અપલોડ કરો (૨૦% ઝાંખો સેટ થશે):
+                    </label>
+                    <input type="file" id="school-logo-input" accept="image/*" onchange="handleLogoUpload(event)">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <label style="font-weight: 700; display: block; margin-bottom: 5px; color: #2980b9; font-size: 15px;">
+                એક્સેલ શીટમાંથી ડેટા કોપી (Ctrl+C) કરી અહીં પેસ્ટ (Ctrl+V) કરો:
+            </label>
+            <textarea id="excel-paste-input" rows="4" placeholder="એક્સેલમાંથી Name, DOB, GR, Mobile વાળી આખી લાઈનો સિલેક્ટ કરી અહીં પેસ્ટ કરો..."></textarea>
+            <button class="process-btn" onclick="processPastedData()">આઈકાર્ડ જનરેટ કરો</button>
+        </div>
+
+        <label style="font-weight:700; font-size: 14px;">દરેક આઈકાર્ડ માટે એક સમાન આછો પેટર્ન કલર સેટ કરો (૧ થી ૩૦):</label>
+        <div class="bg-grid">
+            <script>
+                for(let i=1; i<=30; i++) {
+                    document.write(`<div class="bg-thumb bg-${i} ${i==1?'active':''}" title="પેટર્ન ${i}" onclick="changeGlobalBg(${i}, this)"></div>`);
+                }
+            </script>
+        </div>
+
+        <div class="panel-section" style="background: #ebfbee; border-color: #2b8a3e; margin-top: 15px; padding: 12px;">
+            <label style="font-weight: 700; display: block; margin-bottom: 5px; color: #2b8a3e; font-size: 14px;">
+                ગેલેરીમાંથી તમારો કસ્ટમ ડિઝાઇન કરેલો આખો બેકગ્રાઉન્ડ ફોટો અપલોડ કરો:
+            </label>
+            <input type="file" id="custom-bg-input" accept="image/*" onchange="handleCustomBgUpload(event)">
+            <button onclick="removeCustomBg()" style="background:#dc3545; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:11px; margin-left:10px; cursor:pointer; font-weight:bold;">કસ્ટમ બેકગ્રાઉન્ડ હટાવો</button>
+        </div>
+    </div>
+
+    <button class="print-btn no-print" onclick="window.print()">બધા આઈકાર્ડ પ્રિન્ટ કરો / PDF સેવ કરો</button>
+
+    <div class="print-container" id="cards-output-grid">
+        <p class="no-print" style="text-align:center; color:#e74c3c; font-weight:600; padding:20px; background:#fadbd8; border-radius:6px; width:100%; box-sizing:border-box;">
+            તમારી એક્સેલ ફાઇલ ઓપન કરો -> ડેટા કોપી કરો -> ઉપરના બોક્સમાં પેસ્ટ કરીને "આઈકાર્ડ જનરેટ કરો" બટન દબાવો.
+        </p>
+    </div>
+
+    <input type="file" id="global-camera-tool" accept="image/*" style="display: none;" onchange="applyPhotoToCard(event)">
+
+    <div class="floating-creator-bar no-print">
+        <div class="floating-marquee">
+            <div class="marquee-content">DESIGNED BY: JINESH SHAH (9510566006) ★ DESIGNED BY: JINESH SHAH (9510566006) ★ DESIGNED BY: JINESH SHAH (9510566006)</div>
+        </div>
+    </div>
+
+    <script>
+        let currentBgClass = 'bg-1';
+        let currentTargetCardIndex = null;
+        let schoolLogoSrc = ''; 
+        let customBgSrc = ''; 
+
+        // લોકલ સ્ટોરેજ મેનેજમેન્ટ
+        window.onload = function() {
+            if(localStorage.getItem('scName')) document.getElementById('input-school').value = localStorage.getItem('scName');
+            if(localStorage.getItem('scTal')) document.getElementById('input-taluko').value = localStorage.getItem('scTal');
+            if(localStorage.getItem('scJil')) document.getElementById('input-jillo').value = localStorage.getItem('scJil');
+            if(localStorage.getItem('scPrin')) document.getElementById('input-principal').value = localStorage.getItem('scPrin');
+            if(localStorage.getItem('scPrMob')) document.getElementById('input-pr-mob').value = localStorage.getItem('scPrMob');
+            
+            if(localStorage.getItem('scLogo')) {
+                schoolLogoSrc = localStorage.getItem('scLogo');
+                applyLogoToAllCards();
+            }
+            if(localStorage.getItem('scCustomBg')) {
+                customBgSrc = localStorage.getItem('scCustomBg');
+                applyCustomBgToAllCards();
+            }
+        };
+
+        function saveAndApplyGlobalInfo() {
+            const sch = document.getElementById('input-school').value;
+            const tal = document.getElementById('input-taluko').value;
+            const jil = document.getElementById('input-jillo').value;
+            const prin = document.getElementById('input-principal').value;
+            const mob = document.getElementById('input-pr-mob').value;
+
+            localStorage.setItem('scName', sch);
+            localStorage.setItem('scTal', tal);
+            localStorage.setItem('scJil', jil);
+            localStorage.setItem('scPrin', prin);
+            localStorage.setItem('scPrMob', mob);
+
+            document.querySelectorAll('.live-school-title').forEach(el => el.innerText = sch);
+            document.querySelectorAll('.live-school-loc').forEach(el => el.innerText = `તા. ${tal}, જિ. ${jil}`);
+            document.querySelectorAll('.live-prin-name').forEach(el => el.innerText = `આચાર્ય: ${prin ? prin : '-'}`);
+            document.querySelectorAll('.live-prin-mob').forEach(el => el.innerText = `મો. ${mob ? mob : '-'}`);
+        }
+
+        // શાળાનો લોગો (વોટરમાર્ક) અપલોડ
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function() {
+                schoolLogoSrc = reader.result;
+                try { localStorage.setItem('scLogo', schoolLogoSrc); } catch(e) {}
+                applyLogoToAllCards();
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function applyLogoToAllCards() {
+            if(!schoolLogoSrc) return;
+            document.querySelectorAll('.watermark-full-layer').forEach(img => {
+                img.src = schoolLogoSrc;
+                img.style.display = 'block';
+            });
+        }
+
+        // કસ્ટમ બેકગ્રાઉન્ડ ફોટો અપલોડ
+        function handleCustomBgUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function() {
+                customBgSrc = reader.result;
+                try { localStorage.setItem('scCustomBg', customBgSrc); } catch(e) {}
+                applyCustomBgToAllCards();
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function applyCustomBgToAllCards() {
+            if(!customBgSrc) return;
+            document.querySelectorAll('.custom-bg-layer').forEach(img => {
+                img.src = customBgSrc;
+                img.style.display = 'block';
+            });
+        }
+
+        function removeCustomBg() {
+            customBgSrc = '';
+            localStorage.removeItem('scCustomBg');
+            document.getElementById('custom-bg-input').value = '';
+            document.querySelectorAll('.custom-bg-layer').forEach(img => {
+                img.style.display = 'none';
+                img.src = '';
+            });
+        }
+
+        // ડેટા પ્રોસેસર
+        function processPastedData() {
+            const inputData = document.getElementById('excel-paste-input').value.trim();
+            if(!inputData) { alert("કૃપા કરીને એક્સેલમાંથી ડેટા કોપી કરીને બોક્સમાં પેસ્ટ કરો!"); return; }
+
+            const lines = inputData.split('\n');
+            let studentsList = [];
+            let startRow = 0;
+            const firstLineLower = lines[0].toLowerCase();
+            if(firstLineLower.includes('name') || firstLineLower.includes('gr') || firstLineLower.includes('નામ') || firstLineLower.includes('dob')) {
+                startRow = 1; 
+            }
+
+            for(let i = startRow; i < lines.length; i++) {
+                if(!lines[i].trim()) continue;
+                const columns = lines[i].split('\t');
+                studentsList.push({
+                    Name: columns[0] ? columns[0].trim() : '-',
+                    DOB: columns[1] ? columns[1].trim() : '-',
+                    GR: columns[2] ? columns[2].trim() : '-',
+                    Mobile: columns[3] ? columns[3].trim() : '-'
+                });
+            }
+
+            if(studentsList.length === 0) { alert("કોઈ યોગ્ય ડેટા મળ્યો નથી!"); return; }
+            generateIDCards(studentsList);
+        }
+
+        // આઈકાર્ડ ગ્રીડ જનરેટર
+        function generateIDCards(students) {
+            const container = document.getElementById('cards-output-grid');
+            container.innerHTML = ''; 
+
+            const sch = document.getElementById('input-school').value;
+            const tal = document.getElementById('input-taluko').value;
+            const jil = document.getElementById('input-jillo').value;
+            const prin = document.getElementById('input-principal').value;
+            const mob = document.getElementById('input-pr-mob').value;
+
+            let currentHtml = '';
+            
+            students.forEach((student, index) => {
+                if (index % 12 === 0) {
+                    if (index > 0) currentHtml += `</div>`; 
+                    currentHtml += `<div class="print-page">`;
+                }
+
+                currentHtml += `
+                    <div class="id-card ${currentBgClass}" id="card-element-${index}">
+                        <img class="custom-bg-layer" id="custom-bg-${index}" src="${customBgSrc}" style="${customBgSrc ? 'display:block;' : ''}">
+                        <img class="watermark-full-layer" id="wm-logo-${index}" src="${schoolLogoSrc}" style="${schoolLogoSrc ? 'display:block;' : ''}">
+
+                        <div class="school-header">
+                            <div class="school-name live-school-title">${sch}</div>
+                            <div class="school-sub live-school-loc">તા. ${tal}, જિ. ${jil}</div>
+                        </div>
+                        
+                        <div class="photo-click-zone" onclick="triggerCameraForCard(${index})">
+                            <img id="img-${index}" src="" style="display: none;">
+                            <div id="txt-${index}" class="photo-placeholder">ફોટો અપલોડ કરો</div>
+                        </div>
+                        
+                        <div class="details-badge">
+                            <div class="detail-row"><span class="detail-label">નામ :</span><span class="detail-value">${student.Name}</span></div>
+                            <div class="detail-row"><span class="detail-label">જન્મ તારીખ :</span><span class="detail-value">${student.DOB}</span></div>
+                            <div class="detail-row"><span class="detail-label">જી.આર. નં. :</span><span class="detail-value">${student.GR}</span></div>
+                            <div class="detail-row"><span class="detail-label">મોબાઈલ :</span><span class="detail-value">${student.Mobile}</span></div>
+                        </div>
+                        
+                        <div class="principal-live-section">
+                            <div class="prin-text-item live-prin-name">આચાર્ય: ${prin ? prin : '-'}</div>
+                            <div class="prin-text-item live-prin-mob">મો. ${mob ? mob : '-'}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (students.length > 0) currentHtml += `</div>`; 
+            container.innerHTML = currentHtml;
+            
+            saveAndApplyGlobalInfo(); 
+        }
+
+        function triggerCameraForCard(index) {
+            currentTargetCardIndex = index;
+            document.getElementById('global-camera-tool').click();
+        }
+
+        function applyPhotoToCard(event) {
+            if (currentTargetCardIndex === null) return;
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function() {
+                const img = document.getElementById(`img-${currentTargetCardIndex}`);
+                const txt = document.getElementById(`txt-${currentTargetCardIndex}`);
+                img.src = reader.result;
+                img.style.display = 'block';
+                txt.style.display = 'none';
+                event.target.value = ''; 
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function changeGlobalBg(bgNum, element) {
+            document.querySelectorAll('.id-card').forEach(card => {
+                card.classList.remove(currentBgClass);
+                card.classList.add(`bg-${bgNum}`);
+            });
+            currentBgClass = `bg-${bgNum}`;
+            document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>

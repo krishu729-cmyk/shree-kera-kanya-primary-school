@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Easy English World - Module 4</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(#d7f9ff,#fff7d6)}
+.wrap{max-width:960px;margin:20px auto;background:#fff;padding:20px;border-radius:16px}
+h1{color:#1565c0;text-align:center}
+.card{background:#eef7ff;border-radius:12px;padding:14px;margin:14px 0}
+button{padding:10px 14px;border:none;border-radius:8px;background:#1976d2;color:#fff;cursor:pointer;margin:5px}
+input{padding:10px;width:100%;max-width:320px}
+.correct{color:#2e7d32;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>💬 Module 4 – Daily English Conversation</h1>
+
+<div class="card">
+<h2>👋 Greetings</h2>
+<button onclick="say('Hello')">Hello</button>
+<button onclick="say('Good Morning')">Good Morning</button>
+<button onclick="say('Thank You')">Thank You</button>
+<button onclick="say('Please')">Please</button>
+</div>
+
+<div class="card">
+<h2>🙋 Self Introduction</h2>
+<input id="name" placeholder="Enter your name">
+<button onclick="intro()">Create</button>
+<p id="introText"></p>
+</div>
+
+<div class="card">
+<h2>👩‍🏫 Teacher & Student Conversation</h2>
+<p><b>Teacher:</b> What is your name?</p>
+<button onclick="reply('My name is Amit.')">My name is Amit.</button>
+<button onclick="reply('My name is Riya.')">My name is Riya.</button>
+
+<p><b>Teacher:</b> How are you?</p>
+<button onclick="reply('I am fine. Thank you.')">I am fine. Thank you.</button>
+
+<p id="replyBox" class="correct"></p>
+</div>
+
+<div class="card">
+<h2>✍️ Fill in the Blank</h2>
+<p>I ____ a student.</p>
+<button onclick="check('am')">am</button>
+<button onclick="check('is')">is</button>
+<button onclick="check('are')">are</button>
+<p id="result"></p>
+</div>
+
+<div class="card">
+<h2>🎈 Balloon Pop (Vocabulary)</h2>
+<p>Click the correct word for 🍎</p>
+<button onclick="balloon('Apple')">Apple</button>
+<button onclick="balloon('Dog')">Dog</button>
+<button onclick="balloon('Chair')">Chair</button>
+<p id="score">⭐ Score: 0</p>
+</div>
+
+</div>
+
+<script>
+let score=Number(localStorage.getItem("module4score")||0);
+document.getElementById("score").textContent="⭐ Score: "+score;
+
+function say(t){
+ if(window.speechSynthesis){
+   speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+ }
+}
+
+function intro(){
+ let n=document.getElementById("name").value||"Student";
+ let text="Hello! My name is "+n+". I am a student.";
+ document.getElementById("introText").innerText=text;
+ say(text);
+}
+
+function reply(t){
+ document.getElementById("replyBox").innerText="✅ "+t;
+ say(t);
+}
+
+function check(ans){
+ if(ans==="am"){
+   document.getElementById("result").innerHTML="✅ Correct!";
+   score++;
+ }else{
+   document.getElementById("result").innerHTML="❌ Try Again";
+ }
+ save();
+}
+
+function balloon(ans){
+ if(ans==="Apple"){
+   alert("🎉 Great!");
+   score++;
+ }else{
+   alert("❌ Wrong! Correct answer: Apple");
+ }
+ save();
+}
+
+function save(){
+ localStorage.setItem("module4score",score);
+ document.getElementById("score").textContent="⭐ Score: "+score;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>સંસ્કૃત શબ્દો – Multi Game</title>
+<style>
+:root{
+  --ink:#183153; --card:#ffffff; --shadow:0 14px 35px rgba(20,40,90,.16);
+  --r:24px;
+}
+*{box-sizing:border-box} body{margin:0;font-family:"Noto Sans Gujarati","Nirmala UI","Shruti",system-ui,sans-serif;color:var(--ink);min-height:100vh;background:
+radial-gradient(circle at 10% 10%,#fff2a8 0 9%,transparent 10%),
+radial-gradient(circle at 92% 18%,#ffd4ed 0 10%,transparent 11%),
+linear-gradient(135deg,#dff7ff,#fff8df 55%,#f7e7ff);overflow-x:hidden}
+button,select,input{font:inherit}
+.app{max-width:1100px;margin:auto;padding:14px}
+header{background:linear-gradient(135deg,#5c4dff,#00b8d9);color:white;border-radius:28px;padding:18px 18px 15px;box-shadow:var(--shadow);position:sticky;top:8px;z-index:30}
+.topline{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+h1{font-size:clamp(23px,4vw,38px);margin:0}.sub{opacity:.95;font-weight:700}
+.stats{display:flex;gap:8px;flex-wrap:wrap}.pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);padding:7px 11px;border-radius:999px;font-weight:800}
+nav{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}
+.mode{border:0;border-radius:18px;padding:12px 8px;background:#fff;box-shadow:0 7px 18px rgba(0,0,0,.09);cursor:pointer;font-weight:900;color:#26385f;transition:.2s}
+.mode:hover,.mode.active{transform:translateY(-2px);background:#2f62ff;color:white}
+.panel{background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(9px);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);min-height:480px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:15px}
+select,.smallbtn,input{border:2px solid #dbe5ff;background:white;border-radius:14px;padding:10px 12px;font-weight:800;color:#2d3e64}
+.smallbtn{cursor:pointer}.primary{background:#2f62ff;color:white;border-color:#2f62ff}.good{background:#17b978;color:#fff;border-color:#17b978}.danger{background:#ff5c7a;color:white;border-color:#ff5c7a}
+.center{text-align:center}
+.bigemoji{font-size:90px;line-height:1.1;filter:drop-shadow(0 10px 12px rgba(0,0,0,.12))}
+.word{font-family:"Noto Sans Devanagari","Nirmala UI",serif;font-size:clamp(38px,8vw,72px);font-weight:900;color:#512da8;margin:10px 0}
+.meaning{font-size:clamp(24px,5vw,38px);font-weight:900;color:#e65100}
+.card{background:white;border-radius:24px;padding:24px;box-shadow:0 12px 24px rgba(43,62,120,.12);border:3px solid #edf2ff}
+.flashcard{max-width:620px;margin:20px auto;cursor:pointer;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.flashcard:before{content:"";position:absolute;inset:-80px auto auto -70px;width:180px;height:180px;background:#e8ddff;border-radius:50%}
+.flashcard>*{position:relative}.hint{font-size:14px;opacity:.65;font-weight:700}
+.q{font-size:clamp(22px,4vw,34px);font-weight:900;text-align:center;margin:10px auto 18px;max-width:800px}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:850px;margin:auto}
+.opt{border:0;background:white;border-radius:18px;padding:16px;box-shadow:0 8px 18px rgba(0,0,0,.08);font-weight:900;font-size:20px;color:#22375e;cursor:pointer;min-height:76px}.opt:hover{outline:3px solid #9ab0ff}.opt.correct{background:#c9f7df}.opt.wrong{background:#ffd4dc}
+.progress{height:12px;background:#e8edfb;border-radius:99px;overflow:hidden;margin:10px 0 0}.bar{height:100%;width:0;background:linear-gradient(90deg,#00c2ff,#17b978,#ffd23f);transition:.3s}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:850px;margin:auto}.mcol{display:grid;gap:9px}.mitem{padding:12px;border:0;border-radius:14px;background:white;box-shadow:0 7px 15px rgba(0,0,0,.07);font-weight:900;cursor:pointer;min-height:58px}.mitem.sel{outline:4px solid #7d6cff}.mitem.done{opacity:.35;pointer-events:none;background:#c9f7df}
+.memory{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:850px;margin:auto}.mem{aspect-ratio:1/.85;border:0;border-radius:16px;background:linear-gradient(135deg,#625bff,#a14cff);color:#fff;box-shadow:0 8px 17px rgba(62,50,150,.25);font-weight:900;font-size:20px;cursor:pointer;padding:8px}.mem.open,.mem.done{background:#fff;color:#26385f;border:2px solid #d9e3ff}.mem.done{background:#cdf5df}
+.balloon-area{height:430px;position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(#c8f2ff,#f3fbff 70%,#d5f6bd);border:3px dashed #8bd4ea}.balloon{position:absolute;width:128px;height:150px;border:0;border-radius:55% 55% 48% 48%;box-shadow:inset -12px -12px 20px rgba(0,0,0,.08),0 10px 18px rgba(0,0,0,.12);font-weight:900;color:#23345b;padding:10px;background:#fff;cursor:pointer;animation:float 3.2s ease-in-out infinite}.balloon:after{content:"";position:absolute;left:62px;top:146px;width:2px;height:70px;background:#677}.b1{left:4%;top:190px;background:#ffd9e6}.b2{left:28%;top:80px;background:#fff1a8;animation-delay:-.8s}.b3{left:53%;top:180px;background:#d9f8d7;animation-delay:-1.4s}.b4{left:76%;top:75px;background:#dbe7ff;animation-delay:-2s}@keyframes float{50%{transform:translateY(-22px) rotate(2deg)}}
+.typebox{max-width:700px;margin:auto;text-align:center}.typebox input{width:100%;font-size:28px;text-align:center;padding:16px}
+.celebrate{animation:pop .5s ease}@keyframes pop{50%{transform:scale(1.08)}}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(120px);background:#20375b;color:white;padding:12px 18px;border-radius:999px;font-weight:900;transition:.3s;z-index:100}.toast.show{transform:translateX(-50%) translateY(0)}
+footer{text-align:center;padding:16px;font-weight:800;opacity:.7}
+@media(max-width:700px){nav{grid-template-columns:repeat(2,1fr)}.options{grid-template-columns:1fr}.memory{grid-template-columns:repeat(3,1fr)}.balloon{width:96px;height:116px;font-size:14px}.balloon:after{left:47px;top:113px}.b1{left:2%}.b2{left:26%}.b3{left:50%}.b4{left:73%}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="topline">
+    <div><h1>🕉️ સંસ્કૃત શબ્દો – Game Zone</h1><div class="sub">ચિત્ર • શબ્દ • ગુજરાતી અર્થ • રમતાં રમતાં શીખો</div></div>
+    <div class="stats"><span class="pill">⭐ સ્કોર: <b id="score">0</b></span><span class="pill">🔥 સ્ટ્રીક: <b id="streak">0</b></span></div>
+  </div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+</header>
+
+<nav id="nav">
+  <button class="mode active" data-mode="flash">🎴 Flash Cards</button>
+  <button class="mode" data-mode="mcq">🎯 MCQ Quiz</button>
+  <button class="mode" data-mode="match">🔗 Match Pairs</button>
+  <button class="mode" data-mode="memory">🧠 Memory</button>
+  <button class="mode" data-mode="balloon">🎈 Balloon Pop</button>
+  <button class="mode" data-mode="type">⌨️ Type Answer</button>
+</nav>
+
+<section class="panel">
+  <div class="controls">
+    <select id="cat"></select>
+    <button class="smallbtn" id="shuffleBtn">🔀 Shuffle</button>
+    <button class="smallbtn primary" id="speakBtn">🔊 ઉચ્ચારણ</button>
+    <button class="smallbtn danger" id="resetBtn">↻ Restart</button>
+  </div>
+  <main id="game"></main>
+</section>
+<footer>Offline Single‑File HTML • Mobile / Tablet / Computer Friendly</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = [{"cat": "વાહનાનિ – વાહનો", "s": "यानम्", "g": "વાહન", "e": "🚗"}, {"cat": "વાહનાનિ – વાહનો", "s": "द्विचक्रिका", "g": "સાઇકલ", "e": "🚲"}, {"cat": "વાહનાનિ – વાહનો", "s": "लोकयानम्", "g": "બસ", "e": "🚌"}, {"cat": "વાહનાનિ – વાહનો", "s": "रेलयानम्", "g": "રેલગાડી", "e": "🚆"}, {"cat": "વાહનાનિ – વાહનો", "s": "विमानम्", "g": "વિમાન", "e": "✈️"}, {"cat": "વાહનાનિ – વાહનો", "s": "नौका", "g": "હોડી", "e": "🚣"}, {"cat": "વાહનાનિ – વાહનો", "s": "जलयानम्", "g": "જહાજ", "e": "🚢"}, {"cat": "વાહનાનિ – વાહનો", "s": "भारवाहनम्", "g": "ટ્રક", "e": "🚚"}, {"cat": "વાહનાનિ – વાહનો", "s": "त्रिचक्रिका", "g": "રિક્ષા", "e": "🛺"}, {"cat": "વાહનાનિ – વાહનો", "s": "अग्निशामकयानम्", "g": "અગ્નિશામક વાહન", "e": "🚒"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "आकाशः", "g": "આકાશ", "e": "☀️"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "पृथ्वी", "g": "પૃથ્વી", "e": "🌍"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "समुद्रः", "g": "સમુદ્ર", "e": "🌊"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "वनम्", "g": "જંગલ", "e": "🌳"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "वायुः", "g": "પવન", "e": "💨"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "अग्निः", "g": "અગ્નિ", "e": "🔥"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "तडित्", "g": "વીજળી", "e": "⚡"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "इन्द्रधनुः", "g": "મેઘધનુષ્ય", "e": "🌈"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "निर्झरः", "g": "ઝરણું", "e": "🏞️"}, {"cat": "પ્રકૃતિઃ – પ્રકૃતિ", "s": "तारकः", "g": "તારો", "e": "⭐"}, {"cat": "વર્ણાઃ – રંગો", "s": "रक्तः", "g": "લાલ", "e": "🔴"}, {"cat": "વર્ણાઃ – રંગો", "s": "पीतः", "g": "પીળો", "e": "🟡"}, {"cat": "વર્ણાઃ – રંગો", "s": "हरितः", "g": "લીલો", "e": "🟢"}, {"cat": "વર્ણાઃ – રંગો", "s": "नीलः", "g": "વાદળી", "e": "🔵"}, {"cat": "વર્ણાઃ – રંગો", "s": "कृष्णः", "g": "કાળો", "e": "⚫"}, {"cat": "વર્ણાઃ – રંગો", "s": "श्वेतः", "g": "સફેદ", "e": "⚪"}, {"cat": "વર્ણાઃ – રંગો", "s": "नारङ्गवर्णः", "g": "નારંગી", "e": "🟠"}, {"cat": "વર્ણાઃ – રંગો", "s": "पाटलः", "g": "ગુલાબી", "e": "🌸"}, {"cat": "વર્ણાઃ – રંગો", "s": "धूम्रवर्णः", "g": "જાંબલી", "e": "🟣"}, {"cat": "વર્ણાઃ – રંગો", "s": "कपिशः", "g": "ભૂરો", "e": "🟤"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "फलकम्", "g": "પાટિયું", "e": "🧑‍🏫"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "पीठिका", "g": "ટેબલ", "e": "🪑"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "आसन्दः", "g": "ખુરશી", "e": "🪑"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "मापिका", "g": "માપપટ્ટી", "e": "📏"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "घटिका", "g": "ઘડિયાળ", "e": "🕒"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "कन्दुकः", "g": "દડો", "e": "⚽"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "कूपी", "g": "બોટલ", "e": "🧴"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "स्यूतः", "g": "થેલો", "e": "🎒"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "कुञ्चिका", "g": "ચાવી", "e": "🔑"}, {"cat": "વસ્તુની – વસ્તુઓ", "s": "कर्तरी", "g": "કાતર", "e": "✂️"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "चटकः", "g": "ચકલો", "e": "🐦"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "कोकिला", "g": "કોયલ", "e": "🐦‍⬛"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "उलूकः", "g": "ઘુવડ", "e": "🦉"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "हंसः", "g": "હંસ", "e": "🦢"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "बकः", "g": "બગલો", "e": "🐦"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "गरुडः", "g": "ગરુડ", "e": "🦅"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "सारसः", "g": "સારસ", "e": "🪽"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "कपोतः", "g": "કબૂતર", "e": "🕊️"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "कुक्कुटी", "g": "મરઘી", "e": "🐔"}, {"cat": "પક્ષિણઃ – પક્ષીઓ", "s": "काकः", "g": "કાગડો", "e": "🐦‍⬛"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "व्याघ्रः", "g": "વાઘ", "e": "🐯"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "सिंहः", "g": "સિંહ", "e": "🦁"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "शशकः", "g": "સસલું", "e": "🐇"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "मूषकः", "g": "ઉંદર", "e": "🐭"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "महिषः", "g": "પાડો", "e": "🐃"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "उष्ट्रः", "g": "ઊંટ", "e": "🐪"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "हरिणः", "g": "હરણ", "e": "🦌"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "शृगालः", "g": "શિયાળ", "e": "🦊"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "भल्लूकः", "g": "રીંછ", "e": "🐻"}, {"cat": "પશવઃ – પ્રાણીઓ", "s": "गण्डकः", "g": "ગેંડો", "e": "🦏"}, {"cat": "ફલાની – ફળો", "s": "आम्रम्", "g": "કેરી", "e": "🥭"}, {"cat": "ફલાની – ફળો", "s": "कदलीफलम्", "g": "કેળું", "e": "🍌"}, {"cat": "ફલાની – ફળો", "s": "द्राक्षाफलम्", "g": "દ્રાક્ષ", "e": "🍇"}, {"cat": "ફલાની – ફળો", "s": "नारङ्गम्", "g": "નારંગી", "e": "🍊"}, {"cat": "ફલાની – ફળો", "s": "दाडिमम्", "g": "દાડમ", "e": "🔴"}, {"cat": "ફલાની – ફળો", "s": "नारिकेलम्", "g": "નાળિયેર", "e": "🥥"}, {"cat": "ફલાની – ફળો", "s": "सेवफलम्", "g": "સફરજન", "e": "🍎"}, {"cat": "ફલાની – ફળો", "s": "कलिङ्गम्", "g": "તરબૂચ", "e": "🍉"}, {"cat": "ફલાની – ફળો", "s": "पनसम्", "g": "ફણસ", "e": "🟩"}, {"cat": "ફલાની – ફળો", "s": "जम्बूफलम्", "g": "જાંબુ", "e": "🫐"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "नेत्रम्", "g": "આંખ", "e": "👁️"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "कर्णः", "g": "કાન", "e": "👂"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "हस्तः", "g": "હાથ", "e": "✋"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "पादः", "g": "પગ", "e": "🦶"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "मुखम्", "g": "મોઢું", "e": "👄"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "नासिका", "g": "નાક", "e": "👃"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "दन्तः", "g": "દાંત", "e": "🦷"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "जिह्वा", "g": "જીભ", "e": "👅"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "केशः", "g": "વાળ", "e": "💇"}, {"cat": "શરીરસ્ય અઙ્ગાનિ – શરીરના અંગો", "s": "अङ्गुली", "g": "આંગળી", "e": "☝️"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "दीपः", "g": "દીવો", "e": "🪔"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "दर्पणः", "g": "અરીસો", "e": "🪞"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "द्वारम्", "g": "બારણું", "e": "🚪"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "चक्रम्", "g": "પૈડું", "e": "🛞"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "नौका", "g": "હોડી", "e": "🚣"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "कदली", "g": "કેળું", "e": "🍌"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "आम्रम्", "g": "આંબો", "e": "🌳"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "कपोतः", "g": "કબૂતર", "e": "🕊️"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "कुक्कुटः", "g": "કૂકડો", "e": "🐓"}, {"cat": "મિશ્ર શબ્દો – ૧", "s": "अजा", "g": "બકરી", "e": "🐐"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "गृहम्", "g": "ઘર", "e": "🏠"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "विद्यालयः", "g": "શાળા", "e": "🏫"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "उद्यानम्", "g": "બગીચો", "e": "🏞️"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "मेघः", "g": "વાદળ", "e": "☁️"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "वर्षा", "g": "વરસાદ", "e": "🌧️"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "कुक्कुरः", "g": "કૂતરો", "e": "🐶"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "मार्जारः", "g": "બિલાડી", "e": "🐱"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "काकः", "g": "કાગડો", "e": "🐦‍⬛"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "छत्रम्", "g": "છત્રી", "e": "☂️"}, {"cat": "મિશ્ર શબ્દો – ૨", "s": "घटः", "g": "ઘડો", "e": "🏺"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "नदी", "g": "નદી", "e": "🏞️"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "पर्वतः", "g": "પર્વત", "e": "🏔️"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "कमलम्", "g": "કમળ", "e": "🪷"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "फलम्", "g": "ફળ", "e": "🍎"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "सिंहः", "g": "સિંહ", "e": "🦁"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "शुकः", "g": "પોપટ", "e": "🦜"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "मत्स्यः", "g": "માછલી", "e": "🐟"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "बालकः", "g": "છોકરો", "e": "👦"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "बालिका", "g": "છોકરી", "e": "👧"}, {"cat": "મિશ્ર શબ્દો – ૩", "s": "लेखनी", "g": "કલમ", "e": "🖊️"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "सूर्यः", "g": "સૂર્ય", "e": "☀️"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "चन्द्रः", "g": "ચંદ્ર", "e": "🌙"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "वृक्षः", "g": "વૃક્ષ", "e": "🌳"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "पुष्पम्", "g": "ફૂલ", "e": "🌺"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "गजः", "g": "હાથી", "e": "🐘"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "अश्वः", "g": "ઘોડો", "e": "🐎"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "धेनुः", "g": "ગાય", "e": "🐄"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "वानरः", "g": "વાંદરો", "e": "🐒"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "मयूरः", "g": "મોર", "e": "🦚"}, {"cat": "મિશ્ર શબ્દો – ૪", "s": "पुस्तकम्", "g": "પુસ્તક", "e": "📕"}];
+let mode="flash", score=0, streak=0, idx=0, pool=[], current=null, lock=false;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const game=$("#game"), cat=$("#cat");
+
+function uniq(a){return [...new Set(a)]}
+function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]))}
+function filtered(){
+ const v=cat.value;
+ return v==="ALL"?DATA:DATA.filter(x=>x.cat===v);
+}
+function toast(t){let el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1200)}
+function sound(ok=true){
+ try{
+   const ctx=new (window.AudioContext||window.webkitAudioContext)(),o=ctx.createOscillator(),g=ctx.createGain();
+   o.connect(g);g.connect(ctx.destination);o.frequency.value=ok?660:180;g.gain.value=.06;o.start();
+   o.frequency.exponentialRampToValueAtTime(ok?990:130,ctx.currentTime+.18);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.3);o.stop(ctx.currentTime+.31);
+ }catch(e){}
+}
+function speak(text){
+ if(!("speechSynthesis" in window)){toast("આ બ્રાઉઝરમાં Speech ઉપલબ્ધ નથી");return}
+ speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang="hi-IN";u.rate=.75;speechSynthesis.speak(u);
+}
+function stat(ok){
+ if(ok){score+=10;streak++;sound(true);toast("✅ સરસ! સાચો જવાબ");}
+ else{streak=0;sound(false);toast("💡 ફરી પ્રયત્ન કરો!");}
+ $("#score").textContent=score;$("#streak").textContent=streak;
+}
+function setProgress(n,d){$("#bar").style.width=(d?Math.min(100,n/d*100):0)+"%"}
+function setPool(){pool=shuffle(filtered());idx=0;setProgress(0,pool.length)}
+function next(){idx++;setProgress(idx,pool.length);if(idx>=pool.length){idx=0;pool=shuffle(pool);toast("🏆 એક રાઉન્ડ પૂર્ણ! ફરી શરૂ.");}render()}
+function pickWrong(item,n=3,field="g"){
+ return shuffle(uniq(filtered().filter(x=>x!==item).map(x=>x[field]))).slice(0,n)
+}
+function render(){
+ lock=false;
+ if(!pool.length)setPool();
+ if(mode==="flash")renderFlash();
+ if(mode==="mcq")renderMCQ();
+ if(mode==="match")renderMatch();
+ if(mode==="memory")renderMemory();
+ if(mode==="balloon")renderBalloon();
+ if(mode==="type")renderType();
+}
+function renderFlash(){
+ current=pool[idx%pool.length];
+ game.innerHTML=`<div class="flashcard card center celebrate" id="fc">
+   <div class="bigemoji">${current.e}</div>
+   <div class="word">${esc(current.s)}</div>
+   <div class="meaning">${esc(current.g)}</div>
+   <div class="hint">કાર્ડ પર ટૅપ કરો અથવા “આગળ” દબાવો • ${esc(current.cat)}</div>
+ </div><div class="center"><button class="smallbtn primary" id="nextF">આગળ ➜</button></div>`;
+ $("#fc").onclick=()=>speak(current.s); $("#nextF").onclick=next;
+}
+function renderMCQ(){
+ current=pool[idx%pool.length];
+ let opts=shuffle([current.g,...pickWrong(current,3,"g")]);
+ game.innerHTML=`<div class="q">${current.e} <span class="word" style="font-size:1.15em">${esc(current.s)}</span><br>નો સાચો ગુજરાતી અર્થ કયો?</div>
+ <div class="options">${opts.map(o=>`<button class="opt">${esc(o)}</button>`).join("")}</div>`;
+ $$(".opt").forEach(b=>b.onclick=()=>{
+   if(lock)return;
+   if(b.textContent===current.g){b.classList.add("correct");stat(true);lock=true;setTimeout(next,650)}
+   else{b.classList.add("wrong");stat(false)}
+ });
+}
+function samplePairs(n=6){let a=shuffle(filtered()).slice(0,Math.min(n,filtered().length));return a}
+let matchSel=null,matchDone=0;
+function renderMatch(){
+ let a=samplePairs(6), left=shuffle(a), right=shuffle(a);
+ matchSel=null;matchDone=0;current=a[0];
+ game.innerHTML=`<div class="q">🔗 સંસ્કૃત શબ્દને તેના ગુજરાતી અર્થ સાથે જોડો</div>
+ <div class="matchgrid"><div class="mcol">${left.map((x,i)=>`<button class="mitem" data-side="s" data-key="${esc(x.s)}">${esc(x.s)}</button>`).join("")}</div>
+ <div class="mcol">${right.map(x=>`<button class="mitem" data-side="g" data-key="${esc(x.s)}">${x.e} ${esc(x.g)}</button>`).join("")}</div></div>`;
+ $$(".mitem").forEach(b=>b.onclick=()=>{
+   if(b.classList.contains("done"))return;
+   let side=b.dataset.side;
+   if(!matchSel){matchSel=b;b.classList.add("sel");return}
+   if(matchSel.dataset.side===side){matchSel.classList.remove("sel");matchSel=b;b.classList.add("sel");return}
+   if(matchSel.dataset.key===b.dataset.key){
+      [matchSel,b].forEach(x=>{x.classList.remove("sel");x.classList.add("done")});matchSel=null;matchDone++;stat(true);
+      setProgress(matchDone,a.length);if(matchDone===a.length)setTimeout(()=>{toast("🎉 Matching પૂર્ણ!");renderMatch()},900)
+   }else{stat(false);let old=matchSel;old.classList.remove("sel");b.classList.add("wrong");matchSel=null;setTimeout(()=>b.classList.remove("wrong"),450)}
+ });
+}
+let memFirst=null,memLock=false,memDone=0;
+function renderMemory(){
+ let a=samplePairs(6), cards=shuffle(a.flatMap(x=>[
+   {key:x.s,text:x.s,kind:"s"},{key:x.s,text:x.e+" "+x.g,kind:"g"}
+ ]));
+ memFirst=null;memLock=false;memDone=0;current=a[0];
+ game.innerHTML=`<div class="q">🧠 સમાન શબ્દ અને અર્થની જોડી શોધો</div><div class="memory">
+ ${cards.map((c,i)=>`<button class="mem" data-i="${i}" data-key="${esc(c.key)}" data-text="${esc(c.text)}">?</button>`).join("")}</div>`;
+ let btns=$$(".mem");
+ btns.forEach(b=>b.onclick=()=>{
+   if(memLock||b.classList.contains("open")||b.classList.contains("done"))return;
+   b.textContent=b.dataset.text;b.classList.add("open");
+   if(!memFirst){memFirst=b;return}
+   if(memFirst.dataset.key===b.dataset.key){
+      memFirst.classList.add("done");b.classList.add("done");memFirst.classList.remove("open");b.classList.remove("open");memFirst=null;memDone++;stat(true);setProgress(memDone,a.length);
+      if(memDone===a.length)setTimeout(()=>{toast("🏆 Memory Game પૂર્ણ!");renderMemory()},1000)
+   }else{
+      stat(false);memLock=true;let f=memFirst;memFirst=null;setTimeout(()=>{[f,b].forEach(x=>{x.textContent="?";x.classList.remove("open")});memLock=false},700)
+   }
+ });
+}
+function renderBalloon(){
+ current=pool[idx%pool.length];
+ let opts=shuffle([current.g,...pickWrong(current,3,"g")]);
+ game.innerHTML=`<div class="q">🎈 <span class="word" style="font-size:1.05em">${esc(current.s)}</span> = ?<br><span style="font-size:16px">સાચા અર્થવાળો બલૂન ફોડો!</span></div>
+ <div class="balloon-area">${opts.map((o,i)=>`<button class="balloon b${i+1}">${esc(o)}</button>`).join("")}</div>`;
+ $$(".balloon").forEach(b=>b.onclick=()=>{
+   if(lock)return;
+   if(b.textContent===current.g){b.style.transform="scale(1.5)";b.style.opacity="0";stat(true);lock=true;setTimeout(next,650)}
+   else{stat(false);b.animate([{transform:"translateX(0)"},{transform:"translateX(-9px)"},{transform:"translateX(9px)"},{transform:"translateX(0)"}],{duration:260})}
+ });
+}
+function norm(s){return s.trim().replace(/\s+/g," ").toLowerCase()}
+function renderType(){
+ current=pool[idx%pool.length];
+ game.innerHTML=`<div class="typebox">
+ <div class="bigemoji">${current.e}</div>
+ <div class="q">ગુજરાતી અર્થ: <span class="meaning">${esc(current.g)}</span><br>સંસ્કૃત શબ્દ લખો:</div>
+ <input id="ans" autocomplete="off" placeholder="અહીં સંસ્કૃત શબ્દ લખો…">
+ <div style="margin-top:12px"><button class="smallbtn good" id="check">✔ તપાસો</button> <button class="smallbtn" id="show">💡 જવાબ બતાવો</button></div>
+ </div>`;
+ $("#check").onclick=()=>{
+   let a=$("#ans");
+   if(norm(a.value)===norm(current.s)){a.style.borderColor="#17b978";stat(true);setTimeout(next,700)}
+   else{a.style.borderColor="#ff5c7a";stat(false)}
+ };
+ $("#show").onclick=()=>toast("જવાબ: "+current.s); $("#ans").onkeydown=e=>{if(e.key==="Enter")$("#check").click()}; setTimeout(()=>$("#ans").focus(),50)
+}
+uniq(DATA.map(x=>x.cat)).forEach(c=>cat.insertAdjacentHTML("beforeend",`<option>${esc(c)}</option>`));
+cat.insertAdjacentHTML("afterbegin",`<option value="ALL">🌟 બધા શબ્દો (${DATA.length})</option>`);
+cat.onchange=()=>{setPool();render()}
+$("#shuffleBtn").onclick=()=>{setPool();render();toast("🔀 પ્રશ્નો Shuffle થયા")}
+$("#speakBtn").onclick=()=>{if(current)speak(current.s);else toast("શબ્દ પસંદ થવા દો")}
+$("#resetBtn").onclick=()=>{score=streak=0;$("#score").textContent=0;$("#streak").textContent=0;setPool();render();toast("↻ Game Restart")}
+$$(".mode").forEach(b=>b.onclick=()=>{$$(".mode").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode;setPool();render()});
+setPool();render();
+</script>
+</body>
+</html>

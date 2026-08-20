@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>બાળક વાંચન ઝડપ અભ્યાસ</title>
+<style>
+:root {
+  --bg:#f5f7ff; --card:#fff; --text:#182033; --accent:#5b4bdb;
+  --accent2:#ff8a3d; --good:#159957; --muted:#687086;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans Gujarati","Nirmala UI","Shruti",sans-serif;background:linear-gradient(135deg,#eef3ff,#fff7ef);color:var(--text)}
+.container{max-width:1050px;margin:auto;padding:18px}
+header{background:linear-gradient(135deg,#5b4bdb,#7b5cff);color:#fff;border-radius:24px;padding:25px;text-align:center;box-shadow:0 12px 35px #4b3bb52e}
+h1{margin:0 0 6px;font-size:clamp(28px,5vw,46px)} header p{margin:0;opacity:.9;font-size:18px}
+.panel{background:var(--card);border-radius:22px;padding:22px;margin-top:18px;box-shadow:0 8px 30px #24304a12}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+input,select{padding:13px 15px;border:2px solid #e5e8f0;border-radius:12px;font-size:16px;flex:1;min-width:190px}
+button{border:0;border-radius:12px;padding:12px 18px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-2px)} .primary{background:var(--accent);color:white} .orange{background:var(--accent2);color:white}
+.secondary{background:#edf0f7;color:#26304a} .danger{background:#e94b5f;color:#fff}
+.hidden{display:none!important}
+.topbar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{background:#eef0ff;color:var(--accent);padding:9px 13px;border-radius:999px;font-weight:700}
+.timer{font-size:clamp(34px,8vw,58px);font-weight:900;text-align:center;letter-spacing:2px;margin:12px}
+.progress{height:12px;background:#e9ebf3;border-radius:20px;overflow:hidden}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,#5b4bdb,#ff8a3d);width:2%;transition:.3s}
+.reading-box{min-height:300px;display:flex;align-items:center;justify-content:center;text-align:left;padding:28px;border:3px dashed #d8dcf2;border-radius:20px;background:#fbfcff}
+#paragraph{font-size:clamp(28px,4.2vw,50px);line-height:2.05;font-weight:600}
+.controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.stat{background:#f7f8fc;border-radius:16px;padding:17px;text-align:center}
+.stat b{display:block;font-size:28px;color:var(--accent);margin-top:5px}
+.result{text-align:center}
+.certificate{background:#fffdf5;border:9px double #d7a52a;border-radius:18px;padding:28px;margin-top:18px}
+.certificate h2{font-size:34px;color:#a06a00}
+.certificate .name{font-size:32px;font-weight:900;color:#5b4bdb;margin:15px}
+footer{text-align:center;color:var(--muted);padding:22px}
+.dark{--bg:#111522;--card:#1b2030;--text:#f3f5ff;--muted:#b5bdd1}
+.dark .reading-box,.dark .stat,.dark input,.dark select{background:#141927;color:#fff;border-color:#30384d}
+@media(max-width:600px){.container{padding:10px}.panel{padding:15px}#paragraph{font-size:28px}}
+@media print{body{background:#fff} header,.no-print,footer{display:none!important}.certificate{display:block!important}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>📖 બાળક વાંચન ઝડપ અભ્યાસ</h1>
+  <p>સરળ ભાષામાં 50 નાના વાંચન ફકરા</p>
+</header>
+
+<section class="panel" id="setup">
+  <h2>👦 વિદ્યાર્થીની માહિતી</h2>
+  <div class="row">
+    <input id="student" placeholder="વિદ્યાર્થીનું નામ લખો">
+    <select id="standard"><option>ધોરણ પસંદ કરો</option><option>ધોરણ 1</option><option>ધોરણ 2</option><option>ધોરણ 3</option><option>ધોરણ 4</option><option>ધોરણ 5</option><option>ધોરણ 6</option><option>ધોરણ 7</option><option>ધોરણ 8</option></select>
+  </div>
+  <div class="controls">
+    <button class="primary" onclick="startGame()">🚀 વાંચન શરૂ કરો</button>
+    <button class="secondary" onclick="toggleDark()">🌙 Dark Mode</button>
+  </div>
+</section>
+
+<section class="panel hidden" id="game">
+  <div class="topbar">
+    <span class="badge" id="counter">ફકરો 1 / 50</span>
+    <span class="badge" id="wpmBadge">WPM: —</span>
+  </div>
+  <div class="progress"><span id="bar"></span></div>
+  <div class="timer" id="timer">00:00.0</div>
+
+  <div class="reading-box">
+    <div id="paragraph"></div>
+  </div>
+
+  <div class="controls no-print">
+    <button class="primary" id="startBtn" onclick="beginTimer()">▶️ Timer Start</button>
+    <button class="secondary" onclick="pauseTimer()">⏸️ Pause</button>
+    <button class="orange" onclick="finishParagraph()">✅ વાંચન પૂર્ણ</button>
+  </div>
+  <div class="controls no-print">
+    <button class="secondary" onclick="prevPara()">⬅️ પાછો</button>
+    <button class="secondary" onclick="nextPara()">આગળ ➡️</button>
+    <button class="secondary" onclick="randomPara()">🎲 Random</button>
+    <button class="secondary" onclick="toggleFullscreen()">⛶ Full Screen</button>
+  </div>
+</section>
+
+<section class="panel hidden result" id="result">
+  <h2>🎉 વાંચન પરિણામ</h2>
+  <div class="stats">
+    <div class="stat">વિદ્યાર્થી<b id="rName">—</b></div>
+    <div class="stat">ફકરો<b id="rPara">—</b></div>
+    <div class="stat">સમય<b id="rTime">—</b></div>
+    <div class="stat">વાંચન ઝડપ<b id="rWpm">—</b></div>
+    <div class="stat">ગ્રેડ<b id="rGrade">—</b></div>
+  </div>
+
+  <div class="certificate" id="certificate">
+    <div>🏫 <strong>વાંચન ઝડપ પ્રમાણપત્ર</strong></div>
+    <h2>Certificate of Reading</h2>
+    <p>આ પ્રમાણપત્ર</p>
+    <div class="name" id="cName">વિદ્યાર્થી</div>
+    <p>ને ગુજરાતી વાંચન અભ્યાસમાં ઉત્કૃષ્ટ ભાગ લેવા બદલ આપવામાં આવે છે.</p>
+    <p><strong>વાંચન ઝડપ:</strong> <span id="cWpm"></span> શબ્દ/મિનિટ</p>
+    <p><strong>ગ્રેડ:</strong> <span id="cGrade"></span></p>
+    <p><strong>તારીખ:</strong> <span id="cDate"></span></p>
+    <br><br>
+    <div style="display:flex;justify-content:space-around"><span>____________<br>શિક્ષક</span><span>____________<br>આચાર્ય</span></div>
+  </div>
+
+  <div class="controls no-print">
+    <button class="primary" onclick="window.print()">🖨️ Certificate Print</button>
+    <button class="orange" onclick="restart()">🔄 ફરી શરૂ કરો</button>
+  </div>
+</section>
+
+<footer>Designed & Developed by <strong>Krishna R.</strong> • Gujarati Reading Practice</footer>
+</div>
+
+<script>
+const paragraphs = [
+    'રમણ શાળાએ જાય છે. તે વહેલા ઊઠે છે. તે બેગ લઈને જાય છે. તે ભણે છે. રમણ સારો વિદ્યાર્થી છે.',
+    'સીતા બગીચામાં જાય છે. તે ફૂલ તોડતી નથી. તે પાણી આપે છે. પંખી ઉડે છે. સીતાને બગીચો ગમે છે.',
+    'મારો કૂતરો મોતી છે. તે સફેદ છે. તે દોડે છે. તે દૂધ પીવે છે. મોતી મારો મિત્ર છે.',
+    'આમ મીઠાં ફળ છે. તે પીળાં છે. ઉનાળામાં મળે છે. બધા આમ ખાય છે. આમ સ્વાદિષ્ટ છે.',
+    'મારા પિતા ઓફિસ જાય છે. તેઓ મહેનત કરે છે. તેઓ અખબાર વાંચે છે. તેઓ મને પ્રેમ કરે છે. હું ખુશ છું.',
+    'મારી મા રસોઈ બનાવે છે. તે ભોજન આપે છે. તે મને ટિફિન આપે છે. હું શાળાએ જાઉં છું. મા સારી છે.',
+    'શાળા જ્ઞાનનું ઘર છે. અમે ભણીએ છીએ. અમે રમીએ છીએ. શિક્ષક શીખવે છે. શાળા ગમે છે.',
+    'ગાય દૂધ આપે છે. ગાય ઘાસ ખાય છે. ગાય શાંત છે. ગાય ઉપયોગી છે. આપણે ગાયને પ્રેમ કરવો.',
+    'વૃક્ષો ફળ આપે છે. વૃક્ષો છાંયો આપે છે. હવા શુદ્ધ કરે છે. આપણે વૃક્ષ વાવવાં. વૃક્ષ મિત્ર છે.',
+    'હું ક્રિકેટ રમું છું. મિત્રો સાથે રમું છું. હું મેદાનમાં જાઉં છું. દોડું છું. મને રમવું ગમે છે.',
+    'મારો મિત્ર રાહુલ છે. તે મારી સાથે ભણે છે. અમે સાથે રમીએ છીએ. તે સારો છે. મને મિત્ર ગમે છે.',
+    'કાગડો કાળો છે. તે ઉડે છે. તે દાણા ખાય છે. તે ઝાડ પર બેસે છે. કાગડો ચતુર છે.',
+    'મોર સુંદર છે. મોર નાચે છે. વરસાદમાં નાચે છે. તેની પાંખો રંગીન છે. મોર રાષ્ટ્રીય પક્ષી છે.',
+    'બિલાડી દૂધ પીવે છે. તે ઉંદર પકડે છે. તે ઘરમાં રહે છે. તે રમે છે. બિલાડી ચંચળ છે.',
+    'મને દૂધ પીવું ગમે છે. દૂધ સ્વાસ્થ્ય માટે સારું છે. મા મને દૂધ આપે છે. હું રોજ પીઉં છું. હું તંદુરસ્ત છું.',
+    'સૂરજ સવારે ઊગે છે. પ્રકાશ આપે છે. ગરમી આપે છે. સાંજે અસ્ત થાય છે. સૂરજ જરૂરી છે.',
+    'ચંદ્ર રાત્રે દેખાય છે. તે સફેદ છે. તારાઓ ચમકે છે. આકાશ સુંદર લાગે છે. રાત શાંત છે.',
+    'મારું ઘર મોટું છે. ઘરમાં રૂમ છે. બારી છે. દરવાજો છે. મને ઘર ગમે છે.',
+    'પાણી જીવન છે. પાણી પીવું જોઈએ. પાણી બચાવવું જોઈએ. પાણી સાફ રાખવું જોઈએ. પાણી અમૂલ્ય છે.',
+    'પેનથી લખીએ છીએ. પેન્સિલથી દોરીએ છીએ. પુસ્તક વાંચીએ છીએ. બેગ લઈએ છીએ. શાળા સારી છે.',
+    'હાથી મોટો છે. તેની સૂંઢ લાંબી છે. તે ઘાસ ખાય છે. તે પાણી પીવે છે. હાથી શાંત પ્રાણી છે.',
+    'ઘોડો દોડે છે. તે ઝડપી છે. તે ઘાસ ખાય છે. માણસને મદદ કરે છે. ઘોડો ઉપયોગી છે.',
+    'માછલી પાણીમાં રહે છે. તે તરે છે. તે નાની છે. પાણી સ્વચ્છ હોવું જોઈએ. માછલી સુંદર છે.',
+    'વરસાદ પડે છે. પાણી વરસે છે. ખેડૂત ખુશ થાય છે. ખેતર લીલું થાય છે. વરસાદ જરૂરી છે.',
+    'શિયાળો આવે છે. ઠંડી પડે છે. લોકો સ્વેટર પહેરે છે. સૂરજ ધીમો હોય છે. શિયાળો ગમે છે.',
+    'ઉનાળો આવે છે. ગરમી પડે છે. લોકો છાશ પીવે છે. આમ ખાય છે. ઉનાળો મજાનો છે.',
+    'મારી બહેન ભણે છે. તે ગીત ગાય છે. તે ચિત્ર દોરી શકે છે. તે રમે છે. બહેન સારી છે.',
+    'મારો ભાઈ ક્રિકેટ રમે છે. તે દોડે છે. તે બોલ ફેંકે છે. તે ખુશ રહે છે. ભાઈ મારો મિત્ર છે.',
+    'પતંગ આકાશમાં ઉડે છે. દોરો પકડી રાખીએ છીએ. પવન પૂંકો હોય છે. પતંગ નાચે છે. મને પતંગ ગમે છે.',
+    'બગીચામાં ઝૂલા છે. બાળકો રમે છે. ફૂલ ખીલે છે. પંખી ગાય છે. બગીચો સુંદર છે.',
+    'ટ્રેન પાટા પર દોડે છે. લોકો મુસાફરી કરે છે. સ્ટેશન આવે છે. ટ્રેન રોકાય છે. ટ્રેન ઝડપી છે.',
+    'બસ રસ્તા પર ચાલે છે. લોકો બેઠા રહે છે. ડ્રાઇવર ચલાવે છે. બસ સ્ટોપ આવે છે. બસ ઉપયોગી છે.',
+    'સાઇકલ પર હું શાળાએ જાઉં છું. હું ધીમે ચલાવું છું. રસ્તા પર ધ્યાન રાખું છું. હેલ્મેટ પહેરું છું. સાઇકલ સારી છે.',
+    'મોબાઇલથી વાત કરીએ છીએ. ગીત સાંભળીએ છીએ. વીડિયો જોઈએ છીએ. સમય ઓછો વાપરવો. મોબાઇલ ઉપયોગી છે.',
+    'પુસ્તક જ્ઞાન આપે છે. અમે વાંચીએ છીએ. નવી વાત શીખીએ છીએ. પુસ્તક સાચવવું જોઈએ. પુસ્તક મિત્ર છે.',
+    'શિક્ષક અમને ભણાવે છે. તેઓ સમજાવે છે. તેઓ પ્રેમ કરે છે. અમે સાંભળીએ છીએ. શિક્ષક સારા છે.',
+    'રાષ્ટ્રીય ધ્વજ તિરંગો છે. તેમાં ત્રણ રંગ છે. કેસરી, સફેદ, લીલો છે. અશોક ચક્ર છે. ધ્વજ ગર્વ છે.',
+    'ભારત આપણો દેશ છે. આપણે ભારતીય છીએ. દેશને પ્રેમ કરવો. ધ્વજને સલામ કરવી. ભારત મહાન છે.',
+    'સફાઈ રાખવી જોઈએ. કચરો ડસ્ટબિનમાં નાખવો. હાથ ધોવા જોઈએ. આસપાસ સાફ રાખવું. સ્વચ્છતા સારી છે.',
+    'સમયસર ઊઠવું જોઈએ. સમયસર ભણવું જોઈએ. સમયસર રમવું જોઈએ. સમયસર સૂવું જોઈએ. સમય મહત્વનો છે.',
+    'પંખી આકાશમાં ઉડે છે. તે ઘોંસલું બનાવે છે. દાણા ખાય છે. બચ્ચાંને ખવડાવે છે. પંખી પ્રેમાળ છે.',
+    'સિંહ જંગલનો રાજા છે. તે જોરથી દહાડે છે. તે શિકાર કરે છે. જંગલમાં રહે છે. સિંહ શક્તિશાળી છે.',
+    'ખેડૂત ખેતરમાં જાય છે. તે વાવણી કરે છે. પાણી આપે છે. પાક ઉગે છે. ખેડૂત મહેનત કરે છે.',
+    'દીવો પ્રકાશ આપે છે. અંધકાર દૂર કરે છે. દીપાવલીમાં દીવો બળે છે. ઘર ચમકે છે. દીવો સુંદર છે.',
+    'શાળા બસ આવે છે. બાળકો ચડે છે. બસ શાળાએ જાય છે. બાળકો ઉતરે છે. બસ મદદ કરે છે.',
+    'મને ચિત્ર દોરવાનું ગમે છે. હું રંગ ભરું છું. સૂરજ દોરું છું. વૃક્ષ દોરું છું. ચિત્ર સુંદર લાગે છે.',
+    'મને ગીત ગાવું ગમે છે. હું શાળામાં ગાઉં છું. મિત્રો સાંભળે છે. શિક્ષક ખુશ થાય છે. મને આનંદ થાય છે.',
+    'મને વાર્તા સાંભળવી ગમે છે. દાદી વાર્તા કહે છે. હું ધ્યાનથી સાંભળું છું. મને મજા આવે છે. વાર્તા સારી છે.',
+    'મિત્ર સાથે રમવું જોઈએ. ઝઘડો ન કરવો. વસ્તુ વહેંચવી. પ્રેમથી રહેવું. મિત્રતા સારી છે.',
+    'સારાં કામ કરવાં જોઈએ. મોટા લોકોનું માન રાખવું. ખોટું ન બોલવું. સત્ય બોલવું. સારો બાળક બનવું.'
+];
+
+let index=0, startTime=0, elapsed=0, interval=null, running=false, finished=false;
+
+const $ = id => document.getElementById(id);
+
+function startGame(){
+  if(!$('student').value.trim()){ alert('કૃપા કરીને વિદ્યાર્થીનું નામ લખો.'); return; }
+  $('setup').classList.add('hidden');
+  $('game').classList.remove('hidden');
+  $('result').classList.add('hidden');
+  showParagraph();
+}
+
+function showParagraph(){
+  $('paragraph').textContent=paragraphs[index];
+  $('counter').textContent=`ફકરો ${index+1} / 50`;
+  $('bar').style.width=((index+1)/50*100)+'%';
+  $('wpmBadge').textContent='WPM: —';
+  resetTimer();
+}
+
+function beginTimer(){
+  if(running) return;
+  running=true; finished=false;
+  startTime=performance.now()-elapsed;
+  interval=setInterval(updateTimer,100);
+}
+
+function updateTimer(){
+  elapsed=performance.now()-startTime;
+  $('timer').textContent=formatTime(elapsed);
+}
+
+function pauseTimer(){
+  if(!running) return;
+  running=false; clearInterval(interval);
+  elapsed=performance.now()-startTime;
+}
+
+function resetTimer(){
+  running=false; clearInterval(interval); elapsed=0;
+  $('timer').textContent='00:00.0';
+}
+
+function formatTime(ms){
+  const total=ms/1000, m=Math.floor(total/60), s=Math.floor(total%60), d=Math.floor((ms%1000)/100);
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${d}`;
+}
+
+function wordCount(text){
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function finishParagraph(){
+  if(finished) return;
+  if(!running && elapsed===0){ alert('પહેલા Timer Start કરો.'); return; }
+  if(running) pauseTimer();
+  finished=true;
+  const seconds=Math.max(elapsed/1000,0.1);
+  const words=wordCount(paragraphs[index]);
+  const wpm=Math.round(words/(seconds/60));
+  let grade=wpm>=80?'⭐ Excellent':wpm>=60?'🌟 Very Good':wpm>=40?'👍 Good':'📖 Keep Practicing';
+
+  $('wpmBadge').textContent='WPM: '+wpm;
+  $('rName').textContent=$('student').value;
+  $('rPara').textContent=(index+1)+'/50';
+  $('rTime').textContent=formatTime(elapsed);
+  $('rWpm').textContent=wpm;
+  $('rGrade').textContent=grade;
+  $('cName').textContent=$('student').value;
+  $('cWpm').textContent=wpm;
+  $('cGrade').textContent=grade;
+  $('cDate').textContent=new Date().toLocaleDateString('gu-IN');
+
+  $('game').classList.add('hidden');
+  $('result').classList.remove('hidden');
+  celebrate();
+}
+
+function nextPara(){
+  index=(index+1)%paragraphs.length;
+  showParagraph();
+}
+function prevPara(){
+  index=(index-1+paragraphs.length)%paragraphs.length;
+  showParagraph();
+}
+function randomPara(){
+  index=Math.floor(Math.random()*paragraphs.length);
+  showParagraph();
+}
+function restart(){
+  index=0;
+  $('result').classList.add('hidden');
+  $('game').classList.remove('hidden');
+  showParagraph();
+}
+function toggleDark(){document.body.classList.toggle('dark')}
+function toggleFullscreen(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+}
+function celebrate(){
+  for(let i=0;i<35;i++){
+    const e=document.createElement('span');
+    e.textContent=['🎉','⭐','✨','🎈'][Math.floor(Math.random()*4)];
+    e.style.position='fixed'; e.style.left=Math.random()*100+'vw'; e.style.top='-30px';
+    e.style.fontSize=(18+Math.random()*25)+'px'; e.style.zIndex=9999;
+    document.body.appendChild(e);
+    const duration=1000+Math.random()*1800;
+    e.animate([{transform:'translateY(0) rotate(0deg)',opacity:1},
+               {transform:`translateY(110vh) rotate(${Math.random()*720}deg)`,opacity:0}],{duration,easing:'ease-in'})
+     .onfinish=()=>e.remove();
+  }
+}
+</script>
+</body>
+</html>

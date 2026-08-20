@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <title>બોનોફાઈડ પ્રમાણપત્ર જનરેટર</title>
+    <!-- Google Fonts માંથી Hind Vadodara ફોન્ટ લિંક કર્યા -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #000000;
+        }
+        .control-panel {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 15px auto;
+            max-width: 950px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .control-panel h2 {
+            margin-top: 0;
+            color: #000000;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+        .creator-tag {
+            font-size: 11px;
+            color: #666;
+            margin-top: -5px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .child-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+        .child-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #000000;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
+        .form-grid {
+            display: block;
+        }
+        .form-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .form-cell {
+            display: table-cell;
+            padding: 0 10px;
+            vertical-align: middle;
+        }
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            color: #000000;
+        }
+        input[type="text"], input[type="date"], input[type="file"] {
+            font-family: 'Hind Vadodara', sans-serif;
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #000000;
+        }
+        input[type="file"] {
+            padding: 5px;
+        }
+        .btn-container {
+            margin-top: 15px;
+            text-align: right;
+        }
+        .btn {
+            font-family: 'Hind Vadodara', sans-serif;
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .btn:hover {
+            background-color: #333333;
+        }
+
+        /* Print Area Styling */
+        .print-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background-color: white;
+            padding: 12mm;
+        }
+        
+        .certificate-card {
+            width: 100%;
+            height: 125mm;
+            border: 3px double #000000;
+            border-radius: 15px;
+            padding: 25px 35px;
+            position: relative;
+            margin-bottom: 15mm;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        
+        .certificate-card::after {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid #000000;
+            border-radius: 11px;
+            pointer-events: none;
+        }
+
+        /* હેડર અને ફોટો લેઆઉટ */
+        .top-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .center-heading {
+            flex: 1;
+            text-align: center;
+            padding-left: 32mm; 
+        }
+
+        .header-line {
+            font-size: 16pt;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            color: #000000;
+        }
+        
+        .bold-black {
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .title {
+            font-size: 26pt;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            color: #000000;
+        }
+
+        /* શાળાના નામ અને ટાઇટલની જમણી બાજુ ફોટો બોક્સ સેટ કર્યો */
+        .photo-box {
+            width: 30mm;
+            height: 38mm;
+            border: 1px dashed #000000;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            font-size: 9pt;
+            color: #333333;
+            flex-shrink: 0;
+            background-color: #ffffff;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content-text {
+            font-size: 15pt;
+            line-height: 2.3;
+            text-align: justify;
+            color: #000000;
+            clear: both;
+        }
+
+        /* અંડરલાઇન ડાયનેમિક રહે તે માટે બોર્ડર સેટ કરી */
+        .fill-blank {
+            font-weight: 600;
+            color: #000000;
+            padding: 0 4px;
+            border-bottom: 1px dotted #000000;
+            display: inline;
+        }
+
+        .footer-section {
+            margin-top: 15px; /* માર્જિન ઓછું કરીને થોડું ઉપર લીધું */
+            width: 100%;
+            color: #000000;
+            text-align: right; 
+        }
+
+        .footer-block {
+            display: inline-block;
+            text-align: center; 
+            font-size: 14pt;
+            padding-right: 20px;
+        }
+
+        .date-section {
+            float: left;
+            font-size: 14pt;
+            margin-top: 15px; /* અલાઈનમેન્ટ થોડું ઉપર લીધું */
+        }
+
+        /* Screen only elements control */
+        @media print {
+            body { background-color: white; }
+            .control-panel { display: none !important; }
+            .print-container { margin: 0; padding: 0; width: auto; min-height: auto; }
+            .certificate-card { margin-bottom: 20mm; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- કંટ્રોલ પેનલ / ઇનપુટ ટેબ્સ -->
+    <div class="control-panel">
+        <h2>બોનોફાઈડ પ્રમાણપત્ર ડેટા એન્ટ્રી પેનલ</h2>
+        <div class="creator-tag">Created by: Jinesh Shah</div>
+        
+        <!-- સામાન્ય વિગતો (બંને માટે સમાન) -->
+        <div class="child-section">
+            <h3>શાળાની સામાન્ય વિગતો</h3>
+            <div class="form-grid">
+                <div class="form-row">
+                    <div class="form-cell" style="width: 50%;">
+                        <label>શાળાનું નામ:</label>
+                        <input type="text" id="input_school" value="સાળંગપરડા પ્રાથમિક શાળા" oninput="updateCertificates()">
+                    </div>
+                    <div class="form-cell" style="width: 25%;">
+                        <label>તાલુકાનું નામ:</label>
+                        <input type="text" id="input_taluka" value="ગઢડા(સ્વા.)" oninput="updateCertificates()">
+                    </div>
+                    <div class="form-cell" style="width: 25%;">
+                        <label>જિલ્લાનું નામ:</label>
+                        <input type="text" id="input_jilla" value="બોટાદ" oninput="updateCertificates()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+            <!-- બાળક ૧ ની વિગતો -->
+            <div class="child-section" style="flex: 1;">
+                <h3>બાળક - ૧ ની વિગતો (પ્રથમ પ્રમાણપત્ર)</h3>
+                <div class="form-grid">
+                    <label>બાળકનું નામ (શ્રી/કુમારી સાથે):</label>
+                    <input type="text" id="input_student1" value="શાહ જીનાંશ જીનેશભાઈ" oninput="updateCertificates()" style="margin-bottom: 10px;">
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <div style="flex: 1;">
+                            <label>ધોરણ:</label>
+                            <input type="text" id="input_std1" value="૭ (સાતમું)" oninput="updateCertificates()">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>જ.ર. નંબર:</label>
+                            <input type="text" id="input_gr1" value="૧૨૪૫" oninput="updateCertificates()">
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <div style="flex: 1;">
+                            <label>જન્મ તારીખ:</label>
+                            <input type="date" id="input_dob1" value="2014-05-15" onchange="updateCertificates()">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>આજની તારીખ:</label>
+                            <input type="date" id="input_current_date1" value="2026-07-05" onchange="updateCertificates()">
+                        </div>
+                    </div>
+
+                    <label>બાળકનો ફોટો અપલોડ કરો:</label>
+                    <input type="file" id="input_photo1" accept="image/*" onchange="loadPhoto(event, 'photo_display1')">
+                </div>
+            </div>
+
+            <!-- બાળક ૨ ની વિગતો -->
+            <div class="child-section" style="flex: 1;">
+                <h3>બાળક - ૨ ની વિગતો (દ્વિતીય પ્રમાણપત્ર)</h3>
+                <div class="form-grid">
+                    <label>બાળકનું નામ (શ્રી/કુમારી સાથે):</label>
+                    <input type="text" id="input_student2" value="શાહ જીનાંશ જીનેશભાઈ" oninput="updateCertificates()" style="margin-bottom: 10px;">
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <div style="flex: 1;">
+                            <label>ધોરણ:</label>
+                            <input type="text" id="input_std2" value="૮ (આઠમું)" oninput="updateCertificates()">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>જ.ર. નંબર:</label>
+                            <input type="text" id="input_gr2" value="૧૩૫૬" oninput="updateCertificates()">
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <div style="flex: 1;">
+                            <label>જન્મ તારીખ:</label>
+                            <input type="date" id="input_dob2" value="2013-08-22" onchange="updateCertificates()">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>આજની તારીખ:</label>
+                            <input type="date" id="input_current_date2" value="2026-07-05" onchange="updateCertificates()">
+                        </div>
+                    </div>
+
+                    <label>બાળકનો ફોટો અપલોડ કરો:</label>
+                    <input type="file" id="input_photo2" accept="image/*" onchange="loadPhoto(event, 'photo_display2')">
+                </div>
+            </div>
+        </div>
+        
+        <div class="btn-container">
+            <button class="btn" onclick="window.print()">PDF સ્વરૂપે સેવ કરો (Print)</button>
+            <button class="btn" onclick="saveAsPNG()">PNG તરીકે સેવ કરો</button>
+        </div>
+    </div>
+
+    <!-- પ્રિન્ટ થવા માટેનું લખાણ (A4 સાઈઝમાં 2 સેટ) -->
+    <div class="print-container" id="printArea">
+        
+        <!-- પ્રથમ પ્રમાણપત્ર (બાળક ૧) -->
+        <div class="certificate-card">
+            <div class="top-container">
+                <div class="center-heading">
+                    <div class="header-line">
+                        <span id="display1_school" class="bold-black">........................</span>, તા.<span id="display1_taluka">.......</span>, જિ.<span id="display1_jilla">...........</span>
+                    </div>
+                    <div class="title">બોનોફાઈડ પ્રમાણપત્ર</div>
+                </div>
+                <!-- ફોટો જમણી બાજુ ટાઇટલની હરોળમાં સેટ કર્યો -->
+                <div class="photo-box" id="photo_display1">
+                    પાસપોર્ટ સાઇઝ ફોટો
+                </div>
+            </div>
+            
+            <div class="content-text">
+                આથી શ્રી <span class="fill-blank" id="display1_student">............................................................</span>, 
+                <span class="fill-blank" id="display1_school_body">........................</span> પ્રાથમિક શાળા તા.<span class="fill-blank" id="display1_taluka_body">.......</span>.જિ.<span class="fill-blank" id="display1_jilla_body">...........</span> માં ધોરણ.<span class="fill-blank" id="display1_std">........</span>માં અભ્યાસ કરે છે, તેમનો જ.ર.નંબર <span class="fill-blank" id="display1_gr">_______</span> છે અને તેમની જન્મતારીખ <span class="fill-blank" id="display1_dob">  /  /    </span> છે. જેની શાળા દફતરે ખાત્રી કરી આ પ્રમાણપત્ર લખી આપવામાં આવે છે.
+            </div>
+            
+            <div class="footer-section">
+                <div class="date-section">
+                    તારીખ. <span class="fill-blank" id="display1_current_date">  /  /૨૦  </span>
+                </div>
+                <div class="footer-block">
+                    આચાર્યશ્રી<br>
+                    <span id="display1_school_footer">................ પે.શાળા</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <!-- દ્વિતીય પ્રમાણપત્ર (બાળક ૨) -->
+        <div class="certificate-card">
+            <div class="top-container">
+                <div class="center-heading">
+                    <div class="header-line">
+                        <span id="display2_school" class="bold-black">........................</span>, તા.<span id="display2_taluka">.......</span>, જિ.<span id="display2_jilla">...........</span>
+                    </div>
+                    <div class="title">બોનોફાઈડ પ્રમાણપત્ર</div>
+                </div>
+                <!-- ફોટો જમણી બાજુ ટાઇટલની હરોળમાં સેટ કર્યો -->
+                <div class="photo-box" id="photo_display2">
+                    પાસપોર્ટ સાઇઝ ફોટો
+                </div>
+            </div>
+            
+            <div class="content-text">
+                આથી શ્રી <span class="fill-blank" id="display2_student">............................................................</span>, 
+                <span class="fill-blank" id="display2_school_body">........................</span> પ્રાથમિક શાળા તા.<span class="fill-blank" id="display2_taluka_body">.......</span>.જિ.<span class="fill-blank" id="display2_jilla_body">...........</span> માં ધોરણ.<span class="fill-blank" id="display2_std">........</span>માં અભ્યાસ કરે છે, તેમનો જ.ર.નંબર <span class="fill-blank" id="display2_gr">_______</span> છે અને તેમની જન્મતારીખ <span class="fill-blank" id="display2_dob">  /  /    </span> છે. જેની શાળા દફતરે ખાત્રી કરી આ પ્રમાણપત્ર લખી આપવામાં આવે છે.
+            </div>
+            
+            <div class="footer-section">
+                <div class="date-section">
+                    તારીખ. <span class="fill-blank" id="display2_current_date">  /  /૨૦  </span>
+                </div>
+                <div class="footer-block">
+                    આચાર્યશ્રી<br>
+                    <span id="display2_school_footer">................ પે.શાળા</span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PNG એક્સપોર્ટ માટે html2canvas લાઇબ્રેરી -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function formatDate(dateString) {
+            if(!dateString) return "  /  /    ";
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // ફોટો લોડ કરવાનું ફંક્શન
+        function loadPhoto(event, targetId) {
+            const output = document.getElementById(targetId);
+            if(event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(){
+                    output.innerHTML = `<img src="${reader.result}" alt="Student Photo">`;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        function updateCertificates() {
+            const school = document.getElementById('input_school').value || "........................";
+            const taluka = document.getElementById('input_taluka').value || ".......";
+            const jilla = document.getElementById('input_jilla').value || "...........";
+            
+            const student1 = document.getElementById('input_student1').value || "............................................................";
+            const std1 = document.getElementById('input_std1').value || "........";
+            const gr1 = document.getElementById('input_gr1').value || "_______";
+            const dobInput1 = document.getElementById('input_dob1').value;
+            const curDateInput1 = document.getElementById('input_current_date1').value;
+            
+            const student2 = document.getElementById('input_student2').value || "............................................................";
+            const std2 = document.getElementById('input_std2').value || "........";
+            const gr2 = document.getElementById('input_gr2').value || "_______";
+            const dobInput2 = document.getElementById('input_dob2').value;
+            const curDateInput2 = document.getElementById('input_current_date2').value;
+
+            // સેટ કરો સર્ટિફિકેટ ૧
+            document.getElementById('display1_school').innerText = school;
+            document.getElementById('display1_school_body').innerText = school;
+            document.getElementById('display1_school_footer').innerText = school;
+            document.getElementById('display1_taluka').innerText = taluka;
+            document.getElementById('display1_taluka_body').innerText = taluka;
+            document.getElementById('display1_jilla').innerText = jilla;
+            document.getElementById('display1_jilla_body').innerText = jilla;
+            document.getElementById('display1_student').innerText = student1;
+            document.getElementById('display1_std').innerText = std1;
+            document.getElementById('display1_gr').innerText = gr1;
+            document.getElementById('display1_dob').innerText = formatDate(dobInput1);
+            document.getElementById('display1_current_date').innerText = formatDate(curDateInput1);
+
+            // સેટ કરો સર્ટિફિકેટ ૨
+            document.getElementById('display2_school').innerText = school;
+            document.getElementById('display2_school_body').innerText = school;
+            document.getElementById('display2_school_footer').innerText = school;
+            document.getElementById('display2_taluka').innerText = taluka;
+            document.getElementById('display2_taluka_body').innerText = taluka;
+            document.getElementById('display2_jilla').innerText = jilla;
+            document.getElementById('display2_jilla_body').innerText = jilla;
+            document.getElementById('display2_student').innerText = student2;
+            document.getElementById('display2_std').innerText = std2;
+            document.getElementById('display2_gr').innerText = gr2;
+            document.getElementById('display2_dob').innerText = formatDate(dobInput2);
+            document.getElementById('display2_current_date').innerText = formatDate(curDateInput2);
+        }
+
+        function saveAsPNG() {
+            const printArea = document.getElementById('printArea');
+            html2canvas(printArea, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Bonafide_Certificates.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        window.onload = updateCertificates;
+    </script>
+</body>
+</html>

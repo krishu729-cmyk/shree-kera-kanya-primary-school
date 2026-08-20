@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Educational HTML Game Maker</title>
+<style>
+:root{
+ --bg1:#eef6ff;--bg2:#fff7ed;--card:#fff;--text:#243047;--muted:#687084;
+ --p:#635bff;--p2:#2aa7ff;--ok:#16a46b;--bad:#e54f55;--gold:#f4b942;
+ --shadow:0 12px 36px rgba(36,48,71,.12)
+}
+*{box-sizing:border-box} body{margin:0;font-family:"Noto Sans Gujarati","Shruti","Arial",sans-serif;color:var(--text);background:linear-gradient(135deg,var(--bg1),var(--bg2));min-height:100vh}
+button,input,textarea,select{font:inherit} button{cursor:pointer}
+header{position:sticky;top:0;z-index:20;background:#ffffffdd;backdrop-filter:blur(10px);border-bottom:1px solid #e8ebf2}
+.top{max-width:1300px;margin:auto;padding:14px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--p),var(--p2));color:white;font-size:25px;box-shadow:var(--shadow)}
+h1{font-size:clamp(20px,3vw,31px);margin:0}.sub{font-size:13px;color:var(--muted)}
+main{max-width:1300px;margin:auto;padding:18px 14px 80px}.layout{display:grid;grid-template-columns:390px 1fr;gap:18px}
+.card{background:var(--card);border:1px solid #edf0f6;border-radius:22px;padding:17px;box-shadow:var(--shadow);margin-bottom:15px}
+.card h3{margin:0 0 12px}label{display:block;font-weight:800;font-size:13px;margin:9px 0 5px}
+input,textarea,select{width:100%;padding:10px 12px;border:1px solid #dfe4ed;border-radius:12px;background:#fbfcff;outline:none}
+textarea{min-height:90px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{border:0;border-radius:12px;padding:10px 13px;font-weight:800}.primary{background:var(--p);color:#fff}.soft{background:#eef0ff;color:#464bb7}.good{background:#e7f8ef;color:#087c4d}.danger{background:#ffe9e9;color:#b82e33}.gold{background:#fff2ce;color:#745600}.sky{background:#e8f6ff;color:#086d9f}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.tab{border:0;border-radius:999px;padding:9px 12px;background:#edf0f5;font-weight:800}.tab.active{background:var(--p);color:#fff}
+.section{display:none}.section.active{display:block}
+.pdfzone{border:2px dashed #b8c3dd;border-radius:16px;padding:18px;text-align:center;background:#f9fbff}.tiny{font-size:12px;color:var(--muted)}
+.qitem{padding:12px;border:1px solid #e6eaf2;border-radius:15px;margin:9px 0;background:#fff}.qtop{display:flex;gap:8px;justify-content:space-between;align-items:flex-start}.badge{font-size:11px;font-weight:900;background:#edf0ff;color:#545bc0;padding:4px 8px;border-radius:999px}
+.scroll{max-height:430px;overflow:auto;padding-right:3px}.selectedQ{outline:2px solid #8d92ff;background:#f8f8ff}
+.preview{min-height:560px;border-radius:22px;background:linear-gradient(180deg,#f4f8ff,#fff);padding:18px;overflow:hidden}
+.scorebar{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;background:#fff;padding:10px 12px;border-radius:14px;box-shadow:0 5px 15px rgba(0,0,0,.06)}
+.question{font-size:clamp(18px,3vw,27px);font-weight:900;text-align:center;background:white;padding:20px;border-radius:18px;box-shadow:var(--shadow);margin-top:13px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.opt{border:2px solid #e4e8f0;background:#fff;padding:14px;border-radius:16px;font-weight:800;min-height:58px}.opt:hover{transform:translateY(-1px);border-color:#9ba0ff}
+.correct{background:#dff7eb!important;border-color:#2ab272!important}.wrong{background:#ffe2e2!important;border-color:#e65a5f!important}
+.hidden{display:none!important}.center{text-align:center}.big{font-size:55px}
+.progress{height:10px;background:#e9edf4;border-radius:999px;overflow:hidden;margin:10px 0}.progress>div{height:100%;background:linear-gradient(90deg,var(--p),var(--p2));width:0}
+.balloonArea{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;margin-top:20px}.balloon{width:130px;height:155px;border:0;border-radius:55% 55% 48% 48%;display:grid;place-items:center;text-align:center;padding:12px;background:radial-gradient(circle at 28% 22%,#fff,#ffd2df 22%,#ff8db3 72%);box-shadow:0 10px 24px #ff8db344;font-weight:900}
+.frogLane{height:210px;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(#d8f3ff 0 40%,#a9e88e 40% 100%);margin-top:15px}.frog{position:absolute;bottom:24px;left:18px;font-size:58px;transition:.4s}.lily{position:absolute;bottom:24px;width:115px;min-height:58px;border:0;border-radius:50%;background:#78c96a;font-weight:900}
+.teamGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.teamBox{background:white;border-radius:17px;padding:14px;box-shadow:var(--shadow);text-align:center}.turn{outline:3px solid #9297ff}
+.matchGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.matchCol button{display:block;width:100%;margin:8px 0;border:1px solid #e2e6ef;background:#fff;padding:11px;border-radius:12px}
+.flashcard{max-width:600px;margin:20px auto;background:white;border-radius:24px;box-shadow:var(--shadow);padding:35px;text-align:center;min-height:240px;display:grid;place-items:center;font-size:28px;font-weight:900}
+.memory{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}.mem{aspect-ratio:1/1;border:0;border-radius:15px;background:#6963dc;color:white;font-weight:900;padding:6px}.mem.open{background:white;color:#26324b;border:2px solid #9ea3ff}
+.cert{background:white;border:10px double #d5a636;border-radius:14px;padding:28px;max-width:850px;margin:15px auto;text-align:center}.cert h2{font-size:36px;margin:8px}.cert .name{font-size:28px;font-weight:900;color:#5348c8}
+kbd{background:#eef1f5;border-radius:6px;padding:2px 5px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.options,.row,.teamGrid{grid-template-columns:1fr}.memory{grid-template-columns:repeat(3,1fr)}}
+@media print{header,.left,.tabs,.noPrint{display:none!important}.layout{display:block}.card{box-shadow:none;border:0}.cert{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><div class="top">
+<div class="brand"><div class="logo">🎮</div><div><h1>Advanced HTML Game Maker</h1><div class="sub">PDF → પ્રશ્ન પસંદગી → 10 Game Modes → Dual Team → Certificate</div></div></div>
+<div class="badge" id="globalCount">0 પ્રશ્નો</div>
+</div></header>
+
+<main><div class="layout">
+<aside class="left">
+<div class="card">
+<h3>⚙️ Game Settings</h3>
+<label>Game Title</label><input id="gameTitle" value="મારી શૈક્ષણિક રમત">
+<div class="row">
+<div><label>Game Mode</label><select id="mode">
+<option value="mcq">1. MCQ Quiz</option>
+<option value="tf">2. True / False</option>
+<option value="fill">3. Fill in the Blank</option>
+<option value="balloon">4. Balloon Pop</option>
+<option value="frog">5. Frog Jump</option>
+<option value="team">6. Dual Team Quiz</option>
+<option value="flash">7. Flash Cards</option>
+<option value="memory">8. Memory Match</option>
+<option value="rapid">9. Rapid Fire</option>
+<option value="match">10. Match the Pair</option>
+</select></div>
+<div><label>Timer / Question</label><select id="timerSec"><option value="0">Off</option><option>10</option><option>15</option><option selected>20</option><option>30</option></select></div>
+</div>
+<div class="row"><div><label>Shuffle Questions</label><select id="shuffle"><option value="yes">Yes</option><option value="no">No</option></select></div>
+<div><label>Use Selected Only</label><select id="selectedOnly"><option value="yes">Yes</option><option value="no">No</option></select></div></div>
+<label>School Name</label><input id="schoolName" value="SHREE KERA KANYA PRIMARY SCHOOL">
+<div class="row"><div><label>Team A</label><input id="teamA" value="Team A"></div><div><label>Team B</label><input id="teamB" value="Team B"></div></div>
+<div class="btns"><button class="btn primary" onclick="startGame()">▶ Start Game</button><button class="btn gold" onclick="showCertificate()">🏆 Certificate</button></div>
+</div>
+
+<div class="card">
+<h3>📦 Data Tools</h3>
+<div class="btns">
+<button class="btn good" onclick="exportJSON()">⬇ JSON</button>
+<button class="btn sky" onclick="document.getElementById('jsonFile').click()">⬆ Import</button>
+<button class="btn soft" onclick="exportStandalone()">🌐 Export Game HTML</button>
+<input id="jsonFile" type="file" accept=".json" hidden onchange="importJSON(event)">
+</div>
+</div>
+</aside>
+
+<section>
+<div class="card">
+<div class="tabs">
+<button class="tab active" onclick="showTab('pdf',this)">📄 PDF Import</button>
+<button class="tab" onclick="showTab('manual',this)">➕ Manual Question</button>
+<button class="tab" onclick="showTab('bank',this)">📚 Question Bank</button>
+<button class="tab" onclick="showTab('play',this)">🎯 Preview / Play</button>
+</div>
+
+<div id="pdf" class="section active">
+<h3>📄 PDF Upload</h3>
+<div class="pdfzone">
+<div class="big">📘</div>
+<input id="pdfFile" type="file" accept="application/pdf">
+<div class="btns" style="justify-content:center"><button class="btn primary" onclick="extractPDF()">PDF Text વાંચો</button><button class="btn soft" onclick="parseQuestionsFromText()">Textમાંથી પ્રશ્નો શોધો</button></div>
+<p class="tiny">PDF text extraction માટે internet connection સાથે PDF.js CDN વપરાય છે. Scanned/image-only PDF હોય તો automatic extraction ન થઈ શકે.</p>
+</div>
+<label>Extracted / Pasted PDF Text</label>
+<textarea id="pdfText" style="min-height:220px" placeholder="PDF text અહીં આવશે. તમે અહીં text paste પણ કરી શકો છો."></textarea>
+<div class="btns"><button class="btn good" onclick="parseQuestionsFromText()">✨ Automatic Question Draft</button></div>
+</div>
+
+<div id="manual" class="section">
+<h3>➕ Manual Question</h3>
+<label>Question</label><textarea id="qText" placeholder="પ્રશ્ન લખો..."></textarea>
+<div class="row"><div><label>Option A</label><input id="a"></div><div><label>Option B</label><input id="b"></div><div><label>Option C</label><input id="c"></div><div><label>Option D</label><input id="d"></div></div>
+<div class="row"><div><label>Correct Answer</label><select id="correct"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
+<div><label>Learning Outcome / અધ્યયન નિષ્પત્તિ</label><input id="lo" placeholder="જેમ કે 7.3"></div></div>
+<div class="btns"><button class="btn primary" onclick="addQuestion()">➕ ઉમેરો</button><button class="btn soft" onclick="addSamples()">✨ Sample Questions</button></div>
+</div>
+
+<div id="bank" class="section">
+<div class="qtop"><h3>📚 Question Bank</h3><div class="btns"><button class="btn soft" onclick="selectAll(true)">Select All</button><button class="btn danger" onclick="selectAll(false)">Unselect</button></div></div>
+<div id="questionList" class="scroll"></div>
+</div>
+
+<div id="play" class="section">
+<div id="gameArea" class="preview"><div class="center"><div class="big">🎮</div><h2>Game Preview</h2><p>Question Bank તૈયાર કરીને “Start Game” દબાવો.</p></div></div>
+</div>
+</div>
+</section>
+</div></main>
+
+<script>
+let questions=[], order=[],current=0,score=0,teamTurn=0,teamScores=[0,0],countdown=null,timeLeft=0;
+let memoryState={first:null,lock:false,matched:0};
+
+function $(id){return document.getElementById(id)}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function shuffleArr(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function showTab(id,el){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active')}
+function goPlay(){showTab('play',[...document.querySelectorAll('.tab')].find(x=>x.textContent.includes('Preview')))}
+
+function addQuestion(){
+ let opts=[$('a').value,$('b').value,$('c').value,$('d').value].map(x=>x.trim()).filter(Boolean);
+ let q=$('qText').value.trim(); if(!q||opts.length<2)return alert('પ્રશ્ન અને ઓછામાં ઓછા 2 વિકલ્પ ઉમેરો.');
+ questions.push({q,options:opts,answer:Math.min(+$('correct').value,opts.length-1),lo:$('lo').value.trim(),selected:true});
+ $('qText').value='';['a','b','c','d','lo'].forEach(id=>$(id).value='');renderBank();
+}
+function addSamples(){
+ questions.push(
+ {q:'પાણી બચાવવું કેમ જરૂરી છે?',options:['જીવન માટે','માત્ર રમવા માટે','રંગ માટે','કોઈ કારણ નથી'],answer:0,lo:'પર્યાવરણ જાગૃતિ',selected:true},
+ {q:'નળ ખુલ્લો રહી જાય તો શું કરવું?',options:['બંધ કરવો','વધુ ખોલવો','અવગણવું','પાણી વહેવા દેવું'],answer:0,lo:'જવાબદાર વર્તન',selected:true},
+ {q:'Rainwater Harvesting નો અર્થ શું?',options:['વરસાદનું પાણી સંગ્રહવું','પાણી વેડફવું','નદી સૂકવવી','હવા સંગ્રહવી'],answer:0,lo:'જળ સંરક્ષણ',selected:true},
+ {q:'“Save Water, Save Life” નો યોગ્ય અર્થ કયો?',options:['પાણી બચાવો, જીવન બચાવો','પાણી વહાવો','પાણી ફેંકો','પાણી ભૂલી જાવ'],answer:0,lo:'ભાષા સમજ',selected:true}
+ ); renderBank();
+}
+function renderBank(){
+ $('globalCount').textContent=questions.length+' પ્રશ્નો';
+ let box=$('questionList');box.innerHTML=questions.length?'':'<p class="tiny">હજુ પ્રશ્નો નથી.</p>';
+ questions.forEach((x,i)=>{
+   let d=document.createElement('div');d.className='qitem '+(x.selected?'selectedQ':'');
+   d.innerHTML=`<div class="qtop"><div><label style="margin:0"><input type="checkbox" style="width:auto" ${x.selected?'checked':''} onchange="toggleSel(${i},this.checked)"> ${i+1}. ${escapeHtml(x.q)}</label>
+   <div class="tiny">${x.options.map((o,j)=>`${String.fromCharCode(65+j)}) ${escapeHtml(o)}${j===x.answer?' ✓':''}`).join(' | ')}</div>${x.lo?`<span class="badge">LO: ${escapeHtml(x.lo)}</span>`:''}</div>
+   <div class="btns" style="margin-top:0"><button class="btn sky" onclick="editQ(${i})">✏️ Edit</button><button class="btn danger" onclick="delQ(${i})">✕</button></div></div>`;
+   box.appendChild(d);
+ });
+}
+function editQ(i){
+  let x=questions[i];
+  $('qText').value=x.q||'';
+  $('a').value=x.options[0]||'';
+  $('b').value=x.options[1]||'';
+  $('c').value=x.options[2]||'';
+  $('d').value=x.options[3]||'';
+  $('correct').value=String(x.answer||0);
+  $('lo').value=x.lo||'';
+  window.editingIndex=i;
+  showTab('manual',[...document.querySelectorAll('.tab')].find(x=>x.textContent.includes('Manual')));
+  let btn=[...document.querySelectorAll('#manual .btn')].find(b=>b.textContent.includes('ઉમેરો'));
+  if(btn){btn.textContent='💾 Update Question';btn.onclick=updateQuestion;}
+}
+function updateQuestion(){
+  let i=window.editingIndex;
+  if(i===undefined||i===null)return addQuestion();
+  let opts=[$('a').value,$('b').value,$('c').value,$('d').value].map(x=>x.trim()).filter(Boolean);
+  let q=$('qText').value.trim();
+  if(!q||opts.length<2)return alert('પ્રશ્ન અને ઓછામાં ઓછા 2 વિકલ્પ ઉમેરો.');
+  questions[i]={...questions[i],q,options:opts,answer:Math.min(+$('correct').value,opts.length-1),lo:$('lo').value.trim(),selected:true};
+  window.editingIndex=null;
+  $('qText').value='';['a','b','c','d','lo'].forEach(id=>$(id).value='');
+  renderBank();
+  showTab('bank',[...document.querySelectorAll('.tab')].find(x=>x.textContent.includes('Question Bank')));
+}
+function toggleSel(i,v){questions[i].selected=v;renderBank()} function selectAll(v){questions.forEach(q=>q.selected=v);renderBank()} function delQ(i){questions.splice(i,1);renderBank()}
+
+async function loadPdfJs(){
+ if(window.pdfjsLib)return true;
+ return new Promise((resolve,reject)=>{
+  let s=document.createElement('script');
+  s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs';
+  s.type='module';
+  s.onload=()=>resolve(true); s.onerror=()=>reject(new Error('PDF.js load failed'));
+  document.head.appendChild(s);
+  setTimeout(()=>resolve(false),3000);
+ });
+}
+async function extractPDF(){
+ const f=$('pdfFile').files[0]; if(!f)return alert('PDF file પસંદ કરો.');
+ try{
+   if(!window.pdfjsLib){
+     await new Promise((resolve,reject)=>{
+       let s=document.createElement('script');
+       s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+       s.onload=resolve;s.onerror=reject;document.head.appendChild(s);
+     });
+     pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+   }
+   const data=new Uint8Array(await f.arrayBuffer()),pdf=await pdfjsLib.getDocument({data}).promise;
+   let text='';
+   for(let p=1;p<=pdf.numPages;p++){
+     let page=await pdf.getPage(p),content=await page.getTextContent();
+     text+=`\n--- Page ${p} ---\n`+content.items.map(i=>i.str).join(' ');
+   }
+   $('pdfText').value=text.trim();
+   alert('PDF text વાંચાઈ ગયું. હવે “Automatic Question Draft” દબાવો.');
+ }catch(e){alert('PDF text વાંચી શકાયું નથી. Internet connection તપાસો અથવા PDFનું text copy-paste કરો.');}
+}
+function normalizePdfText(text){
+  return text.replace(/\r/g,'\n').replace(/[ \t]+/g,' ').replace(/\n{3,}/g,'\n\n').trim();
+}
+function parseQuestionsFromText(){
+  let raw=$('pdfText').value.trim();
+  if(!raw)return alert('PDF text નથી.');
+  let text=normalizePdfText(raw);
+  let lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  let drafts=[], currentQ=null;
+
+  const qPatterns=[
+    /^(?:પ્રશ્ન|પ્ર\.|Q(?:uestion)?)[\s\.:-]*(\d+|[૧-૯][૦-૯]*)[\s\.\):-]*(.+)$/i,
+    /^(\d+|[૧-૯][૦-૯]*)[\.\):-]\s*(.+\?)$/,
+    /^(\d+|[૧-૯][૦-૯]*)[\.\):-]\s*(.+)$/
+  ];
+  const optionPattern=/^(?:\(?([A-Da-d])\)?|([૧-૪1-4]))[\.\):-]\s*(.+)$/;
+  const answerPatterns=[
+    /^(?:Ans(?:wer)?|Correct Answer|સાચો જવાબ|જવાબ)\s*[:\-]\s*([A-Da-d૧-૪1-4])/i,
+    /(?:Ans(?:wer)?|Correct Answer|સાચો જવાબ|જવાબ)\s*[:\-]\s*([A-Da-d૧-૪1-4])/i
+  ];
+  const map={'A':0,'a':0,'B':1,'b':1,'C':2,'c':2,'D':3,'d':3,'1':0,'2':1,'3':2,'4':3,'૧':0,'૨':1,'૩':2,'૪':3};
+
+  function flush(){
+    if(!currentQ)return;
+    currentQ.q=currentQ.q.replace(/\s+/g,' ').trim();
+    currentQ.options=currentQ.options.map(x=>x.replace(/\s+/g,' ').trim()).filter(Boolean);
+    if(currentQ.options.length===0 && /(સાચું|ખોટું|true|false)/i.test(currentQ.q)){
+      currentQ.options=['સાચું','ખોટું']; currentQ.answer=0;
+    }
+    if(currentQ.q.length>=4 && currentQ.options.length>=2){
+      currentQ.answer=Math.max(0,Math.min(currentQ.answer,currentQ.options.length-1));
+      currentQ.selected=true; drafts.push(currentQ);
+    }
+    currentQ=null;
+  }
+
+  for(let line of lines){
+    if(/^--- Page \d+ ---$/i.test(line)||/^Page\s*\d+/i.test(line))continue;
+    let qmatch=null;
+    for(const p of qPatterns){let m=line.match(p);if(m){qmatch=m;break}}
+    let om=line.match(optionPattern), am=null;
+    for(const p of answerPatterns){let m=line.match(p);if(m){am=m;break}}
+
+    if(qmatch && !om){
+      flush();
+      currentQ={q:(qmatch[2]||qmatch[1]||'').trim(),options:[],answer:0,lo:'',selected:true};
+      continue;
+    }
+    if(currentQ && om){ currentQ.options.push(om[3].trim()); continue; }
+    if(currentQ && am){ currentQ.answer=map[am[1]]??0; continue; }
+    if(currentQ){
+      if(currentQ.options.length===0 && line.length<180) currentQ.q+=' '+line;
+      else if(currentQ.options.length && !/^(વિભાગ|SECTION|Unit|પાઠ|ધોરણ|STD|Marks|ગુણ)/i.test(line) && line.length<140)
+        currentQ.options[currentQ.options.length-1]+=' '+line;
+    }
+  }
+  flush();
+
+  if(!drafts.length){
+    let qs=(text.match(/[^.!?\n]{8,}\?/g)||[]).slice(0,60);
+    drafts=qs.map(q=>({q:q.trim(),options:['વિકલ્પ A','વિકલ્પ B'],answer:0,lo:'ચકાસવું',selected:true,needsReview:true}));
+  }
+  if(!drafts.length)return alert('Automatic રીતે યોગ્ય પ્રશ્નો ઓળખાયા નથી. PDF કદાચ scanned/image PDF છે.');
+  questions.push(...drafts); renderBank();
+  showTab('bank',[...document.querySelectorAll('.tab')].find(x=>x.textContent.includes('Question Bank')));
+  alert(drafts.length+' પ્રશ્નો મળ્યા. હવે Question Bankમાં Editથી option અને સાચો જવાબ ચકાસો.');
+}
+function activeQuestions(){let qs=$('selectedOnly').value==='yes'?questions.filter(q=>q.selected):questions.slice();return qs}
+function startGame(){
+ let qs=activeQuestions();if(!qs.length)return alert('રમવા માટે પ્રશ્નો પસંદ કરો.');
+ order=qs.map((q,i)=>i); if($('shuffle').value==='yes')shuffleArr(order);
+ window.playQuestions=qs;current=0;score=0;teamTurn=0;teamScores=[0,0];clearTimer();goPlay();renderGame();
+}
+function renderHeader(){
+ let total=order.length,pc=Math.round((current/total)*100);
+ return `<h2 class="center">${escapeHtml($('gameTitle').value)}</h2>
+ <div class="scorebar"><span>Q ${Math.min(current+1,total)}/${total}</span><span>Score: ${score}</span><span id="timerBox">${$('timerSec').value==='0'?'⏱ Off':'⏱ '+$('timerSec').value+'s'}</span></div>
+ <div class="progress"><div style="width:${pc}%"></div></div>`;
+}
+function renderGame(){
+ clearTimer();if(current>=order.length)return finishGame();
+ let q=playQuestions[order[current]],m=$('mode').value;
+ $('gameArea').innerHTML=renderHeader()+`<div class="question">${escapeHtml(q.q)}</div><div id="playZone"></div>`;
+ if(m==='balloon')renderBalloon(q);else if(m==='frog')renderFrog(q);else if(m==='team')renderTeam(q);else if(m==='flash')renderFlash(q);else if(m==='memory')renderMemory();else if(m==='rapid')renderRapid(q);else if(m==='match')renderMatch(q);else renderOptions(q,m);
+ startTimer();
+}
+function startTimer(){
+ let sec=+$('timerSec').value;if(!sec)return;timeLeft=sec;
+ countdown=setInterval(()=>{timeLeft--;let t=$('timerBox');if(t)t.textContent='⏱ '+timeLeft+'s';if(timeLeft<=0){clearTimer();beep(180);current++;renderGame()}},1000)
+}
+function clearTimer(){if(countdown){clearInterval(countdown);countdown=null}}
+function renderOptions(q,m){
+ let opts=q.options.map((o,i)=>({o,i}));if($('shuffle').value==='yes')shuffleArr(opts);if(m==='tf')opts=opts.slice(0,2);
+ $('playZone').innerHTML='<div class="options">'+opts.map(x=>`<button class="opt" onclick="answer(${x.i},this)">${escapeHtml(x.o)}</button>`).join('')+'</div>';
+}
+function answer(i,el){clearTimer();let q=playQuestions[order[current]];document.querySelectorAll('.opt').forEach(b=>b.disabled=true);if(i===q.answer){score++;el.classList.add('correct');beep(760)}else{el.classList.add('wrong');beep(190)}setTimeout(()=>{current++;renderGame()},650)}
+function renderBalloon(q){let opts=q.options.map((o,i)=>({o,i}));if($('shuffle').value==='yes')shuffleArr(opts);$('playZone').innerHTML='<div class="balloonArea">'+opts.map(x=>`<button class="balloon" onclick="balloonAns(${x.i},this)">${escapeHtml(x.o)}</button>`).join('')+'</div>'}
+function balloonAns(i,el){let q=playQuestions[order[current]];if(i===q.answer){clearTimer();score++;el.style.transform='scale(0)';el.style.transition='.3s';beep(820);setTimeout(()=>{current++;renderGame()},350)}else{el.classList.add('wrong');beep(200);setTimeout(()=>el.classList.remove('wrong'),350)}}
+function renderFrog(q){let opts=q.options.slice(0,4).map((o,i)=>({o,i}));if($('shuffle').value==='yes')shuffleArr(opts);let h='<div class="frogLane"><div id="frog" class="frog">🐸</div>';opts.forEach((x,k)=>h+=`<button class="lily" style="left:${24+k*23}%" onclick="frogAns(${x.i},this)">${escapeHtml(x.o)}</button>`);$('playZone').innerHTML=h+'</div>'}
+function frogAns(i,el){let q=playQuestions[order[current]],f=$('frog');f.style.left=Math.min(el.offsetLeft,$('playZone').clientWidth-70)+'px';if(i===q.answer){clearTimer();score++;el.classList.add('correct');beep(760);setTimeout(()=>{current++;renderGame()},600)}else{el.classList.add('wrong');beep(190)}}
+function renderTeam(q){let A=escapeHtml($('teamA').value),B=escapeHtml($('teamB').value);$('playZone').innerHTML=`<div class="teamGrid"><div class="teamBox ${teamTurn===0?'turn':''}"><h3>${A}</h3><div class="big">${teamScores[0]}</div></div><div class="teamBox ${teamTurn===1?'turn':''}"><h3>${B}</h3><div class="big">${teamScores[1]}</div></div></div><p class="center"><b>Turn: ${teamTurn===0?A:B}</b></p><div class="options">${q.options.map((o,i)=>`<button class="opt" onclick="teamAns(${i},this)">${escapeHtml(o)}</button>`).join('')}</div>`}
+function teamAns(i,el){clearTimer();let q=playQuestions[order[current]];document.querySelectorAll('.opt').forEach(b=>b.disabled=true);if(i===q.answer){teamScores[teamTurn]++;score++;el.classList.add('correct');beep(750)}else{el.classList.add('wrong');beep(190)}teamTurn=1-teamTurn;setTimeout(()=>{current++;renderGame()},650)}
+function renderFlash(q){$('playZone').innerHTML=`<div id="flashCard" class="flashcard" onclick="this.innerHTML='${escapeHtml(q.options[q.answer])}'">${escapeHtml(q.q)}<div class="tiny">Tap to reveal answer</div></div><div class="center"><button class="btn primary" onclick="clearTimer();score++;current++;renderGame()">✅ યાદ હતું</button> <button class="btn soft" onclick="clearTimer();current++;renderGame()">➡ આગળ</button></div>`}
+function renderRapid(q){$('playZone').innerHTML=`<div class="options">${q.options.map((o,i)=>`<button class="opt" onclick="answer(${i},this)">${escapeHtml(o)}</button>`).join('')}</div><p class="center tiny">ઝડપથી જવાબ આપો!</p>`}
+function renderMemory(){
+ clearTimer();
+ let qs=playQuestions.slice(0,Math.min(6,playQuestions.length)),cards=[];
+ qs.forEach((q,idx)=>{cards.push({txt:q.q,key:idx});cards.push({txt:q.options[q.answer],key:idx})});shuffleArr(cards);memoryState={first:null,lock:false,matched:0,cards};
+ $('gameArea').innerHTML=renderHeader()+`<div class="question">Memory Match: પ્રશ્ન અને સાચો જવાબ જોડો</div><div class="memory">${cards.map((c,i)=>`<button class="mem" id="mem${i}" onclick="flipMem(${i})">?</button>`).join('')}</div>`;
+}
+function flipMem(i){if(memoryState.lock)return;let b=$('mem'+i),c=memoryState.cards[i];if(b.classList.contains('open'))return;b.classList.add('open');b.textContent=c.txt;if(memoryState.first===null){memoryState.first=i;return}let i1=memoryState.first,c1=memoryState.cards[i1];if(c1.key===c.key){score++;memoryState.matched+=2;memoryState.first=null;beep(760);if(memoryState.matched===memoryState.cards.length)setTimeout(()=>{current=order.length;finishGame()},500)}else{memoryState.lock=true;beep(190);setTimeout(()=>{$('mem'+i1).classList.remove('open');$('mem'+i1).textContent='?';b.classList.remove('open');b.textContent='?';memoryState.first=null;memoryState.lock=false},700)}}
+function renderMatch(q){let left=[q.q],right=[q.options[q.answer]];$('playZone').innerHTML=`<div class="matchGrid"><div class="matchCol"><button onclick="this.classList.add('correct')">${escapeHtml(left[0])}</button></div><div class="matchCol"><button onclick="score++;this.classList.add('correct');clearTimer();setTimeout(()=>{current++;renderGame()},500)">${escapeHtml(right[0])}</button></div></div><p class="center tiny">પ્રશ્નને યોગ્ય જવાબ સાથે જોડો.</p>`}
+function finishGame(){clearTimer();let total=order.length,teamExtra='';if($('mode').value==='team'){let A=$('teamA').value,B=$('teamB').value,w=teamScores[0]===teamScores[1]?'Draw':teamScores[0]>teamScores[1]?A:B;teamExtra=`<h2>🏆 ${escapeHtml(w)}</h2><p>${escapeHtml(A)}: ${teamScores[0]} &nbsp; | &nbsp; ${escapeHtml(B)}: ${teamScores[1]}</p>`}$('gameArea').innerHTML=`<div class="center"><div class="big">🎉</div><h2>Game Complete!</h2><h3>Score: ${score}/${total}</h3>${teamExtra}<button class="btn primary" onclick="startGame()">🔁 ફરી રમો</button> <button class="btn gold" onclick="showCertificate()">🏆 Certificate</button></div>`}
+function showCertificate(){goPlay();let winner=$('mode').value==='team'?(teamScores[0]>=teamScores[1]?$('teamA').value:$('teamB').value):'વિદ્યાર્થી';$('gameArea').innerHTML=`<div class="cert"><div class="big">🏆</div><h2>CERTIFICATE OF ACHIEVEMENT</h2><p>આ પ્રમાણપત્ર આપવામાં આવે છે</p><div class="name">${escapeHtml(winner)}</div><p>શૈક્ષણિક રમત સફળતાપૂર્વક પૂર્ણ કરવા બદલ</p><h3>${escapeHtml($('gameTitle').value)}</h3><p><b>${escapeHtml($('schoolName').value)}</b></p><p>Score: ${score} &nbsp; • &nbsp; Date: ${new Date().toLocaleDateString()}</p></div><div class="center noPrint"><button class="btn primary" onclick="window.print()">🖨 Print Certificate</button></div>`}
+function exportJSON(){let d={title:$('gameTitle').value,school:$('schoolName').value,questions};download('game-data.json',JSON.stringify(d,null,2),'application/json')}
+function importJSON(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);questions=d.questions||[];$('gameTitle').value=d.title||$('gameTitle').value;$('schoolName').value=d.school||$('schoolName').value;questions.forEach(q=>{if(q.selected===undefined)q.selected=true});renderBank()}catch(err){alert('JSON યોગ્ય નથી.')}};r.readAsText(f)}
+function exportStandalone(){
+ if(!questions.length)return alert('પહેલા પ્રશ્નો ઉમેરો.');
+ let data=JSON.stringify({title:$('gameTitle').value,school:$('schoolName').value,questions:activeQuestions()},null,0).replace(/</g,'\\u003c');
+ let mini=`<!doctype html><html lang="gu"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml($('gameTitle').value)}</title><style>body{font-family:Arial,sans-serif;background:#f2f6ff;margin:0;padding:20px;color:#233}main{max-width:850px;margin:auto;background:white;padding:20px;border-radius:20px;box-shadow:0 10px 30px #0002}button{display:block;width:100%;padding:14px;margin:10px 0;border:1px solid #ccd;border-radius:12px;background:white;font-size:18px}.ok{background:#dff7eb}.bad{background:#ffe2e2}h1{text-align:center}.bar{display:flex;justify-content:space-between}</style><main><h1 id=t></h1><div class=bar><b id=p></b><b id=s></b></div><h2 id=q></h2><div id=o></div></main><script>let D=${data},i=0,sc=0,Q=D.questions.sort(()=>Math.random()-.5);t.textContent=D.title;function R(){if(i>=Q.length){q.innerHTML='🏆 પૂર્ણ! Score: '+sc+'/'+Q.length;o.innerHTML='<button onclick=location.reload()>ફરી રમો</button>';return}let x=Q[i];p.textContent='Q '+(i+1)+'/'+Q.length;s.textContent='Score '+sc;q.textContent=x.q;o.innerHTML='';x.options.map((z,j)=>({z,j})).sort(()=>Math.random()-.5).forEach(v=>{let b=document.createElement('button');b.textContent=v.z;b.onclick=()=>{[...o.children].forEach(k=>k.disabled=true);if(v.j===x.answer){sc++;b.className='ok'}else b.className='bad';setTimeout(()=>{i++;R()},600)};o.appendChild(b)})}R()<\/script></html>`;
+ download('standalone-educational-game.html',mini,'text/html')
+}
+function download(name,txt,type){let blob=new Blob([txt],{type}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}
+function beep(freq){try{let ac=new (AudioContext||webkitAudioContext)(),o=ac.createOscillator(),g=ac.createGain();o.frequency.value=freq;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.08,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.2);o.start();o.stop(ac.currentTime+.22)}catch(e){}}
+renderBank();
+</script>
+</body></html>

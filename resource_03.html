@@ -1,0 +1,646 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>સન્માનપત્ર જનરેટર - @EducTopic</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@600;700;900&display=swap');
+
+        :root {
+            --primary-color: #1b5e20; 
+            --secondary-color: #cc0000; 
+            --text-color: #0f3811; /* સર્ટિફિકેટના મુખ્ય લખાણનો ઘાટો લીલો રંગ */
+            --cert-bg: #f9fbf7; 
+            --border-style: url('https://img.freepik.com/free-vector/watercolor-green-leaves-certificate-border_23-2149502930.jpg');
+        }
+
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 🇮🇳 જમણેથી ડાબે જતું ફ્લોટિંગ તિરંગા રનિંગ ક્રેડિટ પટ્ટી */
+        .marquee-creator-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            background: linear-gradient(to bottom, #FF9933 0%, #FF9933 33%, #FFFFFF 33%, #FFFFFF 66%, #138808 66%, #138808 100%);
+            border-bottom: 2px solid #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+            padding: 3px 0;
+            overflow: hidden;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+            font-size: 14px;
+            font-weight: 900;
+            color: #000000;
+            text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* --- કંટ્રોલ પેનલ --- */
+        .control-panel {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 950px;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 45px; 
+            padding-top: 20px;
+        }
+
+        .control-panel h3 {
+            grid-column: 1 / -1;
+            margin: 0 0 10px 0;
+            color: #333;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 5px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Hind Vadodara', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            background: #fff;
+        }
+
+        .full-width-control {
+            grid-column: 1 / -1;
+            background: #fffdf2;
+            padding: 15px;
+            border: 2px dashed #1b5e20;
+            border-radius: 6px;
+            display: none; 
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .print-btn {
+            grid-column: 1 / -1;
+            background: #1b5e20;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .print-btn:hover {
+            background: #0f3811;
+        }
+
+        /* --- સર્ટિફિકેટ આઉટર રેપર --- */
+        .certificate-scaler {
+            width: 100%;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0 30px 0;
+        }
+
+        /* --- સર્ટિફિકેટ મેઈન બોડી --- */
+        .certificate-container {
+            width: 297mm;
+            height: 210mm;
+            background-color: var(--cert-bg);
+            position: relative;
+            box-sizing: border-box;
+            padding: 40px 60px 140px 60px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 38px solid transparent;
+            border-image: var(--border-style) 70 round;
+            transform-origin: top center;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .certificate-container::before {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            border: 4px double var(--primary-color);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* --- હેડર સેક્શન --- */
+        .top-motto {
+            background: #1b5e20;
+            color: #fff;
+            padding: 4px 30px;
+            font-weight: 900; 
+            font-size: 18px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            border: 2px solid #ffd700;
+            z-index: 2;
+        }
+
+        .header-content {
+            text-align: center;
+            width: 100%;
+            margin-top: 5px;
+            z-index: 2;
+        }
+
+        .main-title {
+            color: var(--secondary-color);
+            font-size: 31px;
+            font-weight: 900; 
+            margin: 0 0 4px 0;
+        }
+
+        .sub-title {
+            color: #0000cc;
+            font-size: 27px;
+            font-weight: 900; 
+            margin: 0;
+            text-decoration: underline;
+        }
+
+        /* 🌊 મોજાં વાળી રીબન ડિઝાઇન --- */
+        .ribbon-badge {
+            background: linear-gradient(90deg, #a00000 0%, #cc0000 25%, #ff4d4d 50%, #cc0000 75%, #a00000 100%);
+            color: #ffffff;
+            padding: 10px 110px;
+            font-size: 30px;
+            font-weight: 900; 
+            z-index: 2;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            border-top: 3px solid #ffd700;
+            border-bottom: 3px solid #ffd700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            clip-path: polygon(0% 15%, 15% 0%, 30% 12%, 45% 0%, 60% 12%, 75% 0%, 90% 12%, 100% 0%, 100% 85%, 85% 100%, 70% 88%, 55% 100%, 40% 88%, 25% 100%, 10% 88%, 0% 100%);
+        }
+
+        /* --- મુખ્ય લખાણ સેક્શન --- */
+        .content-body {
+            font-size: 22px; 
+            line-height: 2.3; 
+            color: var(--text-color);
+            text-align: center; 
+            padding: 0 10px;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 2;
+            margin-top: 10px;
+            font-weight: 700; 
+        }
+        
+        .content-text-wrapper {
+             max-width: 95%;
+             word-wrap: break-word;
+        }
+
+        /* ✨ બદલાતા શબ્દો સર્ટિફિકેટના લખાણના લીલા રંગ (var(--text-color)) માં સેટ કર્યા અને ડોટ્સ (....) દૂર કર્યા */
+        .dynamic-text {
+            color: var(--text-color);
+            font-weight: 900; 
+            border-bottom: none; /* નીચે આવતી ડોટેડ લાઇન અહીથી દૂર કરી */
+            padding: 0 2px;
+            display: inline; 
+        }
+
+        /* --- 🔒 ફિક્સ ફૂટર સેક્શન --- */
+        .footer-section {
+            position: absolute;
+            bottom: 35px; 
+            left: 60px;
+            right: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .congrats-badge-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 105px;
+            height: 105px;
+            background: radial-gradient(circle, #ff4d4d 0%, #b30000 100%);
+            border-radius: 50%;
+            border: 5px double #fff;
+            box-shadow: 0 5px 12px rgba(179,0,0,0.4);
+            flex-shrink: 0;
+        }
+
+        .congrats-badge-left span {
+            font-size: 19px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        .year-symbol-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 105px;
+            height: 105px;
+            background: radial-gradient(circle, #ffe066 0%, #bf9430 100%);
+            border-radius: 50%;
+            border: 5px double #fff;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+            flex-shrink: 0;
+            margin-right: 40px; 
+        }
+
+        .year-symbol-center span {
+            font-size: 26px; 
+            font-weight: 900;
+            color: #000;
+            text-shadow: 1px 1px 2px #fff;
+        }
+
+        .sign-block-right {
+            text-align: center;
+            font-size: 19px;
+            line-height: 1.6;
+            color: #0f3811;
+            font-weight: 700;
+            min-width: 260px;
+        }
+
+        /* 📱 મોબાઇલ સેટિંગ્સ */
+        @media screen and (max-width: 1150px) {
+            .certificate-scaler {
+                justify-content: flex-start;
+                padding-bottom: 0;
+                height: calc(100vw * 0.72); 
+                min-height: 300px;
+            }
+            .certificate-container {
+                transform: scale(calc(window.innerWidth / 1150));
+                zoom: calc(window.innerWidth / 1150);
+                margin-top: 0;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .certificate-scaler {
+                height: 560px;
+            }
+            .certificate-container {
+                transform: scale(0.65);
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .certificate-scaler {
+                height: 340px;
+            }
+            .certificate-container {
+                transform: scale(0.40);
+            }
+        }
+
+        /* 🖨️ / 📄 PDF પ્રિન્ટ સેટિંગ્સ */
+        @page {
+            size: A4 landscape; 
+            margin: 0;         
+        }
+
+        @media print {
+            .marquee-creator-bar {
+                display: none !important;
+            }
+            html, body {
+                width: 297mm;
+                height: 210mm;
+                overflow: hidden;
+                background: none;
+                padding: 0;
+                margin: 0;
+            }
+            .control-panel {
+                display: none !important; 
+                margin-top: 0 !important;
+            }
+            .certificate-scaler {
+                overflow: visible;
+                display: block;
+                height: 210mm !important;
+                width: 297mm !important;
+                padding: 0;
+                margin: 0;
+            }
+            .certificate-container {
+                box-shadow: none;
+                width: 297mm !important;
+                height: 210mm !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 0 !important;
+                padding: 40px 60px 140px 60px !important;
+                transform: scale(1) !important; 
+                zoom: 1 !important;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                border-image-source: var(--border-style);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🇮🇳 જમણેથી ડાબે રન થતી ફ્લોટિંગ ક્રિએટર પટ્ટી -->
+    <div class="marquee-creator-bar">
+        <div class="marquee-content">
+            🔥 <b>CREATOR: JINESH SHAH (9510566006)</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📄 સન્માનપત્ર અને પ્રમાણપત્ર જનરેટર સોફ્ટવેર &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🔥 <b>CREATOR: JINESH SHAH (9510566006)</b>
+        </div>
+    </div>
+
+    <!-- કંટ્રોલ પેનલ ટેબ્સ -->
+    <div class="control-panel">
+        <h3>📄 સન્માનપત્ર એન્ટ્રી અને સેટિંગ્સ પેનલ</h3>
+        
+        <div class="form-group">
+            <label>સન્માનપત્રનું બેકગ્રાઉન્ડ:</label>
+            <select id="bgSelect" onchange="changeBackground()">
+                <option value="#f9fbf7">ડિફોલ્ટ (પર્યાવરણ આછો શેડ)</option>
+                <option value="#ffffff">શુદ્ધ સફેદ</option>
+                <option value="#fffdf2">ક્રીમ</option>
+                <option value="#f0f8ff">આછો વાદળી</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>સંચાલક કચેરી/મંડળ:</label>
+            <select id="managementType" onchange="updateCertificate()">
+                <option value="DEO">જિલ્લા શિક્ષણાધિકારીની કચેરી</option>
+                <option value="GRAM">ગ્રામ પંચાયત સંચાલિત</option>
+                <option value="DISTRICT">જિલ્લા પંચાયત શિક્ષણ સમિતિ</option>
+                <option value="CITY">નગર પ્રાથમિક શિક્ષણ સમિતિ</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>સમિતિનો પ્રકાર:</label>
+            <select id="committeeType" onchange="updateCertificate(true)">
+                <option value="AUTO">ઓટોમેટિક (પરીક્ષા મુજબ) 🔄</option>
+                <option value="SMC">શાળા વ્યવસ્થાપન સમિતિ</option>
+                <option value="SMDC">શાળા વ્યવસ્થાપન અને વિકાસ સમિતિ</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>પ્રમાણપત્રનો પ્રકાર (સિદ્ધિ/પરીક્ષા):</label>
+            <select id="certType" onchange="updateCertificate(false)">
+                <optgroup label="પ્રાથમિક વિભાગની સિદ્ધિઓ" id="primaryGroup">
+                    <option value="100% હાજરી સન્માનપત્ર">૧૦૦ ટકા હાજરી સન્માનપત્ર</option>
+                    <option value="પ્રથમ ક્રમ સન્માનપત્ર">પ્રથમ ક્રમ સન્માનપત્ર</option>
+                    <option value="દ્વિતીય ક્રમ સન્માનપત્ર">દ્વિતીય ક્રમ સન્માનપત્ર</option>
+                    <option value="તૃતીય ક્રમ સન્માનપત્ર">તૃતીય ક્રમ સન્માનપત્ર</option>
+                    <option value="કોમન એન્ટરન્સ ટેસ્ટ (CET) ઉત્તીર્ણ પ્રમાણપત્ર">કોમન એન્ટરન્સ ટેસ્ટ (CET)</option>
+                    <option value="નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ (NMMS) પરીક્ષા સફળતા પ્રમાણપત્ર">નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ (NMMS)</option>
+                    <option value="મુખ્યમંત્રી જ્ઞાનસાધના શિષ્યવૃત્તિ પરીક્ષા સફળતા પ્રમાણપત્ર">જ્ઞાનસાધના પરીક્ષા</option>
+                    <option value="જવાહર નવોદય વિદ્યાલય પ્રવેશ પરીક્ષા સફળતા પ્રમાણપત્ર">નવોદય પરીક્ષા</option>
+                    <option value="પ્રાથમિક શિષ્યવૃત્તિ પરીક્ષા (PSE) સફળતા પ્રમાણપત્ર">પ્રાથમિક શિષ્યવૃત્તિ પરીક્ષા (PSE)</option>
+                </optgroup>
+                <optgroup label="મધ્યમિક વિભાગની સિદ્ધિઓ" id="secondaryGroup">
+                    <option value="રાષ્ટ્રીય પ્રતિભા શોધ પરીક્ષા (NTSE) સફળતા પ્રમાણપત્ર">રાષ્ટ્રીય પ્રતિભા શોધ પરીક્ષા (NTSE)</option>
+                    <option value="મુખ્યમંત્રી જ્ઞાનસેતુ મેરિટ શિષ્યવૃત્તિ પરીક્ષા સફળતા પ્રમાણપત્ર">જ્ઞાનસેતુ મેરિટ શિષ્યવૃત્તિ પરીક્ષા</option>
+                    <option value="ગુજરાત સાયન્સ ઓલિમ્પિયાડ સફળતા પ્રમાણપત્ર">ગુજરાત સાયન્સ ઓલિમ્પિયાડ</option>
+                    <option value="ખેલમહાકુંભ રમતગમત સ્પર્ધા વિજેતા પ્રમાણપત્ર">ખેલમહાકુંભ / રમતગમત સ્પર્ધા</option>
+                    <option value="ગણિત-વિજ્ઞાન પ્રદર્શન સ્પર્ધા બહુમાન પ્રમાણપત્ર">વિજ્ઞાન મેળો / પ્રદર્શન સ્પર્ધા</option>
+                    <option value="સાંસ્કૃતિક અને વક્તૃત્વ સ્પર્ધા પ્રશસ્તિપત્ર">વક્તૃત્વ અને સાંસ્કૃતિક સ્પર્ધા</option>
+                </optgroup>
+                <optgroup label="અન્ય સિદ્ધિ">
+                    <option value="CUSTOM">તમારી રીતે નવી કસ્ટમ પરીક્ષા/સ્પર્ધા ઉમેરો ➕</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div id="customExamSection" class="full-width-control">
+            <div class="form-group">
+                <label>નવી પરીક્ષાનું ટાઇટલ (મેઇન):</label>
+                <input type="text" id="customTitle" value="કલામહાકુંભ સ્પર્ધા વિજેતા પ્રમાણપત્ર" oninput="updateCertificate(false)">
+            </div>
+            <div class="form-group">
+                <label>પરીક્ષાનું લખાણ (જેમ કે 'તેણે ઉત્કૃષ્ટ...'):</label>
+                <input type="text" id="customReason" value="યોજાયેલ કલામહાકુંભ સ્પર્ધામાં ઉત્કૃષ્ટ પ્રદર્શન કરી વિજેતા તરીકે સ્થાન પ્રાપ્ત કરેલ છે." oninput="updateCertificate(false)">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>જિલ્લો / શહેર / ગામ:</label>
+            <input type="text" id="inputDistrictCommittee" value="બોટાદ" oninput="updateCertificate(false)">
+        </div>
+
+        <div class="form-group">
+            <label>શાળાનું નામ:</label>
+            <input type="text" id="inputSchoolName" value="શ્રી સાળંગપરડા પ્રાથમિક શાળા" oninput="updateCertificate(false)">
+        </div>
+
+        <div class="form-group">
+            <label>ધોરણ:</label>
+            <input type="text" id="inputClass" value="૫" oninput="updateCertificate(false)">
+        </div>
+
+        <div class="form-group">
+            <label>વિદ્યાર્થીનું નામ (ચિ.):</label>
+            <input type="text" id="inputStudentName" value="કુમાર / કન્યાનું નામ અહીં લખો" oninput="updateCertificate(false)">
+        </div>
+
+        <div class="form-group">
+            <label>મહોત્સવ/પ્રવેશોત્સવ વર્ષ (હેડર):</label>
+            <input type="text" id="inputHeaderYear" value="2026-27" oninput="updateCertificate(false)">
+        </div>
+
+        <div class="form-group">
+            <label>શૈક્ષણિક પ્રદર્શન વર્ષ (મુખ્ય લખાણ):</label>
+            <input type="text" id="inputMainYear" value="2025-26" oninput="updateCertificate(false)">
+        </div>
+
+        <button class="print-btn" onclick="window.print()">🖨️ પ્રમાણપત્ર PDF ડાઉનલોડ / પ્રિન્ટ કરો</button>
+    </div>
+
+    <!-- સર્ટિફિકેટ વ્યુ સેક્શન -->
+    <div class="certificate-scaler">
+        <div class="certificate-container" id="certificate">
+            
+            <div class="top-motto">બાલ દેવો ભવઃ</div>
+            
+            <div class="header-content">
+                <div class="main-title">શાળા પ્રવેશોત્સવ અને કન્યા કેળવણી મહોત્સવ, વર્ષ: <span id="viewHeaderYear">2026-27</span></div>
+                <div class="sub-title" id="certTitleDisplay">100 ટકા હાજરી સન્માનપત્ર</div>
+            </div>
+            
+            <div class="ribbon-badge">પ્રમાણપત્ર</div>
+            
+            <div class="content-body">
+                <div class="content-text-wrapper" id="fullContentText"></div>
+            </div>
+            
+            <!-- ફૂટર લેઆઉટ -->
+            <div class="footer-section">
+                <div class="congrats-badge-left">
+                    <span>અભિનંદન</span>
+                </div>
+
+                <div class="year-symbol-center">
+                    <span id="viewCenterYear">2026</span>
+                </div>
+                
+                <div class="sign-block-right">
+                    <br><br>
+                    <span style="border-top: 3px solid var(--primary-color); padding-top: 5px; width: 220px; display:inline-block; text-align:center;">આચાર્યશ્રીની સહી</span><br>
+                    <span class="dynamic-text" id="viewSchoolNameFooter">શ્રી સાળંગપરડા પ્રા. શાળા</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        function changeBackground() {
+            const selectedColor = document.getElementById('bgSelect').value;
+            document.getElementById('certificate').style.backgroundColor = selectedColor;
+        }
+
+        function updateCertificate(isCommitteeManualChange) {
+            const certType = document.getElementById('certType').value;
+            const mgmtType = document.getElementById('managementType').value;
+            const commSelection = document.getElementById('committeeType').value;
+            const distComm = document.getElementById('inputDistrictCommittee').value;
+            const schoolName = document.getElementById('inputSchoolName').value;
+            const className = document.getElementById('inputClass').value;
+            const studentName = document.getElementById('inputStudentName').value;
+            const headerYear = document.getElementById('inputHeaderYear').value;
+            const mainYear = document.getElementById('inputMainYear').value;
+
+            const customSection = document.getElementById('customExamSection');
+            let finalCertTitle = certType;
+            let reasonText = "";
+
+            if (certType === "CUSTOM") {
+                customSection.style.display = "grid";
+                finalCertTitle = document.getElementById('customTitle').value;
+                reasonText = document.getElementById('customReason').value;
+            } else {
+                customSection.style.display = "none";
+                
+                if(certType === "100% હાજરી સન્માનપત્ર") {
+                    reasonText = "100 ટકા હાજરી આપી નિયમિત વિદ્યાર્થી તરીકે સ્થાન પ્રાપ્ત કરેલ છે.";
+                } else if(certType === "પ્રથમ ક્રમ સન્માનપત્ર") {
+                    reasonText = "વાર્ષિક પરીક્ષામાં ઉત્કૃષ્ટ પ્રદર્શન કરી વર્ગમાં પ્રથમ ક્રમ પ્રાપ્ત કરેલ છે.";
+                } else if(certType === "દ્વિતીય ક્રમ સન્માનપત્ર") {
+                    reasonText = "વાર્ષિક પરીક્ષામાં ઉત્કૃષ્ટ પ્રદર્શન કરી વર્ગમાં દ્વિતીય ક્રમ પ્રાપ્ત કરેલ છે.";
+                } else if(certType === "તૃતીય ક્રમ સન્માનપત્ર") {
+                    reasonText = "વાર્ષિક પરીક્ષામાં ઉત્કૃષ્ટ પ્રદર્શન કરી વર્ગમાં તૃતીય ક્રમ પ્રાપ્ત કરેલ છે.";
+                } else if(certType === "કોમન એન્ટરન્સ ટેસ્ટ (CET) ઉત્તીર્ણ પ્રમાણપત્ર") {
+                    reasonText = "રાજ્ય પરીક્ષા બોર્ડ દ્વારા યોજાયેલ કોમન એન્ટરન્સ ટેસ્ટ (CET) માં શ્રેષ્ઠ ગુણ સાથે ઉત્તીર્ણ થઈ શાળાનું ગૌરવ વધાર્યું છે.";
+                } else if(certType.includes("NMMS")) {
+                    reasonText = "રાષ્ટ્રીય સાધન-આધારિત યોગ્યતા શિષ્યવૃત્તિ એટલે કે નેશનલ મીન્સ કમ મેરીટ સ્કોલરશીપ (NMMS) પરીક્ષામાં ઝળહળતી સફળતા મેળવી મેરિટ લિસ્ટમાં સ્થાન પ્રાપ્ત કરેલ છે.";
+                } else if(certType === "મુખ્યમંત્રી જ્ઞાનસાધના શિષ્યવૃત્તિ પરીક્ષા સફળતા પ્રમાણપત્ર") {
+                    reasonText = "મુખ્યમંત્રી જ્ઞાનસાધના મેરિટ શિષ્યવૃત્તિ પરીક્ષામાં ઉત્કૃષ્ટ પ્રદર્શન કરી સફળતાપૂર્વક મેરિટમાં સ્થાન મેળવેલ છે.";
+                } else if(certType === "જવાહર નવોદય વિદ્યાલય પ્રવેશ પરીક્ષા સફળતા પ્રમાણપત્ર") {
+                    reasonText = "જવાહર નવોદય વિદ્યાલય (JNV) પ્રવેશ પરીક્ષા પાસ કરી ઉજ્જવળ સફળતા સાથે પ્રવેશ મેળવી શાળાનું નામ રોશન કરેલ છે.";
+                } else if(certType.includes("PSE")) {
+                    reasonText = "રાજ્ય પરીક્ષા બોર્ડ દ્વારા યોજાયેલ પ્રાથમિક શિષ્યવૃત્તિ પરીક્ષા (PSE) માં ઉત્કૃષ્ટ પ્રદર્શન કરી શાળાનું ગૌરવ વધારેલ છે.";
+                } else if(certType.includes("NTSE")) {
+                    reasonText = "રાષ્ટ્રીય સ્તરે યોજાતી રાષ્ટ્રીય પ્રતિભા શોધ પરીક્ષા (NTSE) માં ઉત્કૃષ્ટ બૌદ્ધિક ક્ષમતાનું પ્રદર્શન કરી ગૌરવવંતું સ્થાન પ્રાપ્ત કરેલ છે.";
+                } else if(certType.includes("જ્ઞાનસેતુ")) {
+                    reasonText = "મુખ્યમંત્રી જ્ઞાનસેતુ મેરિટ શિષ્યવૃત્તિ પરીક્ષામાં ખૂબ જ ઉચ્ચ રેન્ક સાથે સફળતા મેળવી શિષ્યવૃત્તિ માટે સ્થાન મેળવેલ છે.";
+                } else if(certType.includes("ઓલિમ્પિયાડ")) {
+                    reasonText = "ગુજરાત સાયન્સ ઓલિમ્પિયાડમાં વૈજ્ઞાનિક અભિગમ અને શ્રેષ્ઠ તાર્કિક ક્ષમતા દાખવી ઝળહળતી સિદ્ધિ હાંસલ કરેલ છે.";
+                } else if(certType.includes("ખેલમહાકુંભ")) {
+                    reasonText = "ખેલમહાકુંભ અંતર્ગત યોજાયેલ રમતગમત સ્પર્ધામાં પોતાની ઉત્કૃષ્ટ રમત અને ખેલદિલીનું પ્રદર્શન કરી વિજેતા સ્થાન પ્રાપ્ત કરેલ છે.";
+                } else if(certType.includes("પ્રદર્શન")) {
+                    reasonText = "યોજાયેલ ગણિત-વિજ્ઞાન અને પર્યાવરણ પ્રદર્શનમાં શ્રેષ્ઠ કૃતિ રજૂ કરી પોતાની વિશિષ્ટ પ્રતિભાનું બહુમાન કરાવેલ છે.";
+                } else if(certType.includes("સાંસ્કૃતિક")) {
+                    reasonText = "શાળા કક્ષાએ યોજાયેલ સાંસ્કૃતિક તેમજ વક્તૃત્વ સ્પર્ધામાં પ્રભાવશાળી પ્રદર્શન કરી શ્રેષ્ઠ સ્થાન પ્રાપ્ત કરેલ છે.";
+                }
+            }
+
+            let leadText = "";
+            if (mgmtType === "GRAM") {
+                leadText = `<span class="dynamic-text">${distComm}</span> ગ્રામ પંચાયત સંચાલિત <span class="dynamic-text">${schoolName}</span>`;
+            } else if (mgmtType === "DISTRICT") {
+                leadText = `જિલ્લા પંચાયત શિક્ષણ સમિતિ, <span class="dynamic-text">${distComm}</span> દ્વારા સંચાલિત <span class="dynamic-text">${schoolName}</span>`;
+            } else if (mgmtType === "CITY") {
+                leadText = `નગર પ્રાથમિક શિક્ષણ સમિતિ, <span class="dynamic-text">${distComm}</span> દ્વારા સંચાલિત <span class="dynamic-text">${schoolName}</span>`;
+            } else if (mgmtType === "DEO") {
+                leadText = `જિલ્લા શિક્ષણાધિકારીની કચેરી, <span class="dynamic-text">${distComm}</span> દ્વારા સંચાલિત <span class="dynamic-text">${schoolName}</span>`;
+            }
+
+            let committeeName = "";
+            if (commSelection === "AUTO") {
+                committeeName = "શાળા વ્યવસ્થાપન સમિતિના";
+                const selectedOption = document.getElementById('certType').options[document.getElementById('certType').selectedIndex];
+                if (selectedOption && selectedOption.parentNode.id === "secondaryGroup") {
+                    committeeName = "શાળા વ્યવસ્થાપન અને વિકાસ સમિતિના";
+                }
+            } else if (commSelection === "SMC") {
+                committeeName = "શાળા વ્યવસ્થાપન સમિતિના";
+            } else if (commSelection === "SMDC") {
+                committeeName = "શાળા વ્યવસ્થાપન અને વિકાસ સમિતિના";
+            }
+
+            document.getElementById('certTitleDisplay').innerText = finalCertTitle;
+            document.getElementById('viewHeaderYear').innerText = headerYear;
+            document.getElementById('viewSchoolNameFooter').innerText = schoolName;
+            document.getElementById('viewCenterYear').innerText = headerYear.split('-')[0];
+
+            const containerWrapper = document.getElementById('fullContentText');
+            // ડોટ્સ હટાવી સળંગ ટેક્સ્ટ કલર મેચ આઉટપુટ
+            containerWrapper.innerHTML = `${leadText} અને ${committeeName} સંયુક્ત ઉપક્રમે કન્યા કેળવણી મહોત્સવ અને શાળા પ્રવેશોત્સવ : <span class="dynamic-text">${headerYear}</span> ના કાર્યક્રમ નિમિત્તે ધોરણ <span class="dynamic-text">${className}</span> માં અભ્યાસ કરતા ચિ. <span class="dynamic-text">${studentName}</span> એ વર્ષ : <span class="dynamic-text">${mainYear}</span> ના શૈક્ષણિક વર્ષમાં ${reasonText} જે બદલ આપને શુભેચ્છા સહ અભિનંદન સાથે આ સન્માનપત્ર એનાયત કરવામાં આવે છે.`;
+        }
+
+        updateCertificate(false);
+    </script>
+</body>
+</html>

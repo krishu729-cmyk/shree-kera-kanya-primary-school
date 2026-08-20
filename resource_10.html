@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GSEB Digital Textbook Library</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#4facfe,#00f2fe);color:#222}
+header{padding:20px;text-align:center;color:#fff}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:10px}
+input,select,button{padding:10px;border-radius:8px;border:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:20px}
+.card{background:#ffffffdd;border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+.card h3{margin:0 0 8px}
+a.btn{display:inline-block;background:#0077ff;color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px}
+footer{text-align:center;padding:20px;color:#fff}
+.dark{background:#111;color:#eee}
+.dark .card{background:#222;color:#fff}
+</style>
+</head>
+<body>
+<header>
+<h1>📚 GSEB Digital Textbook Library (Demo)</h1>
+<p>Official GSEB / GSSTB Textbook Portal</p>
+</header>
+
+<div class="controls">
+<input id="search" placeholder="Search subject or standard...">
+<select id="std">
+<option value="">All Standards</option>
+<option>1</option><option>2</option><option>3</option><option>4</option>
+<option>5</option><option>6</option><option>7</option><option>8</option>
+</select>
+<button onclick="toggleTheme()">🌙 Theme</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+Designed & Developed by <b>Krishna R. Budhabhatti</b>
+</footer>
+
+<script>
+const portal="https://gsstb.gujarat.gov.in/Home/gsstb/Std1to8";
+const books=[
+{standard:"1",subject:"Gujarati",medium:"Gujarati"},
+{standard:"2",subject:"English",medium:"Gujarati"},
+{standard:"3",subject:"Mathematics",medium:"Gujarati"},
+{standard:"4",subject:"EVS",medium:"Gujarati"},
+{standard:"5",subject:"Gujarati",medium:"Gujarati"},
+{standard:"6",subject:"Science",medium:"Gujarati"},
+{standard:"7",subject:"English",medium:"Gujarati"},
+{standard:"8",subject:"Social Science",medium:"Gujarati"}
+];
+
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const s=document.getElementById("std").value;
+ const g=document.getElementById("grid");
+ g.innerHTML="";
+ books.filter(b=>
+ (!s||b.standard===s) &&
+ ((b.subject+" "+b.standard).toLowerCase().includes(q))
+ ).forEach(b=>{
+   g.innerHTML+=`
+   <div class="card">
+   <h3>Std ${b.standard}</h3>
+   <p><b>${b.subject}</b></p>
+   <p>${b.medium} Medium</p>
+   <a class="btn" href="${portal}" target="_blank">Open Official Portal</a>
+   </div>`;
+ });
+}
+function toggleTheme(){document.body.classList.toggle("dark");}
+document.getElementById("search").oninput=render;
+document.getElementById("std").onchange=render;
+render();
+</script>
+</body>
+</html>

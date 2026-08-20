@@ -1,0 +1,412 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, initial-scale=1.0">
+    <title>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક - ધોરણ ૪ અંગ્રેજી</title>
+    
+    <!-- હિન્દ વડોદરા (Hind Vadodara) ફોન્ટ્સ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* સૌથી ઉપર એક બાજુથી બીજી બાજુ જતું નિર્માતાનું નામ (લાઇવ સ્ક્રૉલિંગ) */
+        .creator-scroll-banner {
+            width: 100%;
+            background-color: #1e3a8a;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 6px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .scroll-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* મુખ્ય વિભાગ */
+        .container {
+            max-width: 900px;
+            margin: 50px auto 20px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* મુખ્ય શીર્ષકની આકર્ષક ડિઝાઇન ફ્રેમ */
+        .title-frame {
+            border: 4px double #1e3a8a;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            box-shadow: inset 0 0 10px rgba(30, 58, 138, 0.05), 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .title-frame::before, .title-frame::after {
+            content: "◆";
+            color: #3b82f6;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+        .title-frame::before { left: 15px; }
+        .title-frame::after { right: 15px; }
+        
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* માહિતી પત્રક કોષ્ટક */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+        }
+        .info-table td {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .info-table input {
+            width: 92%;
+            padding: 5px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #ffffff;
+            color: #1e293b;
+        }
+
+        /* પસંદગી ગણક સૂચક */
+        .selection-counter {
+            background: #ef4444;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* મુખ્ય નિષ્પત્તિ કાર્ડ */
+        .main-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .main-header {
+            padding: 12px 20px;
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 16px;
+            border-bottom: 1px solid #cbd5e1;
+            line-height: 1.4;
+        }
+        .sub-container {
+            padding: 10px 20px;
+        }
+        .sub-item {
+            padding: 8px 10px;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+        .sub-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #2563eb;
+            flex-shrink: 0;
+        }
+        
+        /* નિષ્પત્તિ ક્રમાંક સૂચક પટ્ટી */
+        .code-badge {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 8px;
+            font-weight: 400;
+            flex-shrink: 0;
+        }
+
+        /* લાલ અક્ષરે લાઈવ અને ઓટોમેટીક અંગ્રેજી પ્રિન્ટ ક્રમ */
+        .print-order {
+            font-weight: bold;
+            color: #ef4444;
+            margin-right: 8px;
+            min-width: 25px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn-pdf {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+            font-family: inherit;
+        }
+
+        /* 📄 A4 પ્રિન્ટ અને PDF પ્રોફેશનલ સેટિંગ્સ */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 15mm 15mm 15mm;
+            }
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background: none !important;
+                padding: 0;
+            }
+            .creator-scroll-banner {
+                display: none !important;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+                margin: 0;
+                background-color: transparent !important;
+            }
+            .btn-container, .selection-counter, .sub-item input[type="checkbox"] {
+                display: none !important;
+            }
+            .sub-item:not(.selected-item) {
+                display: none !important;
+            }
+            .main-card:not(.has-selected) {
+                display: none !important;
+            }
+            .info-table input {
+                border: none;
+                background: transparent;
+            }
+            .title-frame {
+                background: #ffffff !important;
+                box-shadow: none !important;
+            }
+            
+            /* પ્રથમ પેજ પર કોરી જગ્યા અટકાવવા માટે પેજ બ્રેક પ્રોપર્ટી */
+            .main-card {
+                page-break-inside: auto !important;
+                margin-bottom: 12px;
+                border: 1px solid #cbd5e1 !important;
+            }
+            .main-header {
+                page-break-after: avoid !important;
+            }
+            .sub-item {
+                page-break-inside: avoid !important;
+            }
+            .print-order {
+                color: #ef4444 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- લાઈવ ઓપન કરતા ઉપર ફરતી ક્રેડિટ પટ્ટી (પ્રિન્ટમાં નહિ આવે) -->
+<div class="creator-scroll-banner">
+    <div class="scroll-text">CREATOR : JINESH SHAH(9510566006) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATOR : JINESH SHAH(9510566006)</div>
+</div>
+
+<div class="container">
+
+    <!-- આકર્ષક ડીઝાઇન ફ્રેમ વાળું મેઈન ટાઈટલ -->
+    <div class="title-frame">
+        <h1>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક</h1>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td>શાળાનું નામ:</td>
+            <td><input type="text" value="શ્રી સાળંગપરડા પ્રાથમિક શાળા" placeholder="શાળાનું નામ"></td>
+            <td>તાલુકો:</td>
+            <td><input type="text" value="ગઢડા" placeholder="તાલુકો"></td>
+        </tr>
+        <tr>
+            <td>શિક્ષકનું નામ:</td>
+            <td><input type="text" placeholder="શિક્ષકનું નામ લખો"></td>
+            <td>જિલ્લો:</td>
+            <td><input type="text" value="બોટાદ" placeholder="જિલ્લો"></td>
+        </tr>
+        <tr>
+            <td>ધોરણ:</td>
+            <td colspan="3"><input type="text" value="ધોરણ - ૪ (અંગ્રેજી)" placeholder="ધોરણ"></td>
+        </tr>
+    </table>
+
+    <div class="selection-counter" id="counterBox">પસંદ કરેલ નિષ્પત્તિ: 0 / 20</div>
+
+    <form id="outcomeForm">
+        <!-- મુખ્ય જૂથ ૧: મૌખિક અને શ્રવણ કૌશલ્ય (Oral and Listening Skills) -->
+        <div class="main-card">
+            <div class="main-header"><strong>જૂથ ૧:</strong> શ્રવણ, કાવ્યગાન અને મૌખિક સંવાદ (Listening & Speaking Skills)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m1" class="outcome-chk"><label for="m1"><span class="code-badge">E401</span> Rhymes, Action Songs, Poems, Prayers યોગ્ય હાવભાવ અને અભિનય સાથે ગાય છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m2" class="outcome-chk"><label for="m2"><span class="code-badge">E402</span> પરિચિત પરિસ્થિતિને અનુરૂપ સંવાદ સમજે છે અને તેમાં ભાગ લે છે. વિવિધ પાત્રો સંબંધિત સંવાદ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m3" class="outcome-chk"><label for="m3"><span class="code-badge">E403</span> પરિચિત પરિસ્થિતિ મુજબ ટૂંકી અને સરળ સૂચનાઓ સાંભળે છે, તેનો પ્રતિભાવ આપે છે અને વાંચીને અન્યને તેવી સૂચનાઓ આપે છે. વિવિધ રમતો / ભાષા રમતો અંગેની સૂચનાઓ અંગ્રેજીમાં સાંભળે છે અને તેને અનુસરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m4" class="outcome-chk"><label for="m4"><span class="code-badge">E410</span> અંગ્રેજી / દ્વિભાષી રોલ પ્લે / નાટકમાં યોગ્ય હાવભાવ સાથે ભાગ લે છે અને પરિચિત પરિસ્થિતિમાં સંવાદ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m5" class="outcome-chk"><label for="m5"><span class="code-badge">E411</span> પોતાના માતા-પિતા, ભાઈ-બહેન અને મિત્રોનો સામાન્ય પરિચય આપે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- મુખ્ય જૂથ ૨: વાંચન અર્થગ્રહણ અને શબ્દજ્ઞાન (Reading & Vocabulary) -->
+        <div class="main-card">
+            <div class="main-header"><strong>જૂથ ૨:</strong> વાંચન અર્થગ્રહણ, વાર્તા શ્રવણ અને શબ્દભંડોળ (Reading & Comprehension)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m6" class="outcome-chk"><label for="m6"><span class="code-badge">E405</span> લોનવર્ડ્સ સહિત આશરે 400 જેટલા શબ્દો જાણે છે, વાચનમાં રહેલા તે શબ્દો ઓળખે છે અને લેખનમાં તેનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m7" class="outcome-chk"><label for="m7"><span class="code-badge">E406</span> પ્રાસવાળા શબ્દો વાંચીને ઓળખે છે તેમજ તેની જોડ બનાવે છે અને તેમાં પ્રાસવાળા નવા બીજા શબ્દો ઉમેરે છે. વાચન અને ઉચ્ચાર વચ્ચેનો સંબંધ ઓળખે અને તારવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m8" class="outcome-chk"><label for="m8"><span class="code-badge">E407</span> 101 થી 10000 સુધીના અંગ્રેજી અંકોને વાંચે અને લખે છે તેમજ વ્યવહારમાં તેનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m9" class="outcome-chk"><label for="m9"><span class="code-badge">E408</span> ટૂંકી પરિચિત વાર્તા સાંભળી પૂછેલી વિગતો / પ્રશ્નોના જવાબ આપે છે. મુદ્દા કે ચિત્રની મદદથી વાર્તાનું વર્ણન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m10" class="outcome-chk"><label for="m10"><span class="code-badge">E409</span> આપેલ લખાણ સમજપૂર્વક વાંચે છે અને લખાણની વિગતો સમજે છે. વાર્તા અને પરિચ્છેદનું વાચન કરી અર્થગ્રહણ કરે છે. વાર્તા, કાવ્ય અને પરિચ્છેદ સાંભળીને અને વાંચીને સમજે છે તેમજ પુછાયેલા પ્રશ્નોના જવાબ આપે છે અને મુદ્દા કે ચિત્રોની મદદથી વાર્તા કહે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- મુખ્ય જૂથ ૩: વર્ણન અને અભિવ્યક્તિ (Description & Expression) -->
+        <div class="main-card">
+            <div class="main-header"><strong>જૂથ ૩:</strong> વસ્તુ, વ્યક્તિ, પર્યાવરણ અને આકારોનું વર્ણન (Descriptive Expression)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m11" class="outcome-chk"><label for="m11"><span class="code-badge">E404</span> વર્ગખંડમાં ઉપલબ્ધ લેખિત સામગ્રી/વસ્તુઓ તેમજ ઘર અને આસપાસના પર્યાવરણમાં રહેલી વિવિધ વસ્તુઓનું વર્ણન સાંભળે છે, સમજે છે, વાંચે છે અને ટૂંકમાં તેનું વર્ણન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m12" class="outcome-chk"><label for="m12"><span class="code-badge">E413</span> વર્ગખંડ / શાળાકીય પર્યાવરણમાં ઉપલબ્ધ લખાણ (કવિતા, પોસ્ટર, ચાર્ટ, સુવિચાર, ચિહ્નો, સંકેતો, લોગો અને લેબલ વગેરે) વિશે ચારથી પાંચ શબ્દોમાં જણાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m13" class="outcome-chk"><label for="m13"><span class="code-badge">E414</span> વસ્તુના કદ, આકાર, रंग, સંખ્યા અને વજન વિશે ચારથી પાંચ શબ્દો / શબ્દસમૂહમાં જણાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m14" class="outcome-chk"><label for="m14"><span class="code-badge">E415</span> વસ્તુ, વ્યક્તિ, સ્થાન, વ્યવસાયકારો, પશુ-પક્ષી, વૃક્ષ વગેરે વિશેનું વર્ણન વાંચે છે અને તેના વિશે ચાર થી પાંચ શબ્દો / શબ્દસમૂહમાં જણાવે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- મુખ્ય જૂથ ૪: ભાષા સજ્જતા અને વ્યાકરણ (Language Structure & Grammar) -->
+        <div class="main-card">
+            <div class="main-header"><strong>જૂથ ૪:</strong> વ્યાકરણ, પ્રશ્નોત્તરી અને સર્વનામ પ્રયોગ (Grammar & Sentence Structure)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m15" class="outcome-chk"><label for="m15"><span class="code-badge">E412</span> વિરામચિહ્નોનો ઉપયોગ કરી સાદા અંગ્રેજી વાક્યોનું અનુલેખન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m16" class="outcome-chk"><label for="m16"><span class="code-badge">E416</span> ઉલટ પ્રશ્નો (Inversion Questions) તેમજ Wh. Questions (who, what, how many, how much, where, when) ના ચાર થી પાંચ શબ્દો / શબ્દસમૂહમાં જવાબ આપે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m17" class="outcome-chk"><label for="m17"><span class="code-badge">E417</span> I - me - my, we - us - our, you - you - your, he - him - his, she - her - her, it - it - its, they - them - their જેવા સર્વનામોનો સાદા વાક્યોમાં ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m18" class="outcome-chk"><label for="m18"><span class="code-badge">E418</span> in, into, on, over, under વગેરે જેવા શબ્દોનો ઉપયોગ કરી વસ્તુઓનો નિર્દેશ કરે છે તેમજ પ્રશ્નોના જવાબ આપે છે. શબ્દો જેવાં કે and, but, or નો ઉપયોગ કરે છે. and, but, or નો ઉપયોગ કરીને શબ્દો કે વાક્યોને જોડે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m19" class="outcome-chk"><label for="m19"><span class="code-badge">E419</span> ભૂતકાળની ક્રિયાઓનું વર્ણન કરે છે. (ઉદા. Yesterday was Sunday.)</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m20" class="outcome-chk"><label for="m20"><span class="code-badge">E420</span> પોતાના પરિચયક્ષેત્રના શબ્દો શબ્દકોશમાંથી શોધે છે. શબ્દકોશનો ઉપયોગ કરી શબ્દ વિશેની માહિતી મેળવે છે. જેમ કે, શબ્દનો સમાનાર્થી, વિરુદ્ધાર્થી વગેરે.</label></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="btn-container">
+        <button class="btn-pdf" onclick="window.print()">📄 A4 સાઈઝ PDF ડાઉનલોડ કરો</button>
+    </div>
+
+</div>
+
+<script>
+    const maxAllowed = 20;
+    const checkboxes = document.querySelectorAll('.outcome-chk');
+    const counterBox = document.getElementById('counterBox');
+
+    function recalculateOrder() {
+        let currentNumber = 1;
+        document.querySelectorAll('.sub-item').forEach(item => {
+            const chk = item.querySelector('.outcome-chk');
+            const orderSpan = item.querySelector('.print-order');
+            
+            if (chk.checked) {
+                orderSpan.innerText = `(${currentNumber})`;
+                currentNumber++;
+            } else {
+                orderSpan.innerText = '';
+            }
+        });
+    }
+
+    checkboxes.forEach(chk => {
+        chk.addEventListener('change', function() {
+            let checkedCount = document.querySelectorAll('.outcome-chk:checked').length;
+            
+            if (checkedCount > maxAllowed && this.checked) {
+                this.checked = false;
+                alert('તમે મહત્તમ ' + maxAllowed + ' નિષ્પત્તિ જ પસંદ કરી શકો છો.');
+                checkedCount--;
+                return;
+            }
+
+            counterBox.innerText = `પસંદ કરેલ નિષ્પત્તિ: ${checkedCount} / ${maxAllowed}`;
+            
+            if(this.checked) {
+                this.closest('.sub-item').classList.add('selected-item');
+                this.closest('.main-card').classList.add('has-selected');
+            } else {
+                this.closest('.sub-item').classList.remove('selected-item');
+                const card = this.closest('.main-card');
+                if(card.querySelectorAll('.outcome-chk:checked').length === 0) {
+                    card.classList.remove('has-selected');
+                }
+            }
+
+            recalculateOrder();
+
+            if (checkedCount >= maxAllowed) {
+                checkboxes.forEach(c => { if (!c.checked) c.disabled = true; });
+                counterBox.style.background = '#10b981';
+            } else {
+                checkboxes.forEach(c => c.disabled = false);
+                counterBox.style.background = '#ef4444';
+            }
+        });
+    });
+
+    recalculateOrder();
+</script>
+
+</body>
+</html>

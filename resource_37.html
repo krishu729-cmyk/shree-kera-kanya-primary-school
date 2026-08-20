@@ -1,0 +1,463 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, initial-scale=1.0">
+    <title>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક</title>
+    
+    <!-- હિન્દ વડોદરા (Hind Vadodara) ફોન્ટ્સ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* સૌથી ઉપર એક બાજુથી બીજી બાજુ જતું ક્રિએટર ટેક્સ્ટ */
+        .creator-ticker {
+            width: 100%;
+            background-color: #1e3a8a;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 6px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .ticker-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* મુખ્ય કન્ટેનર */
+        .container {
+            max-width: 900px;
+            margin: 50px auto 20px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* મેઈન ટાઈટલની આકર્ષક ડિઝાઇન ફ્રેમ */
+        .title-frame {
+            border: 4px double #1e3a8a;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            box-shadow: inset 0 0 10px rgba(30, 58, 138, 0.05), 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .title-frame::before, .title-frame::after {
+            content: "◆";
+            color: #3b82f6;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+        .title-frame::before { left: 15px; }
+        .title-frame::after { right: 15px; }
+        
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* પ્રોફાઇલ ટેબલ */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+        }
+        .info-table td {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .info-table input {
+            width: 92%;
+            padding: 5px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #ffffff;
+            color: #1e293b;
+        }
+
+        .counter-badge {
+            background: #ef4444;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .main-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .main-header {
+            padding: 12px 20px;
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 16px;
+            border-bottom: 1px solid #cbd5e1;
+        }
+        .sub-container {
+            padding: 10px 20px;
+        }
+        .sub-item {
+            padding: 8px 10px;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+        .sub-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #2563eb;
+        }
+        .badge {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 8px;
+            font-weight: 400;
+        }
+
+        /* લાલ અક્ષરે લાઈવ અને ઓટોમેટીક અંગ્રેજી ક્રમ */
+        .print-order {
+            font-weight: bold;
+            color: #ef4444; /* લાલ અક્ષરે ક્રમ સેટ કર્યો */
+            margin-right: 8px;
+            min-width: 25px;
+            display: inline-block;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn-pdf {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+            font-family: inherit;
+        }
+
+        /* 📄 A4 પ્રિન્ટ અને PDF પ્રોફેશનલ સેટિંગ્સ */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 15mm 15mm 15mm;
+            }
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background: none !important;
+                padding: 0;
+            }
+            .creator-ticker {
+                display: none !important;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+                margin: 0;
+                background-color: transparent !important;
+            }
+            .btn-container, .counter-badge, .sub-item input[type="checkbox"] {
+                display: none !important;
+            }
+            .sub-item:not(.selected-item) {
+                display: none !important;
+            }
+            .main-card:not(.has-selected) {
+                display: none !important;
+            }
+            .info-table input {
+                border: none;
+                background: transparent;
+            }
+            .title-frame {
+                background: #ffffff !important;
+                box-shadow: none !important;
+            }
+            .main-card {
+                page-break-inside: auto !important;
+                margin-bottom: 10px;
+            }
+            .sub-item {
+                page-break-inside: avoid !important;
+            }
+            .print-order {
+                color: #ef4444 !important; /* પ્રિન્ટમાં પણ લાલ રંગ જળવાઈ રહેશે */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- લાઈવ ઓપન કરતા ઉપર ફરતી ક્રેડિટ પટ્ટી -->
+<div class="creator-ticker">
+    <div class="ticker-text">CREATOR : JINESH SHAH(9510566006) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATOR : JINESH SHAH(9510566006)</div>
+</div>
+
+<div class="container">
+
+    <!-- આકર્ષક ડીઝાઇન ફ્રેમ વાળું મેઈન ટાઈટલ -->
+    <div class="title-frame">
+        <h1>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક</h1>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td>શાળાનું નામ:</td>
+            <td><input type="text" value="શ્રી સાળંગપરડા પ્રાથમિક શાળા" placeholder="શાળાનું નામ"></td>
+            <td>તાલુકો:</td>
+            <td><input type="text" value="ગઢડા" placeholder="તાલુકો"></td>
+        </tr>
+        <tr>
+            <td>શિક્ષકનું નામ:</td>
+            <td><input type="text" placeholder="શિક્ષકનું નામ લખો"></td>
+            <td>જિલ્લો:</td>
+            <td><input type="text" value="બોટાદ" placeholder="જિલ્લો"></td>
+        </tr>
+        <tr>
+            <td>ધોરણ:</td>
+            <td colspan="3"><input type="text" value="ધોરણ - ૩ (ગુજરાતી)" placeholder="ધોરણ"></td>
+        </tr>
+    </table>
+
+    <div class="counter-badge" id="counterBox">પસંદ કરેલ નિષ્પત્તિ: 0 / 20</div>
+
+    <form id="outcomeForm">
+        <!-- G301 -->
+        <div class="main-card">
+            <div class="main-header">G301 વાચન લેખન માટેની પાયાની જરૂરિયાત</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m1" class="outcome-chk"><label for="m1"><span class="badge">G301.1</span> શબ્દો વચ્ચેની જગ્યા પારખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m2" class="outcome-chk"><label for="m2"><span class="badge">G301.2</span> વાક્યોમાં વિરામચિહ્ન પારખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m3" class="outcome-chk"><label for="m3"><span class="badge">G301.3</span> શબ્દો, વાક્યો, પરિચ્છેદનું શ્રુતલેખન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m4" class="outcome-chk"><label for="m4"><span class="badge">G301.4</span> યોગ્ય જગ્યા છોડી, વિરામચિહ્નનો ઉપયોગ કરી લખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m5" class="outcome-chk"><label for="m5"><span class="badge">G301.5</span> શબ્દો મોટેથી વાંચે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- G302 -->
+        <div class="main-card">
+            <div class="main-header">G302 શ્રવણ અર્થગ્રહણ</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m6" class="outcome-chk"><label for="m6"><span class="badge">G302.1</span> કથાત્મક પાઠયપુસ્તકમાંથી વિગતો શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m7" class="outcome-chk"><label for="m7"><span class="badge">G302.2</span> કથાત્મક લખાણમાંથી વિગતો વચ્ચેના સંબંધો સમજે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m8" class="outcome-chk"><label for="m8"><span class="badge">G302.3</span> કથાત્મક લખાણમાંથી વિગતોનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m9" class="outcome-chk"><label for="m9"><span class="badge">G302.4</span> કથાત્મક લખાણના આધારે સર્જન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m10" class="outcome-chk"><label for="m10"><span class="badge">G302.5</span> કાવ્યાત્મક લખાણમાંથી વિગતો શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m11" class="outcome-chk"><label for="m11"><span class="badge">G302.6</span> કાવ્યાત્મક લખાણમાંથી વિગતો વચ્ચેના સંબંધો સમજે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m12" class="outcome-chk"><label for="m12"><span class="badge">G302.7</span> કાવ્યાત્મક લખાણના આધારે સર્જન કરે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- G303 -->
+        <div class="main-card">
+            <div class="main-header">G303 વાંચન અર્થગ્રહણ</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m13" class="outcome-chk"><label for="m13"><span class="badge">G303.1</span> કથાત્મક લખાણના આધારે સર્જન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m14" class="outcome-chk"><label for="m14"><span class="badge">G303.2</span> માહિતીલક્ષી લખાણમાંથી વિગતો શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m15" class="outcome-chk"><label for="m15"><span class="badge">G303.3</span> માહિતીલક્ષી લખાણમાંથી વિગતો વચ્ચેના સંબંધો સમજે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m16" class="outcome-chk"><label for="m16"><span class="badge">G303.4</span> માહિતીલક્ષી લખાણની વિગતોનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m17" class="outcome-chk"><label for="m17"><span class="badge">G303.5</span> માહિતીલક્ષી લખાણનું વિશ્લેષણ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m18" class="outcome-chk"><label for="m18"><span class="badge">G303.6</span> માહિતીલક્ષી લખાણના આધારે સર્જન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m19" class="outcome-chk"><label for="m19"><span class="badge">G303.7</span> માહિતીલક્ષી લખાણમાંથી વિગતો વચ્ચેના સંબંધો સમજે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m20" class="outcome-chk"><label for="m20"><span class="badge">G303.8</span> માહિતીલક્ષી લખાણની વિગતોનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m21" class="outcome-chk"><label for="m21"><span class="badge">G303.9</span> માહિતીલક્ષી લખાણનું વિશ્લેષણ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m22" class="outcome-chk"><label for="m22"><span class="badge">G303.10</span> માહિતીલક્ષી લખાણના આધારે સર્જન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m23" class="outcome-chk"><label for="m23"><span class="badge">G303.11</span> વર્ણાત્મક લખાણમાંથી વિગતો શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m24" class="outcome-chk"><label for="m24"><span class="badge">G303.12</span> વર્ણાત્મક લખાણમાંથી વિગતો વચ્ચેના સંબંધો સમજે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m25" class="outcome-chk"><label for="m25"><span class="badge">G303.13</span> વર્ણાત્મક લખાણની વિગતોનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m26" class="outcome-chk"><label for="m26"><span class="badge">G303.14</span> વર્ણાત્મક લખાણનું વિશ્લેષણ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m27" class="outcome-chk"><label for="m27"><span class="badge">G303.15</span> વર્ણાत्मक લખાણના આધારે સર્જન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m28" class="outcome-chk"><label for="m28"><span class="badge">G303.16</span> કાવ્યાત્મક લખાણમાંથી વિગતો શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m29" class="outcome-chk"><label for="m29"><span class="badge">G303.17</span> કાવ્યાત્મક લખાણમાંથી વિગતો વચ્ચેના સંબંધો સમજે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m30" class="outcome-chk"><label for="m30"><span class="badge">G303.18</span> કાવ્યાત્મક લખાણની વિગતોનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m31" class="outcome-chk"><label for="m31"><span class="badge">G303.19</span> કાવ્યાત્મક લખાણનું વિશ્લેષણ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m32" class="outcome-chk"><label for="m32"><span class="badge">G303.20</span> કાવ્યાત્મક લખાણના આધારે સર્જન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m33" class="outcome-chk"><label for="m33"><span class="badge">G303.21</span> પ્રકીર્ણ લખાણમાંથી વિગતો શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m34" class="outcome-chk"><label for="m34"><span class="badge">G303.22</span> પ્રકીર્ણ લખાણમાંથી વિગતો વચ્ચેના સંબંધો સમજે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m35" class="outcome-chk"><label for="m35"><span class="badge">G303.23</span> પ્રકીર્ણ લખાણની વિગતોનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m36" class="outcome-chk"><label for="m36"><span class="badge">G303.24</span> પ્રકીર્ણ લખાણનું વિશ્લેષણ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m37" class="outcome-chk"><label for="m37"><span class="badge">G303.25</span> પ્રકીર્ણ લખાણના આધારે સર્જન કરે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- G304 -->
+        <div class="main-card">
+            <div class="main-header">G304 અભિવ્યક્તિ અને ભાષા સજ્જતા</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m38" class="outcome-chk"><label for="m38"><span class="badge">G304.1</span> પરિચિત પ્રસંગો, સ્થળ અને વ્યક્તિનું વર્ણન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m39" class="outcome-chk"><label for="m39"><span class="badge">G304.2</span> આરોહ અવરોહ/અભિનય સાથે વાર્તા રજૂ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m40" class="outcome-chk"><label for="m40"><span class="badge">G304.3</span> વાર્તા પરથી નાટ્યીકરણ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m41" class="outcome-chk"><label for="m41"><span class="badge">G304.4</span> પરિચિત પરિસ્થિતિ અંગે સંવાદ રજૂ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m42" class="outcome-chk"><label for="m42"><span class="badge">G304.5</span> દ્રશ્યાત્મક વિગતોને મૌખિક રીતે રજૂ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m43" class="outcome-chk"><label for="m43"><span class="badge">G304.6</span> આપેલા શબ્દોનો ઉપયોગ કરી અર્થપૂર્ણ વાક્ય બનાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m44" class="outcome-chk"><label for="m44"><span class="badge">G304.7</span> ચિત્રનું વર્ણન સાત-આઠ વાક્યોમાં કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m45" class="outcome-chk"><label for="m45"><span class="badge">G304.8</span> વાર્તા, કાવ્ય, ગીત સાંભળી/વાંચી તેના અંશોનું લેખન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m46" class="outcome-chk"><label for="m46"><span class="badge">G304.9</span> દ્રશ્યાત્મક વિગતોને લેખિત સ્વરૂપમાં રજૂ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m47" class="outcome-chk"><label for="m47"><span class="badge">G304.10</span> સાંભળેલી વિગતોને દ્રશ્યાત્મક રીતે રજૂ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m48" class="outcome-chk"><label for="m48"><span class="badge">G304.11</span> વાંચેલી વિગતોને દ્રશ્યાત્મક રીતે રજૂ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m49" class="outcome-chk"><label for="m49"><span class="badge">G304.12</span> નામને બદલે સર્વનામનો ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m50" class="outcome-chk"><label for="m50"><span class="badge">G304.13</span> વચન ઓળખે, પરિવર્તન કરે અને ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m51" class="outcome-chk"><label for="m51"><span class="badge">G304.14</span> વિશેષણ ઓળખે અને ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m52" class="outcome-chk"><label for="m52"><span class="badge">G304.15</span> ક્રિયાનું ભૂતકાળનું સ્વરૂપ ઓળખે અને ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m53" class="outcome-chk"><label for="m53"><span class="badge">G304.16</span> આજ્ઞા, વિનંતી અને સૂચનાના ભાષાપ્રયોગો ઓળખે અને ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m54" class="outcome-chk"><label for="m54"><span class="badge">G304.17</span> સ્થળ અને સમયવાચક અવ્યયને ઓળખે ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m55" class="outcome-chk"><label for="m55"><span class="badge">G304.18</span> પુનરાવર્તિત પ્રયોગ ઓળખે અને ઉપયોગ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m56" class="outcome-chk"><label for="m56"><span class="badge">G304.19</span> સંયોજકો ઓળખે અને ઉપયોગ કરે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- G305 -->
+        <div class="main-card">
+            <div class="main-header">G305 શબ્દભંડોળ</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m57" class="outcome-chk"><label for="m57"><span class="badge">G305.1</span> પરિચિત શબ્દ શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m58" class="outcome-chk"><label for="m58"><span class="badge">G305.2</span> સમાનાર્થી શબ્દ શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m59" class="outcome-chk"><label for="m59"><span class="badge">G305.3</span> વિરુદ્ધાર્થી શબ્દ ઓળખાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m60" class="outcome-chk"><label for="m60"><span class="badge">G305.4</span> આપેલા શબ્દનો ઉપયોગ કરી અર્થપૂર્ણ વાક્ય બનાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m61" class="outcome-chk"><label for="m61"><span class="badge">G305.6</span> શબ્દનું રૂપાંતર કરી અન્ય શબ્દ બનાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m62" class="outcome-chk"><label for="m62"><span class="badge">G305.7</span> નવા શબ્દો શોધે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m63" class="outcome-chk"><label for="m63"><span class="badge">G305.8</span> નવા શબ્દોના અર્થની ધારણા કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m64" class="outcome-chk"><label for="m64"><span class="badge">G305.9</span> શબ્દના અર્થ તારવે છે.</label></div>
+            </div>
+        </div>
+
+        <!-- G306 -->
+        <div class="main-card">
+            <div class="main-header">G306 ભાવાત્મક વિકાસ (Affective Development)</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m65" class="outcome-chk"><label for="m65"><span class="badge">G306.1</span> ભાવાત્મક સંકેતો ઓળખાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m66" class="outcome-chk"><label for="m66"><span class="badge">G306.2</span> ભાવાત્મક પ્રતિભાવ આપે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m67" class="outcome-chk"><label for="m67"><span class="badge">G306.3</span> ભાવાત્મક વલણ દર્શાવે છે.</label></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="btn-container">
+        <button class="btn-pdf" onclick="window.print()">📄 A4 સાઈઝ PDF ડાઉનલોડ કરો</button>
+    </div>
+
+</div>
+
+<script>
+    const maxAllowed = 20;
+    const checkboxes = document.querySelectorAll('.outcome-chk');
+    const counterBox = document.getElementById('counterBox');
+
+    // ઉપરથી નીચે સુધી બધી જ સિલેક્ટેડ આઇટમો માટે પ્રોપર રીતે ક્રમ ગોઠવવાનું ફંક્શન
+    function recalculateOrder() {
+        let currentNumber = 1;
+        document.querySelectorAll('.sub-item').forEach(item => {
+            const chk = item.querySelector('.outcome-chk');
+            const orderSpan = item.querySelector('.print-order');
+            
+            if (chk.checked) {
+                orderSpan.innerText = `(${currentNumber})`; // લાલ અક્ષરે લાઈનસર ક્રમ
+                currentNumber++;
+            } else {
+                orderSpan.innerText = '';
+            }
+        });
+    }
+
+    checkboxes.forEach(chk => {
+        chk.addEventListener('change', function() {
+            let checkedCount = document.querySelectorAll('.outcome-chk:checked').length;
+            
+            // જો ભૂલથી લિમિટ બહાર જાય તો તેને અટકાવો
+            if (checkedCount > maxAllowed && this.checked) {
+                this.checked = false;
+                alert('તમે મહત્તમ ' + maxAllowed + ' નિષ્પત્તિ જ પસંદ કરી શકો છો.');
+                checkedCount--;
+                return;
+            }
+
+            counterBox.innerText = `પસંદ કરેલ નિષ્પત્તિ: ${checkedCount} / ${maxAllowed}`;
+            
+            if(this.checked) {
+                this.closest('.sub-item').classList.add('selected-item');
+                this.closest('.main-card').classList.add('has-selected');
+            } else {
+                this.closest('.sub-item').classList.remove('selected-item');
+                const card = this.closest('.main-card');
+                if(card.querySelectorAll('.outcome-chk:checked').length === 0) {
+                    card.classList.remove('has-selected');
+                }
+            }
+
+            // ક્રમની પુનઃ ગણતરી રન કરો
+            recalculateOrder();
+
+            // 20 ની મર્યાદા કંટ્રોલ
+            if (checkedCount >= maxAllowed) {
+                checkboxes.forEach(c => { if (!c.checked) c.disabled = true; });
+                counterBox.style.background = '#10b981';
+            } else {
+                checkboxes.forEach(c => c.disabled = false);
+                counterBox.style.background = '#ef4444';
+            }
+        });
+    });
+
+    // શરૂઆતમાં ક્રમ ક્લીન કરવા માટે
+    recalculateOrder();
+</script>
+
+</body>
+</html>

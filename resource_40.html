@@ -1,0 +1,419 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, initial-scale=1.0">
+    <title>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક - પર્યાવરણ</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* સૌથી ઉપર એક બાજુથી બીજી બાજુ જતું ક્રિએટર ટેક્સ્ટ */
+        .creator-ticker {
+            width: 100%;
+            background-color: #1e3a8a;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 6px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .ticker-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* મુખ્ય કન્ટેનર */
+        .container {
+            max-width: 900px;
+            margin: 50px auto 20px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* મેઈન ટાઈટલની આકર્ષક ડિઝાઇન ફ્રેમ */
+        .title-frame {
+            border: 4px double #1e3a8a;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            box-shadow: inset 0 0 10px rgba(30, 58, 138, 0.05), 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .title-frame::before, .title-frame::after {
+            content: "◆";
+            color: #3b82f6;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+        .title-frame::before { left: 15px; }
+        .title-frame::after { right: 15px; }
+        
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* પ્રોફાઇલ ટેબલ */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+        }
+        .info-table td {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .info-table input {
+            width: 92%;
+            padding: 5px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #ffffff;
+            color: #1e293b;
+        }
+
+        .counter-badge {
+            background: #ef4444;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .main-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .main-header {
+            padding: 12px 20px;
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 16px;
+            border-bottom: 1px solid #cbd5e1;
+            line-height: 1.4;
+        }
+        .sub-container {
+            padding: 10px 20px;
+        }
+        .sub-item {
+            padding: 8px 10px;
+            border-bottom: 1px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+        .sub-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #2563eb;
+            flex-shrink: 0;
+        }
+        .badge {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 8px;
+            font-weight: 400;
+            flex-shrink: 0;
+        }
+
+        /* લાલ અક્ષરે લાઈવ અને ઓટોમેટીક અંગ્રેજી ક્રમ */
+        .print-order {
+            font-weight: bold;
+            color: #ef4444;
+            margin-right: 8px;
+            min-width: 25px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn-pdf {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+            font-family: inherit;
+        }
+
+        /* 📄 A4 પ્રિન્ટ અને PDF પ્રોફેશનલ સેટિંગ્સ */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 15mm 15mm 15mm;
+            }
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background: none !important;
+                padding: 0;
+            }
+            .creator-ticker {
+                display: none !important;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+                margin: 0;
+                background-color: transparent !important;
+            }
+            .btn-container, .counter-badge, .sub-item input[type="checkbox"] {
+                display: none !important;
+            }
+            .sub-item:not(.selected-item) {
+                display: none !important;
+            }
+            .main-card:not(.has-selected) {
+                display: none !important;
+            }
+            .info-table input {
+                border: none;
+                background: transparent;
+            }
+            .title-frame {
+                background: #ffffff !important;
+                box-shadow: none !important;
+            }
+            .main-card {
+                page-break-inside: auto !important;
+                margin-bottom: 10px;
+            }
+            .sub-item {
+                page-break-inside: avoid !important;
+            }
+            .print-order {
+                color: #ef4444 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="creator-ticker">
+    <div class="ticker-text">CREATOR : JINESH SHAH(9510566006) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATOR : JINESH SHAH(9510566006)</div>
+</div>
+
+<div class="container">
+
+    <div class="title-frame">
+        <h1>અધ્યયન નિષ્પત્તિ પસંદગી પત્રક</h1>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td>શાળાનું નામ:</td>
+            <td><input type="text" value="શ્રી સાળંગપરડા પ્રાથમિક શાળા" placeholder="શાળાનું નામ"></td>
+            <td>તાલુકો:</td>
+            <td><input type="text" value="ગઢડા" placeholder="તાલુકો"></td>
+        </tr>
+        <tr>
+            <td>શિક્ષકનું નામ:</td>
+            <td><input type="text" placeholder="શિક્ષકનું નામ લખો"></td>
+            <td>જિલ્લો:</td>
+            <td><input type="text" value="બોટાદ" placeholder="જિલ્લો"></td>
+        </tr>
+        <tr>
+            <td>ધોરણ:</td>
+            <td colspan="3"><input type="text" value="ધોરણ - ૩ (પર્યાવરણ)" placeholder="ધોરણ"></td>
+        </tr>
+    </table>
+
+    <div class="counter-badge" id="counterBox">પસંદ કરેલ નિષ્પત્તિ: 0 / 20</div>
+
+    <form id="outcomeForm">
+        <div class="main-card">
+            <div class="main-header"><strong>CG-1:</strong> પોતાની આસપાસના નૈસર્ગિક અને સામાજિક સાંસ્કૃતિક પર્યાવરણ સાથે તાદાત્મ્ય સ્થાપે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m1" class="outcome-chk"><label for="m1"><span class="badge">C-1.1</span> પોતાની આસપાસના પર્યાવરણના નૈસર્ગિક (જંતુઓ, છોડ, પક્ષીઓ, પ્રાણીઓ, ભૌગોલિક લાક્ષણિકતાઓ, સૂર્ય, ચંદ્ર, તારાઓ, ગ્રહો, નૈસર્ગિક સંસાધનો) અને સામાજિક (મકાનો, સંબંધો) ઘટકોનું અવલોકન કરે અને ઓળખે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m2" class="outcome-chk"><label for="m2"><span class="badge">C-1.2</span> કુટુંબ અને સમુદાયમાં સંબંધો (જેવા કે, માણસો/પ્રાણીઓ/પ્રકૃતિ વચ્ચેના) તથા સામાજિક પરંપરાઓ (જેવી કે કલા સ્વરૂપો, ઉજવણીઓ, તહેવારો) નું વર્ણન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m3" class="outcome-chk"><label for="m3"><span class="badge">C-1.3</span> સ્થાનિક પર્યાવરણમાં જોવા મળતી સાદી તરાહ (પેટર્ન, ઋતુ પરિવર્તન, આહાર શૃંખલા, ચંદ્રની કળાઓ, તારાઓ અને ગ્રહોની હિલચાલ, ઝાડ, છોડ, પાંદડાં અને ફૂલોના આકાર, ધાર્મિક વિધિઓ, ઉજવણીઓ) વિશે પ્રશ્નો પૂછે છે અને આગાહી કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m4" class="outcome-chk"><label for="m4"><span class="badge">C-1.4</span> સ્થાનિક સંસ્થાઓ (કુટુંબ, શાળા, બેંક/પોસ્ટ ઓફિસ, બજાર અને પંચાયત)ની કામગીરીને વિવિધ સ્વરૂપો (વાર્તા, ચિત્ર, માહિતી કોષ્ટક, અહેવાલો)માં વર્ણવે છે અને તેમની ભૂમિકાઓનું વિશ્લેષણ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m5" class="outcome-chk"><label for="m5"><span class="badge">C-1.5</span> વર્ગખંડની પ્રક્રિયાઓમાં પ્રદર્શન અથવા ઉપયોગ માટે પોતાની જાતે સાદી વસ્તુઓ (કુટુંબ, વૃક્ષ, પરબીડિયું, ઓરિગામી પ્રાણીઓ) બનાવવા માટે સ્થાનિક સામગ્રીનો ઉપયોગ કરે છે.</label></div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div class="main-header"><strong>CG-2:</strong> પોતાના પર્યાવરણમાં રહેલ પરસ્પરવલંબન સમજવા માટે સ્વનિરીક્ષણ અને અનુભવ દ્વારા "વસુધૈવ કુટુંબકમ્"ની વિચારધારાને સમજવાનો પ્રયત્ન કરે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m6" class="outcome-chk"><label for="m6"><span class="badge">C-2.1</span> પોતાનાં જીવને આધારરૂપ બનતી કુદરતી અને માનવનિર્મિત સંરચનાઓને સમજે છે (જેમ કે પાણીની વહેંચણી, જળચક્ર, નદીના પ્રવાહનું તંત્ર, ઋતુઓ, વનસ્પતિ અને પ્રાણીઓનું જીવનચક્ર, ખોરાક, ઘર ઉપયોગી વસ્તુઓ, વાહન વ્યવહાર, સંદેશા વ્યવહાર, વિદ્યુત સમજે છે).</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m7" class="outcome-chk"><label for="m7"><span class="badge">C-2.2</span> પ્રાકૃતિક પર્યાવરણ અને પોતાના સ્થાનિક પર્યાવરણમાં રહેલ સાંસ્કૃતિક પરંપરાઓ (કાર્યસ્વરૂપ, ખોરાક, ઉત્સવો, રૂઢિઓ) વચ્ચેનાં સંબંધને વર્ણવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m8" class="outcome-chk"><label for="m8"><span class="badge">C-2.3</span> વડીલો દ્વારા કે સ્થાનિક વાર્તાઓમાં દર્શાવેલ વ્યવસાયો, khady ટેવો, સંસાધનો, ઉત્સવોની ઉજવણી, સંદેશાવ્યવહાર વગેરેના સંદર્ભમાં વિદ્યાર્થીના અત્યારના પર્યાવરણ અને જીવનધોરણમાં આવેલા ફેરફારોને સાંકળે છે.</label></div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div class="main-header"><strong>CG-3:</strong> સામાન્ય તથા આકસ્મિક પરિસ્થિતિમાં પોતાની અને અન્યની સલામતી કેવી રીતે સુનિશ્ચિત કરવી તે સમજાવે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m9" class="outcome-chk"><label for="m9"><span class="badge">C-3.1</span> માનવ, પ્રાણી અને પક્ષીઓની પ્રાથમિક સુરક્ષા અને સંરક્ષણ (સ્વાસ્થ્ય અને સ્વચ્છતા, ખોરાક-પાણી, રહેઠાણ, સાવચેતી, આકસ્મિક પરિસ્થિતિ અંગે જાગૃતિ, અયોગ્ય વર્તન તેમજ અસલામત પરિસ્થિતિ) નું વર્ણન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m10" class="outcome-chk"><label for="m10"><span class="badge">C-3.2</span> કુટુંબ કે સમુદાય સાથેની ચર્ચાઓ અથવા વ્યક્તિગત અનુભવોને આધારે કટોકટીની પરિસ્થિતિઓ (ધુમાડો, આગ, નાની ઈજાઓ, દાઝી જવું, ઇલેક્ટ્રિકલ સલામતી, કમોસમી વરસાદ, પડી ગયેલાં વૃક્ષો) માટે કેવી तैयारी કરવી તેની ચર્ચા કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m11" class="outcome-chk"><label for="m11"><span class="badge">C-3.3</span> સરળ સાઈનબોર્ડ્સ (Labels) અને સૂત્રો પ્રસારિત કરે છે કે જેથી 'સ્થાનિક પર્યાવરણમાં સલામતી અને સંરક્ષણ' અંગેના જ્ઞાનનો અને મહોલ્લામાં જાગૃતિના નાટકોમાં ભાગ લે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m12" class="outcome-chk"><label for="m12"><span class="badge">EV3331-</span> પોતાના સ્થાનિક વાતાવરણમાં સલામતી અને સુરક્ષાને લગતા વિવિધ ચિહ્નો અને સૂચનાઓ વાંચે છે અને ઓળખે છે.</label></div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div class="main-header"><strong>CG-4:</strong> વૈજ્ઞાનિક અને સામાજિક પર્યાવરણ પ્રત્યે સંવેદનશીલતા વિકસાવે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m13" class="outcome-chk"><label for="m13"><span class="badge">C-4.1</span> પોતાના સ્થાનિક પર્યાવરણમાં વનસ્પતિ, પક્ષીઓ અને પ્રાણીઓ વચ્ચે રહેલ વિવિધતા (આકાર, અવાજ, ખોરાકની ટેવો, રહેઠાણ વગેરે) નું અવલોકન અને તેનું વર્ણન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m14" class="outcome-chk"><label for="m14"><span class="badge">C-4.2</span> પોતાના સ્થાનિક પર્યાવરણમાં રહેલ સાંસ્કૃતિક વૈવિધ્ય (ખોરાક, પહેરવેશ, ભાષા, વિવિધ ઉત્સવો, આપણી અને આપણી સંબંધિત તહેવારો વગેરે) નું અવલોકન અને વર્ણન કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m15" class="outcome-chk"><label for="m15"><span class="badge">C-4.3</span> પોતાના સ્થાનિક પર્યાવરણમાં રહેલ કુદરતી સંસાધનોના ગુણધર્મો વર્ણવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m16" class="outcome-chk"><label for="m16"><span class="badge">C-4.4</span> કુદરતી સંસાધનો જેવા કે વનસ્પતિઓ, વરસાદી પાણી અને તૃણધાન્ય (Millets) કેવી રીતે એકઠા કરવા, જાળવી રાખવા અને તેનું સંરક્ષણ કરી શકાય તે પ્રદર્શિત કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m17" class="outcome-chk"><label for="m17"><span class="badge">C-4.5</span> વનસ્પતિ, પક્ષીઓ અને પ્રાણીઓની જરૂરિયાતો (ખોરાક, પાણી, રહેઠાણ, સંભાળ) ને ઓળખે તથા તેમને કેવી રીતે સહાય કરી શકાય તે સમજી શકે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m18" class="outcome-chk"><label for="m18"><span class="badge">C-4.6</span> વિવિધ પરિસ્થિતિઓ જેવી કે, સંસાધનોનો ઉપયોગ, સમાન હકો, કામની વહેંચણી, અને આશ્રયને લગતી લોકોની જરૂરિયાતોને ઓળખે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m19" class="outcome-chk"><label for="m19"><span class="badge">C-4.7</span> સામાજિક અને અર્થવ્યવસ્થાનાં મૂળભૂત ધોરણો, મૂલ્યો અને મનોવૈજ્ઞાનિક વલણો, જે આપણા સામાજિક અને નૈસર્ગિક પર્યાવરણને આકાર આપે છે અને સમાજમાં સરળ રીતે કાર્ય કરવામાં મદદ કરે છે તે સમજે છે. જેમાં સુવિધાઓનો ઉપયોગ કરવો, કતારમાં ઊભા રહેવું, પાણીનું સંરક્ષણ કરવું, જાહેર પરિવહનનો ઉપયોગ કરવો, પોતાનું પર્યાવરણ સ્વચ્છ રાખવું, અને પૃષ્ઠભૂમિ (Background) ની પરવા કર્યા વગર બીજાને મદદ કરવી વગેરેનો સમાવેશ થાય છે.</label></div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div class="main-header"><strong>CG-5:</strong> સરળ નકશા વાંચન અને અર્થઘટન કરવાની ક્ષમતા વિકસાવે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m20" class="outcome-chk"><label for="m20"><span class="badge">C-5.1</span> દિશાની ઓળખ, ગામ અને વાંડોની સ્થાનિકતા સમજાવે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m21" class="outcome-chk"><label for="m21"><span class="badge">C-5.2</span> પ્રતીકો અને ચિહ્નોનો ઉપયોગ કરીને શાળા, ગામ અને વાંડોનું ચિત્ર દોરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m22" class="outcome-chk"><label for="m22"><span class="badge">C-5.3</span> કુદરતી અને માનવસર્જિત સુવિધાઓને (કૂવા, તળાવ, પોસ્ટઓફિસ, શાળા, હોસ્પિટલ વગેરે) ઓળખવા માટે જાહેર સ્થળ અને દેશના સાદા નકશાઓનું પ્રતીકો અને રેખાઓના સંદર્ભમાં વાંચન કરે છે.</label></div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div class="main-header"><strong>CG-6:</strong> પોતાના સ્થાનિક પર્યાવરણ સાથે સંબંધિત પ્રશ્નોને સમજવા માટે વિવિધ સ્ત્રોતોમાંથી માહિતી પ્રાપ્ત કરે અને માહિતીનો ઉપયોગ કરે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m23" class="outcome-chk"><label for="m23"><span class="badge">C-6.1</span> રમતગમત અથવા જૂથોમાં ચોક્કસ પ્રશ્નો સંબંધિત પ્રશ્નો પૂછી શકે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m24" class="outcome-chk"><label for="m24"><span class="badge">C-6.2</span> વિવિધ સર્જનાત્મક માધ્યમ જેવા કે રેખાંકન, પ્રતિકૃતિ, માટીકામ, નાટક, સ્કીટ, મૌખિક અને લેખિત અભિવ્યક્તિ વગેરે દ્વારા અવલોકનો અને તારણો રજૂ કરે છે.</label></div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div class="main-header"><strong>CG-7:</strong> તાર્કિક ચિંતન (પૂર્વાનુમાન, ભૌતિક ચિંતન અને વૈજ્ઞાનિક પ્રક્રિયા) અને ડિજિટલ સક્ષમતાનો ઉપયોગ કલ્પનાશીલતા તથા પ્રવૃત્તિ અને પ્રાયોગિક પ્રક્રિયામાં ઉમેરે.</div>
+            <div class="sub-container">
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m25" class="outcome-chk"><label for="m25"><span class="badge">C-7.1</span> વાતાવરણમાં વૈજ્ઞાનિક પદ્ધતિનો ઉપયોગ કરવાની પ્રક્રિયા કરે છે અને સાથે-સાથે ઊર્જા, દ્રવ્ય અને તંત્ર જે ડિજિટલ અને વૈજ્ઞાનિક પ્રક્રિયામાં તમામ ક્ષેત્રોમાં લાગુ પાડી શકાય તેવા વિચારો સાથે પણ પ્રક્રિયાઓ કરે છે.</label></div>
+                <div class="sub-item"><span class="print-order"></span><input type="checkbox" id="m26" class="outcome-chk"><label for="m26"><span class="badge">C-7.2</span> પ્રાકૃતિક વિજ્ઞાન, એન્જિનિયરિંગ, ટેક્નોલોજી અને ગણિતના ઉપયોગના મૂળભૂત વિચારો આત્મસાત્ કરે છે જે આગળના ધોરણોમાં ઉપયોગી બનશે.</label></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="btn-container">
+        <button class="btn-pdf" onclick="window.print()">📄 A4 સાઈઝ PDF ડાઉનલોડ કરો</button>
+    </div>
+
+</div>
+
+<script>
+    const maxAllowed = 20;
+    const checkboxes = document.querySelectorAll('.outcome-chk');
+    const counterBox = document.getElementById('counterBox');
+
+    function recalculateOrder() {
+        let currentNumber = 1;
+        document.querySelectorAll('.sub-item').forEach(item => {
+            const chk = item.querySelector('.outcome-chk');
+            const orderSpan = item.querySelector('.print-order');
+            
+            if (chk.checked) {
+                orderSpan.innerText = `(${currentNumber})`;
+                currentNumber++;
+            } else {
+                orderSpan.innerText = '';
+            }
+        });
+    }
+
+    checkboxes.forEach(chk => {
+        chk.addEventListener('change', function() {
+            let checkedCount = document.querySelectorAll('.outcome-chk:checked').length;
+            
+            if (checkedCount > maxAllowed && this.checked) {
+                this.checked = false;
+                alert('તમે મહત્તમ ' + maxAllowed + ' નિષ્પત્તિ જ પસંદ કરી શકો છો.');
+                checkedCount--;
+                return;
+            }
+
+            counterBox.innerText = `પસંદ કરેલ નિષ્પત્તિ: ${checkedCount} / ${maxAllowed}`;
+            
+            if(this.checked) {
+                this.closest('.sub-item').classList.add('selected-item');
+                this.closest('.main-card').classList.add('has-selected');
+            } else {
+                this.closest('.sub-item').classList.remove('selected-item');
+                const card = this.closest('.main-card');
+                if(card.querySelectorAll('.outcome-chk:checked').length === 0) {
+                    card.classList.remove('has-selected');
+                }
+            }
+
+            recalculateOrder();
+
+            if (checkedCount >= maxAllowed) {
+                checkboxes.forEach(c => { if (!c.checked) c.disabled = true; });
+                counterBox.style.background = '#10b981';
+            } else {
+                checkboxes.forEach(c => c.disabled = false);
+                counterBox.style.background = '#ef4444';
+            }
+        });
+    });
+
+    recalculateOrder();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Easy English World - Module 2</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(#b9f6ca,#e8f5e9);}
+.wrap{max-width:950px;margin:18px auto;background:#fff;padding:18px;border-radius:16px}
+h1{text-align:center;color:#1b5e20}
+#forest{text-align:center;font-size:70px;animation:float 2s infinite alternate}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.tile{background:#fffde7;border:2px solid #c5e1a5;border-radius:10px;padding:12px;text-align:center;cursor:pointer}
+canvas{border:2px dashed #4caf50;border-radius:10px;background:#fafafa;touch-action:none}
+button{padding:10px 16px;border:none;border-radius:8px;background:#2e7d32;color:#fff;margin:6px;cursor:pointer}
+.progress{height:18px;background:#ddd;border-radius:10px;overflow:hidden}
+.bar{height:100%;width:0;background:#43a047}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🌳 Module 2 - Alphabet Forest Adventure</h1>
+<div id="forest">🌳🦜🍎🦋🌳</div>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<p>Choose a letter:</p>
+<div id="letters" class="grid"></div>
+
+<h2 id="letter">A</h2>
+<p id="word">Apple 🍎</p>
+<button onclick="speak()">🔊 Speak</button>
+
+<h2>✍️ Trace Practice</h2>
+<p>Draw the selected letter on the canvas.</p>
+<canvas id="cv" width="320" height="180"></canvas><br>
+<button onclick="clearCanvas()">Clear</button>
+<button onclick="earned()">I Finished ⭐</button>
+
+<p id="stars">⭐ Stars: 0</p>
+</div>
+
+<script>
+const words={A:"Apple 🍎",B:"Ball ⚽",C:"Cat 🐱",D:"Dog 🐶",E:"Elephant 🐘",F:"Fish 🐟",G:"Goat 🐐",H:"Hen 🐔",I:"Ice 🍨",J:"Jug 🏺",K:"Kite 🪁",L:"Lion 🦁",M:"Mango 🥭",N:"Nest 🪺",O:"Orange 🍊",P:"Parrot 🦜",Q:"Queen 👑",R:"Rose 🌹",S:"Sun ☀️",T:"Tiger 🐯",U:"Umbrella ☂️",V:"Van 🚐",W:"Watch ⌚",X:"Xylophone 🎼",Y:"Yak 🦬",Z:"Zoo 🦓"};
+let stars=Number(localStorage.getItem("m2stars")||0);
+let learned=0;
+document.getElementById("stars").textContent="⭐ Stars: "+stars;
+const grid=document.getElementById("letters");
+Object.keys(words).forEach(l=>{
+ let d=document.createElement("div");
+ d.className="tile"; d.textContent=l;
+ d.onclick=()=>{document.getElementById("letter").textContent=l;document.getElementById("word").textContent=words[l];learned++;document.getElementById("bar").style.width=Math.min(100,learned/26*100)+"%";}
+ grid.appendChild(d);
+});
+function speak(){
+ if(window.speechSynthesis){
+   speechSynthesis.speak(new SpeechSynthesisUtterance(document.getElementById("letter").textContent+" "+document.getElementById("word").textContent));
+ }
+}
+function earned(){
+ stars++;
+ localStorage.setItem("m2stars",stars);
+ document.getElementById("stars").textContent="⭐ Stars: "+stars;
+ alert("Great! You earned a star.");
+}
+const c=document.getElementById("cv"),ctx=c.getContext("2d");
+ctx.lineWidth=5;let draw=false;
+function pos(e){const r=c.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
+function start(e){draw=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function move(e){if(!draw)return;e.preventDefault();const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();}
+function end(){draw=false;}
+c.onmousedown=start;c.onmousemove=move;window.onmouseup=end;
+c.ontouchstart=start;c.ontouchmove=move;c.ontouchend=end;
+function clearCanvas(){ctx.clearRect(0,0,c.width,c.height);}
+</script>
+</body>
+</html>

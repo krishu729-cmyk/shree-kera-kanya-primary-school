@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Easy English World - Module 1</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(180deg,#7ed6ff,#dff9fb);}
+.container{max-width:900px;margin:20px auto;background:#fff;border-radius:18px;padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+h1,h2{text-align:center}
+.hidden{display:none}
+.avatars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.avatar{font-size:48px;padding:10px;border:2px solid #ccc;border-radius:12px;text-align:center;cursor:pointer}
+.avatar.selected{border-color:#2e7d32;background:#e8f5e9}
+button{padding:10px 18px;border:none;border-radius:10px;background:#2e7d32;color:#fff;cursor:pointer;margin:8px}
+input,select{padding:10px;width:100%;margin:8px 0;border-radius:8px;border:1px solid #aaa}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px}
+.letter{background:#fff8dc;border-radius:10px;padding:10px;text-align:center;font-size:28px;cursor:pointer}
+#forest{font-size:72px;text-align:center}
+</style>
+</head>
+<body>
+<div class="container" id="login">
+<h1>🌟 Easy English World</h1>
+<p style="text-align:center">Module 1 - Home, Login & Alphabet Forest</p>
+<input id="student" placeholder="Student Name">
+<select id="grade">
+<option>Std. 6</option><option>Std. 7</option><option>Std. 8</option>
+</select>
+<h2>Choose Your Avatar</h2>
+<div class="avatars">
+<div class="avatar">🧒</div><div class="avatar">👧</div>
+<div class="avatar">🧑</div><div class="avatar">👦</div>
+</div>
+<div style="text-align:center"><button onclick="start()">Start Adventure</button></div>
+</div>
+
+<div class="container hidden" id="game">
+<h2 id="welcome"></h2>
+<div id="forest">🌳🦜🍎🌳</div>
+<p style="text-align:center">Click a letter to learn.</p>
+<div class="grid" id="letters"></div>
+<h2 id="show">A</h2>
+<p id="word" style="text-align:center;font-size:22px">Apple 🍎</p>
+<div style="text-align:center">
+<button onclick="speak()">🔊 Speak</button>
+</div>
+</div>
+
+<script>
+let avatar="🧒";
+document.querySelectorAll(".avatar").forEach(a=>{
+ a.onclick=()=>{
+   document.querySelectorAll(".avatar").forEach(x=>x.classList.remove("selected"));
+   a.classList.add("selected");
+   avatar=a.textContent;
+ }
+});
+const words={
+A:"Apple 🍎",B:"Ball ⚽",C:"Cat 🐱",D:"Dog 🐶",E:"Elephant 🐘",F:"Fish 🐟",
+G:"Goat 🐐",H:"Hen 🐔",I:"Ice Cream 🍨",J:"Jug 🏺",K:"Kite 🪁",L:"Lion 🦁",
+M:"Mango 🥭",N:"Nest 🪺",O:"Orange 🍊",P:"Parrot 🦜",Q:"Queen 👑",R:"Rose 🌹",
+S:"Sun ☀️",T:"Tiger 🐯",U:"Umbrella ☂️",V:"Van 🚐",W:"Watch ⌚",X:"Xylophone 🎼",Y:"Yak 🦬",Z:"Zoo 🦓"};
+function start(){
+ let n=document.getElementById("student").value||"Student";
+ localStorage.setItem("eew_name",n);
+ localStorage.setItem("eew_avatar",avatar);
+ document.getElementById("login").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ document.getElementById("welcome").innerText=avatar+" Welcome, "+n;
+ let grid=document.getElementById("letters");
+ Object.keys(words).forEach(l=>{
+   let d=document.createElement("div");
+   d.className="letter";
+   d.textContent=l;
+   d.onclick=()=>{
+      document.getElementById("show").innerText=l;
+      document.getElementById("word").innerText=words[l];
+   };
+   grid.appendChild(d);
+ });
+}
+function speak(){
+ let t=document.getElementById("show").innerText+" "+document.getElementById("word").innerText;
+ if(window.speechSynthesis){
+   speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+ }
+}
+</script>
+</body>
+</html>
