@@ -1,0 +1,37 @@
+name: Make visitor counter visible
+
+on:
+  push:
+    paths:
+      - '.github/workflows/visitor-footer.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch footer counter
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          old='<div class="copy">© ૨૦૨૬ શ્રી કેરા કન્યા પ્રાથમિક શાળા | સર્વાધિકાર સુરક્ષિત</div>'
+          new='''<div style="margin-top:24px;padding:18px;border:1px solid #ffffff33;border-radius:16px;text-align:center;background:#ffffff0d"><div style="font-size:.95rem;font-weight:800;color:#d9e7f5">👥 કુલ વેબસાઇટ મુલાકાતો</div><div id="visitorCountFooter" style="font-size:2rem;font-weight:950;color:#ffe39a;line-height:1.2;margin-top:4px">—</div></div><div class="copy">© ૨૦૨૬ શ્રી કેરા કન્યા પ્રાથમિક શાળા | સર્વાધિકાર સુરક્ષિત</div>'''
+          if 'id="visitorCountFooter"' not in s:
+              s=s.replace(old,new)
+          oldjs="el.textContent=Number(d.count||0).toLocaleString('en-IN');"
+          newjs="const v=Number(d.count||0).toLocaleString('en-IN'); el.textContent=v; const footerEl=document.getElementById('visitorCountFooter'); if(footerEl) footerEl.textContent=v;"
+          s=s.replace(oldjs,newjs)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit visible visitor counter
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Show visitor counter prominently in footer"
+          git push
