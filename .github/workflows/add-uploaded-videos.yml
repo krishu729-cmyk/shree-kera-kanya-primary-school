@@ -1,0 +1,66 @@
+name: Add uploaded school videos
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-uploaded-videos.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-video-zone:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add videos to Video Zone
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          videos = [
+              ('kera_school_activity_video.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 1'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/85af9354-2f3d-43c1-8ac8-320ba9d41627.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 2'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/6539f767-f2ce-4257-ac01-6b498dd6df63.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 3'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/fcb7b2b8-8bd8-4a64-a187-592072f06dd0.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 4'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/0b0f2867-394a-4c72-aeb0-5661f871060f.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 5'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/58eb3369-7aee-4db8-bb74-329c2cbbd361.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 6'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/6a36b150-0d41-4c60-a06f-d5b45690df0e.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 7'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/846e7af4-72ad-4104-93ef-be48da57327f.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 8'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/f161f13b-5c07-4345-91b2-f9284ef7dde7.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 9'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/96ea0352-a5c4-4070-bd93-60ae04ef9079.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 10'),
+              ('https://cdn.creativeclaw.co/u/821d40b3/videos/121a58cc-ade3-4905-8a8d-aa5d78401d85.mp4', 'શાળા પ્રવૃત્તિ વિડિયો 11'),
+          ]
+
+          cards = ''.join(
+              f'<div class="video-card"><video controls preload="metadata" playsinline src="{url}"></video><h3>{title}</h3></div>'
+              for url, title in videos
+          )
+          section = (
+              '<section id="videos"><div class="container">'
+              '<div class="section-head"><div class="kicker">VIDEO ZONE</div>'
+              '<h2>વિડિયો ઝોન</h2>'
+              '<p>શાળાની શૈક્ષણિક અને સહશૈક્ષણિક પ્રવૃત્તિઓની યાદગાર વિડિયો ઝલક.</p>'
+              '</div><div class="video-grid">' + cards + '</div></div></section>\n'
+          )
+
+          pattern = r'<section id="videos">.*?(?=<section id="learning">)'
+          if not re.search(pattern, s, flags=re.S):
+              raise SystemExit('Video Zone section not found')
+          s = re.sub(pattern, section, s, count=1, flags=re.S)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit updated website
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add 10 new school videos to website"
+          git push
