@@ -1,0 +1,85 @@
+name: Add visitor counter
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  add-counter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add visitor counter files
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          if 'id="visitorCount"' not in s:
+              s = s.replace('.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}', '.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}')
+              old = '<div class="container statwrap"><div class="stats"><div class="stat"><strong>1–8</strong><span>ધોરણ</span></div><div class="stat"><strong>42</strong><span>HTML Resources</span></div><div class="stat"><strong>19</strong><span>Activity Photos</span></div><div class="stat"><strong>100%</strong><span>બાળકેન્દ્રિત અભિગમ</span></div></div></div>'
+              new = '<div class="container statwrap"><div class="stats"><div class="stat"><strong>1–8</strong><span>ધોરણ</span></div><div class="stat"><strong>42</strong><span>HTML Resources</span></div><div class="stat"><strong>19</strong><span>Activity Photos</span></div><div class="stat"><strong>100%</strong><span>બાળકેન્દ્રિત અભિગમ</span></div><div class="stat"><strong id="visitorCount">—</strong><span>👥 વેબસાઇટ મુલાકાતો</span></div></div></div>'
+              if old not in s:
+                  raise SystemExit('Stats block not found')
+              s = s.replace(old, new)
+              marker = '</script></body></html>'
+              visitor_js = '''\n<script id="visitor-counter-script">\n(async()=>{\n  const el=document.getElementById('visitorCount');\n  if(!el)return;\n  try{\n    const counted=sessionStorage.getItem('keraVisitorCounted')==='1';\n    const r=await fetch('/api/visitor-count',{method:counted?'GET':'POST'});\n    if(!r.ok)throw new Error('counter');\n    const d=await r.json();\n    el.textContent=Number(d.count||0).toLocaleString('en-IN');\n    if(!counted)sessionStorage.setItem('keraVisitorCounted','1');\n  }catch(e){el.textContent='—';}\n})();\n</script>\n'''
+              s = s.replace(marker, '</script>'+visitor_js+'</body></html>')
+              p.write_text(s, encoding='utf-8')
+          PY
+
+          mkdir -p netlify/functions
+          cat > netlify/functions/visitor-count.mts <<'EOF'
+          import { getStore, getDeployStore } from "@netlify/blobs";
+
+          function storeForContext() {
+            const production = Netlify.context?.deploy?.context === "production";
+            return production
+              ? getStore("site-stats", { consistency: "strong" })
+              : getDeployStore("site-stats", { consistency: "strong" });
+          }
+
+          export default async (req: Request) => {
+            const store = storeForContext();
+            const key = "visitor-count";
+            let count = Number((await store.get(key)) || 0);
+
+            if (req.method === "POST") {
+              count += 1;
+              await store.set(key, String(count));
+            } else if (req.method !== "GET") {
+              return new Response("Method not allowed", { status: 405 });
+            }
+
+            return Response.json({ count }, {
+              headers: { "Cache-Control": "no-store" }
+            });
+          };
+
+          export const config = { path: "/api/visitor-count" };
+          EOF
+
+          cat > package.json <<'EOF'
+          {
+            "private": true,
+            "dependencies": {
+              "@netlify/blobs": "latest"
+            }
+          }
+          EOF
+
+      - name: Commit visitor counter
+        shell: bash
+        run: |
+          if git diff --quiet && git status --porcelain | grep -q '^$'; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html netlify/functions/visitor-count.mts package.json
+          git commit -m "Add live website visitor counter"
+          git push
