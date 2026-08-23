@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="gu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#082f5b">
+<title>લિટલ ચાણક્ય | ફ્લિપ બુક</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Noto Sans Gujarati","Shruti","Segoe UI",Arial,sans-serif;background:radial-gradient(circle at top,#174f84,#071d36 70%);color:#fff}.wrap{min-height:100vh;display:flex;flex-direction:column}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#061a30dd;backdrop-filter:blur(10px);position:sticky;top:0;z-index:20;border-bottom:1px solid #ffffff1c}.brand{font-weight:900;font-size:clamp(1rem,4vw,1.35rem)}.sub{font-size:.78rem;color:#c9dcf1}.home{background:#fff;color:#082f5b;padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:900}.stage{flex:1;display:grid;place-items:center;padding:18px 12px 104px;overflow:hidden}.book{position:relative;width:min(92vw,560px);height:min(76vh,790px);perspective:1800px;filter:drop-shadow(0 24px 35px #0009)}.page{position:absolute;inset:0;border-radius:9px;overflow:hidden;background:#fff;transform-origin:left center;transition:transform .65s cubic-bezier(.2,.75,.25,1),opacity .35s;backface-visibility:hidden;box-shadow:0 0 0 1px #ffffff55,0 14px 35px #0007;display:grid;place-items:center;opacity:0;pointer-events:none}.page.active{opacity:1;pointer-events:auto;z-index:4}.page.turnout{transform:rotateY(-92deg);opacity:0;z-index:5}.page.turnin{transform:rotateY(88deg);opacity:0;z-index:5}.page img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}.loading{position:absolute;inset:0;display:grid;place-items:center;color:#082f5b;font-weight:800;background:#fff;z-index:-1}.controls{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:8px;background:#061a30e8;border:1px solid #ffffff26;border-radius:18px;padding:9px;z-index:30;box-shadow:0 12px 30px #0008;backdrop-filter:blur(12px)}button{border:0;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer;background:#f6c446;color:#122032;font-size:.95rem}button:disabled{opacity:.35}.counter{min-width:84px;text-align:center;font-weight:900}.hint{text-align:center;color:#c8dcf2;font-size:.78rem;margin:0 12px 8px}.dots{display:none}.book:after{content:"";position:absolute;top:1%;bottom:1%;left:0;width:10px;background:linear-gradient(90deg,#0005,transparent);z-index:10;pointer-events:none;border-radius:9px 0 0 9px}@media(max-width:600px){.stage{padding-top:10px}.book{width:94vw;height:73vh}.top{padding:10px 12px}.sub{display:none}.controls{width:min(96vw,430px);justify-content:center}button{padding:10px 11px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div><div class="brand">📖 લિટલ ચાણક્ય — ફ્લિપ બુક</div><div class="sub">25 પાનાં • ગુજરાતી • મોબાઇલ ફ્રેન્ડલી</div></div><a class="home" href="index.html">🏫 શાળા વેબસાઇટ</a></header>
+<main class="stage"><div class="book" id="book"><div class="loading">પાનાં લોડ થઈ રહ્યાં છે…</div></div></main>
+<p class="hint">પાનું ફેરવવા ડાબે/જમણે swipe કરો અથવા નીચેના બટન વાપરો.</p>
+<div class="controls"><button id="prev">◀ પાછલું</button><span class="counter" id="counter">1 / 25</span><button id="next">આગળ ▶</button><button id="full" title="Fullscreen">⛶</button></div>
+</div>
+<script>
+const imgs=[
+"https://cdn.creativeclaw.co/u/821d40b3/images/f8d56ee3-e440-440b-bc62-7494166c1124.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/0fad2e7b-2a07-41c1-b125-933e334d0662.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/8e1c445e-7dc6-4da5-93c3-f5f23966f2a9.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/e2efb947-f733-406f-941b-ccbb9182db07.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/6580483b-630b-4571-9ee5-81c44717b951.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/ead7e2ff-c908-48ad-9de5-6e503329e93b.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/433c813f-1395-40df-a1fa-10d4cb5ef35f.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/2ca7a442-7e4c-448e-a9e9-9f82e15dde78.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/4422e4b2-0fcd-4c00-8814-d0c519d7b43a.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/fbf3b185-f391-48f2-80d0-62ad99cb921e.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/2fe19527-81bc-4b79-8e69-3023c58f6194.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/cf8886a1-ed18-4f64-b5dc-f04d9cddedbe.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/e7021a79-c0d0-4ff8-9570-8ebf88900c1c.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/d15a15e3-8aeb-4980-b749-a58fd82a4d48.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/e76c97ce-907e-4a40-a0f4-baccc5d70d6c.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/edb396f0-e2b0-48f5-980b-be4d4ef0aa3e.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/872cb98c-6075-4a38-bbc7-37c910f13ed2.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/02e2fbb7-d4c7-494c-af24-efd49fafd2bb.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/9b1eadb5-c63e-4f9a-8934-e502fb8c3525.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/a2cbde50-7931-48d1-ad4b-0d7f3c5d1d8f.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/affce194-7ed2-47e1-9452-c5d0d612a685.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/44e2d2ce-eb7b-4282-98b6-127b14f32d49.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/0db469f6-a842-4689-9771-42fae48fb0cf.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/ac309fd6-a75f-484a-8c3d-3ff7c5346b9c.webp",
+"https://cdn.creativeclaw.co/u/821d40b3/images/37d0f645-7b80-46f4-8844-6679f323030a.webp"
+];
+const book=document.getElementById('book'),counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next');let at=0,busy=false;
+const pages=imgs.map((src,i)=>{let p=document.createElement('div');p.className='page'+(i===0?' active':'');p.innerHTML=`<img ${i>2?'loading="lazy"':''} src="${src}" alt="લિટલ ચાણક્ય પાનું ${i+1}">`;book.appendChild(p);return p});
+function sync(){counter.textContent=`${at+1} / ${pages.length}`;prev.disabled=at===0;next.disabled=at===pages.length-1;imgs.slice(at+1,at+3).forEach(s=>{let x=new Image;x.src=s})}
+function go(n,dir){if(busy||n<0||n>=pages.length||n===at)return;busy=true;let old=pages[at],neo=pages[n];neo.classList.add('active',dir>0?'turnin':'turnout');requestAnimationFrame(()=>requestAnimationFrame(()=>{neo.classList.remove('turnin','turnout');old.classList.add(dir>0?'turnout':'turnin')}));setTimeout(()=>{old.classList.remove('active','turnout','turnin');at=n;sync();busy=false},660)}
+prev.onclick=()=>go(at-1,-1);next.onclick=()=>go(at+1,1);document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next.click();if(e.key==='ArrowLeft')prev.click()});let sx=0;book.addEventListener('touchstart',e=>sx=e.changedTouches[0].clientX,{passive:true});book.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45)(dx<0?next:prev).click()},{passive:true});document.getElementById('full').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();sync();
+</script>
+</body></html>
