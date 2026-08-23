@@ -1,0 +1,38 @@
+name: Add Little Chanakya flipbook to homepage
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'little-chanakya-flipbook.html'
+      - '.github/workflows/add_flipbook_to_home.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update-home:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add flipbook link and section
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          if 'href="little-chanakya-flipbook.html"' not in s:
+              s=s.replace('<a href="#videos">Video Zone</a><a href="#learning">Digital Learning</a>', '<a href="#videos">Video Zone</a><a href="little-chanakya-flipbook.html">📖 Flip Book</a><a href="#learning">Digital Learning</a>')
+              flip='''\n<section id="flipbook" style="padding:58px 0;background:linear-gradient(135deg,#fff8dc,#eef6ff)"><div class="container"><div class="section-head"><div class="kicker">DIGITAL BOOK</div><h2>📖 લિટલ ચાણક્ય ફ્લિપ બુક</h2><p>બાળકો માટે રંગીન, મોબાઇલ-ફ્રેન્ડલી 25 પાનાંનું ગુજરાતી ફ્લિપબુક.</p></div><div style="max-width:760px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;text-align:center;box-shadow:var(--shadow)"><div style="font-size:58px">📚✨</div><h3 style="color:var(--navy);font-size:1.55rem;margin:8px 0">લિટલ ચાણક્ય</h3><p style="color:var(--muted);margin:0 0 18px">પાનું ફેરવતા વાંચો • મોબાઇલમાં swipe કરો • 25 રંગીન પાનાં</p><a class="btn btn-gold" href="little-chanakya-flipbook.html">📖 ફ્લિપ બુક ખોલો</a></div></div></section>\n'''
+              s=s.replace('<section id="contact">', flip+'<section id="contact">')
+              s=s.replace('<a href="#videos">Video Zone</a><a href="#learning">Digital Learning</a>', '<a href="#videos">Video Zone</a><a href="little-chanakya-flipbook.html">📖 Flip Book</a><a href="#learning">Digital Learning</a>')
+              p.write_text(s,encoding='utf-8')
+          PY
+          rm -f flipbook-upload-marker.txt
+      - name: Commit homepage update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html flipbook-upload-marker.txt || true
+          if ! git diff --cached --quiet; then
+            git commit -m "Show Little Chanakya flipbook on homepage"
+            git push
+          fi
