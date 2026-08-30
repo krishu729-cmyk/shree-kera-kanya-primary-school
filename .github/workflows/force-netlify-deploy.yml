@@ -1,0 +1,37 @@
+name: Force Netlify deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/force-netlify-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  touch-home:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Force a fresh deploy commit
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '<!-- force-netlify-deploy-2026-08-30 -->'
+          if marker not in s:
+              s = s.replace('</body>', marker + '\n</body>')
+              p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit deploy trigger
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "Trigger fresh Netlify deploy"
+            git push
+          fi
