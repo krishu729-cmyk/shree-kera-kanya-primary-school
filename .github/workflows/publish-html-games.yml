@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'games-upload.b64'
+      - '.github/workflows/publish-html-games.yml'
   workflow_dispatch:
 
 permissions:
@@ -15,11 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Decode and extract games bundle
+      - name: Download and extract games bundle
         run: |
           rm -rf games
-          base64 -d games-upload.b64 > games-upload.zip
+          curl -L --fail 'https://sdmntprindiasocentral.oaiusercontent.com/files/00000000-9b7c-8211-8ab4-14876d515ecf/raw?se=2026-10-03T09%3A54%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=8c3099d2-bc6d-5b38-8078-bd4eb4493d6d&skoid=37f774a3-b6f2-4e56-9fdd-339e5d6e97f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T00%3A49%3A11Z&ske=2026-10-04T00%3A49%3A11Z&sks=b&skv=2026-02-06&sig=fjz35t1IS0Ieglz126C5mmO4NBWsQyodiF8uFfRiIWE%3D' -o games-upload.zip
           unzip -q -o games-upload.zip -d .
+          test -f games/index.html
       - name: Commit published games
         run: |
           git config user.name "github-actions[bot]"
