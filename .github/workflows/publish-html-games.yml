@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'games-upload.zip'
+      - 'games-upload.b64'
   workflow_dispatch:
 
 permissions:
@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Extract games bundle
+      - name: Decode and extract games bundle
         run: |
           rm -rf games
+          base64 -d games-upload.b64 > games-upload.zip
           unzip -q -o games-upload.zip -d .
       - name: Commit published games
         run: |
