@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unit 1 • Writing</title>
+<style>
+:root{
+  --bg:#fff8ef; --card:#ffffff; --ink:#1f2937; --accent:#6b46c1; --ok:#15803d;
+  --bad:#b91c1c; --soft:#f3e8ff; --gold:#f59e0b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:"Noto Sans Gujarati","Nirmala UI","Segoe UI",Arial,sans-serif;
+  background:linear-gradient(180deg,#fff8ef,#f7fbff); color:var(--ink);
+}
+header{
+  padding:18px 14px; text-align:center; background:linear-gradient(90deg,#fde68a,#fbcfe8,#ddd6fe);
+  border-bottom:3px solid #fff;
+}
+h1{margin:0;font-size:clamp(24px,5vw,38px)}
+.sub{margin-top:6px;font-size:15px}
+.wrap{max-width:880px;margin:auto;padding:16px}
+.card{
+  background:var(--card); border-radius:22px; padding:18px; margin:14px 0;
+  box-shadow:0 8px 24px rgba(31,41,55,.10); border:1px solid #eee;
+}
+.topbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.badge{background:var(--soft);padding:8px 12px;border-radius:999px;font-weight:700}
+button,.btn{
+  border:0;border-radius:14px;padding:12px 16px;font-weight:700;font-size:16px;cursor:pointer;
+  background:#ede9fe;color:#4c1d95;box-shadow:0 3px 0 rgba(76,29,149,.12)
+}
+button:hover{transform:translateY(-1px)}
+button:disabled{opacity:.55;cursor:not-allowed}
+.primary{background:#6d28d9;color:white}
+.option{
+  width:100%;text-align:left;margin:8px 0;background:#fff;border:2px solid #e5e7eb;color:#111827;
+}
+.option.correct{border-color:#22c55e;background:#dcfce7}
+.option.wrong{border-color:#ef4444;background:#fee2e2}
+.feedback{min-height:34px;font-size:18px;font-weight:800;margin-top:10px}
+.ok{color:var(--ok)} .bad{color:var(--bad)}
+.progress{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0}
+.progress>div{height:100%;background:linear-gradient(90deg,#60a5fa,#8b5cf6);width:0}
+.big{font-size:clamp(22px,4vw,30px);font-weight:800;line-height:1.45}
+.muted{color:#6b7280}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.center{text-align:center}
+.wordbank{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.word{background:#fef3c7;padding:9px 12px;border-radius:12px;font-weight:700;cursor:pointer;border:2px solid #fde68a}
+.answerbox{min-height:56px;border:2px dashed #c4b5fd;border-radius:14px;padding:12px;background:#faf5ff}
+.catgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.cat{border:2px dashed #cbd5e1;border-radius:16px;padding:12px;min-height:110px;background:#f8fafc}
+.item{background:#fff;padding:8px 10px;border-radius:10px;margin:6px 0;border:1px solid #e5e7eb;cursor:pointer}
+.small{font-size:14px}
+footer{text-align:center;padding:20px;color:#6b7280;font-size:13px}
+a{color:#5b21b6;text-decoration:none}
+@media(max-width:600px){
+  .wrap{padding:10px}.card{padding:14px;border-radius:16px}button{font-size:15px;padding:11px 13px}
+}
+</style>
+</head>
+<body>
+<header><h1>Unit 1 • Writing</h1><div class="sub">Choose the correctly punctuated sentence.</div></header>
+<div class="wrap">
+<div class="topbar">
+  <div class="badge">Question: <span id="qno">1</span></div>
+  <div class="badge">⭐ Score: <span id="score">0</span></div>
+</div>
+<div class="progress"><div id="bar"></div></div>
+<div id="game"></div>
+</div>
+<footer>Std 7 English • Offline Educational Game • No internet required</footer>
+<script>
+let score=0, idx=0, locked=false;
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function say(t){
+  if(!('speechSynthesis' in window)){alert('Speech not supported in this browser.');return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t); u.lang='en-IN'; u.rate=.82; speechSynthesis.speak(u);
+}
+function setFeedback(msg,ok){
+  const f=document.getElementById('feedback'); f.textContent=msg; f.className='feedback '+(ok?'ok':'bad');
+}
+function updateTop(total){
+  const n=document.getElementById('qno'); if(n)n.textContent=`${Math.min(idx+1,total)} / ${total}`;
+  const s=document.getElementById('score'); if(s)s.textContent=score;
+  const p=document.getElementById('bar'); if(p)p.style.width=`${Math.min(idx,total)/total*100}%`;
+}
+function finish(total){
+  document.getElementById('game').innerHTML=`
+    <div class="card center">
+      <div style="font-size:56px">🏆</div>
+      <h2>Game Complete!</h2>
+      <p class="big">Score: ${score} / ${total}</p>
+      <p>${score===total?'Excellent! 🌟':score>=Math.ceil(total*.7)?'Very good! 👏':'Good try — play again and improve! 💪'}</p>
+      <button class="primary" onclick="location.reload()">🔁 Play Again</button>
+      <button onclick="location.href='../index.html'">🏠 Games Home</button>
+    </div>`;
+}
+
+
+const qs=[{"q": "Choose the correct sentence.", "options": ["Yesterday I went to the market. I bought rice, vegetables and milk.", "yesterday i went to the market i bought rice vegetables and milk", "Yesterday i went to the market, i bought rice vegetables and milk", "Yesterday I went to market I bought rice vegetables milk"], "answer": "Yesterday I went to the market. I bought rice, vegetables and milk."}, {"q": "Choose the correct sentence.", "options": ["Riya asked, “What are you doing?”", "riya asked what are you doing", "Riya asked what are you doing.", "Riya asked, what are you doing"], "answer": "Riya asked, “What are you doing?”"}, {"q": "Choose the correct sentence.", "options": ["My brother lives in Mumbai. He works for a software company.", "my brother lives in mumbai he works for a software company", "My brother lives in mumbai, he works for software company", "My Brother lives in Mumbai he works for a software company"], "answer": "My brother lives in Mumbai. He works for a software company."}, {"q": "Choose the correct sentence.", "options": ["It is raining heavily. Please carry your umbrella.", "it is raining heavily please carry your umbrella", "It is raining heavily please carry your umbrella", "It is raining heavily, please carry your umbrella"], "answer": "It is raining heavily. Please carry your umbrella."}, {"q": "Choose the correct sentence.", "options": ["Oh no! I forgot to bring my notebook.", "oh no i forgot to bring my notebook", "Oh no, I forgot to bring my notebook", "Oh no I forgot! to bring my notebook"], "answer": "Oh no! I forgot to bring my notebook."}];
+function render(){
+  if(idx>=qs.length){finish(qs.length);return}
+  locked=false; updateTop(qs.length);
+  const q=qs[idx], opts=shuffle(q.options);
+  document.getElementById('game').innerHTML=`
+    <div class="card">
+      <div class="big">${q.q}</div>
+      
+      <div id="opts" style="margin-top:12px"></div>
+      <div id="feedback" class="feedback"></div>
+      <button id="next" class="primary" style="display:none" onclick="idx++;render()">Next ➜</button>
+    </div>`;
+  const box=document.getElementById('opts');
+  opts.forEach(o=>{
+    const b=document.createElement('button'); b.className='option'; b.textContent=o;
+    b.onclick=()=>{
+      if(locked)return; locked=true;
+      const ok=o===q.answer; if(ok)score++;
+      [...box.children].forEach(x=>{x.disabled=true;if(x.textContent===q.answer)x.classList.add('correct')})
+      if(!ok)b.classList.add('wrong');
+      setFeedback(ok?'Correct! ✅':'Correct answer: '+q.answer,ok);
+      document.getElementById('next').style.display='inline-block';
+      document.getElementById('score').textContent=score;
+    };
+    box.appendChild(b);
+  });
+}
+render();
+</script>
+</body></html>
