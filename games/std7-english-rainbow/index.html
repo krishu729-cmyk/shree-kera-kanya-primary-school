@@ -106,6 +106,11 @@ function renderResults(){ST.screen='results';const t=totals(),pct=t.max?Math.rou
 $('#homeBtn').onclick=()=>{home();scrollUp()};$('#printBtn').onclick=()=>window.print();$('#soundBtn').onclick=()=>{ST.sound=!ST.sound;save();updateHeader();beep()};$('#timerBtn').onclick=()=>{ST.timer=!ST.timer;updateHeader();toast(ST.timer?'ટાઇમર ચાલુ થયો':'ટાઇમર થંભાવ્યો')};function updateHeader(){$('#soundBtn').textContent=ST.sound?'🔊 Sound On':'🔇 Sound Off';$('#timerBtn').textContent=ST.timer?`⏱️ ${Math.floor(ST.elapsed/60).toString().padStart(2,'0')}:${(ST.elapsed%60).toString().padStart(2,'0')}`:'⏱️ Timer: Off'}
 setInterval(()=>{if(ST.timer){ST.elapsed++;if(ST.elapsed%10===0)save();updateHeader()}},1000);
 const weather=$('#weather');for(let i=0;i<63;i++){let drop=document.createElement('i');drop.className='rain';drop.style.left=((i*17.3+11)%106)+'%';drop.style.setProperty('--dur',(2.1+(i%9)*.28)+'s');drop.style.setProperty('--delay',(-(i*.43)%7)+'s');drop.style.setProperty('--op',(.24+(i%6)*.09));weather.appendChild(drop)}function lightning(){if(document.hidden)return;weather.classList.remove('flash');void weather.offsetWidth;weather.classList.add('flash')};setInterval(()=>{if(Math.random()>.52&&!(matchMedia('(prefers-reduced-motion: reduce)').matches))lightning()},9000);
-window.addEventListener('beforeunload',save);updateHeader();home();
+window.addEventListener('beforeunload',save);updateHeader();
+const directPlay=new URLSearchParams(window.location.search).get('play');
+if(directPlay&&(/^(set|unit):[A-E]$/.test(directPlay)||/^question:(?:[1-9]|1[0-3])$/.test(directPlay))){
+  const [mode,which]=directPlay.split(':');
+  start(mode,which);
+}else home();
 </script>
 </body></html>
